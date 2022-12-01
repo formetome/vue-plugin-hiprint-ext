@@ -24,44 +24,17 @@ export default function (hiprint) {
           },
           {
             tid: "defaultModule.table",
-            field: "table",
             title: "表格",
             type: "table",
-            groupFields: ["name"],
-            groupFooterFormatter: function (group, option) {
-              return "这里自定义统计脚信息";
-            },
             columns: [
               [
                 {
                   title: "行号",
-                  fixed: true,
-                  rowspan: 2,
-                  field: "id",
-                  width: 70
                 },
-                {title: "人员信息", colspan: 2},
-                {title: "销售统计", colspan: 2}
+                { title: "" },
+                { title: "" },
+                { title: "" }
               ],
-              [
-                {
-                  title: "姓名",
-                  align: "left",
-                  field: "name",
-                  width: 100
-                },
-                {title: "性别", field: "gender", width: 100},
-                {
-                  title: "销售数量",
-                  field: "count",
-                  width: 100
-                },
-                {
-                  title: "销售金额",
-                  field: "amount",
-                  width: 100
-                }
-              ]
             ],
             editable: true,
             columnDisplayEditable: true,//列显示是否能编辑
