@@ -27,7 +27,7 @@ vue-plugin-hiprint(基于[hiprint 2.5.4](http://hiprint.io/)) 当时只是为了
 
 此插件仅仅是一个JavaScript【工具库】而非 Vue【组件库】，所以它默认是不包含demo中所见的那些组件页面的（demo代码随便复制修改拿去用）。
 
-由于hiprint官网近1年多未更新代码【hiprint 2.5.4 是 [LGPL](#关于lgpl协议) 协议】，后在诸多使用者及反馈下进行了许多优化调整。[详情](CHANGELOG.md)（同时感谢各位群友支持和参与）
+由于hiprint官网最后一次更新时间为2019年【hiprint 2.5.4 是 [LGPL](#关于lgpl协议) 协议】，后在诸多使用者及反馈下进行了许多优化调整。[详情](CHANGELOG.md)（同时感谢各位群友支持和参与）
 
 ## vue-plugin-hiprint
 > hiprint for Vue2.x / Vue3.x (基于jQuery, 理论上应该也是支持其他框架的)
@@ -149,7 +149,52 @@ hiprint.PrintElementTypeManager.buildByHtml($('.ep-draggable-item'));
 hiprintTemplate = new hiprint.PrintTemplate({
   template: {}, // 模板json
   settingContainer: '#PrintElementOptionSetting', // 元素参数容器
-  paginationContainer: '.hiprint-printPagination' // 多面板的容器， 实现多面板， 需要在添加一个 <div class="hiprint-printPagination"/>
+  paginationContainer: '.hiprint-printPagination', // 多面板的容器， 实现多面板， 需要在添加一个 <div class="hiprint-printPagination"/>
+  // ------- 下列是可选功能 -------
+  // ------- 下列是可选功能 -------
+  // ------- 下列是可选功能 -------
+  // 图片选择功能
+  onImageChooseClick: (target) => {
+    // 测试 3秒后修改图片地址值
+    setTimeout(() => {
+      // target.refresh(url,options,callback)
+      // callback(el, width, height) // 原元素,宽,高
+      // target.refresh(url,false,(el,width,height)=>{
+      //   el.options.width = width;
+      //   el.designTarget.css('width', width + "pt");
+      //   el.designTarget.children('.resize-panel').trigger($.Event('click'));
+      // })
+      target.refresh("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtAAAAIIAQMAAAB99EudAAAABlBMVEUmf8vG2O41LStnAAABD0lEQVR42u3XQQqCQBSAYcWFS4/QUTpaHa2jdISWLUJjjMpclJoPGvq+1WsYfiJCZ4oCAAAAAAAAAAAAAAAAAHin6pL9c6H/fOzHbRrP0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0u/SY9LS0tLS0tLS0tLS0n+edm+UlpaWlpaWlpaWlpaW/tl0Ndyzbno7/+tPTJdd1wal69dNa6abx+Lq6TSeYtK7BX/Diek0XULSZZrakPRtV0i6Hu/KIt30q4fM0pvBqvR9mvsQkZaW9gyJT+f5lsnzjR54xAk8mAUeJyMPwYFH98ALx5Jr0kRLLndT7b64UX9QR/0eAAAAAAAAAAAAAAAAAAD/4gpryzr/bja4QgAAAABJRU5ErkJggg==",{
+        // auto: true, // 根据图片宽高自动等比(宽>高?width:height)
+        // width: true, // 按宽调整高
+        // height: true, // 按高调整宽
+        real: true // 根据图片实际尺寸调整(转pt)
+      })
+    }, 3000)
+    // target.getValue()
+    // target.refresh(url)
+  },
+  // 自定义可选字体
+  // 或者使用 hiprintTemplate.setFontList([])
+  // 或元素中 options.fontList: []
+  fontList: [
+    {title: '微软雅黑', value: 'Microsoft YaHei'},
+    {title: '黑体', value: 'STHeitiSC-Light'},
+    {title: '思源黑体', value: 'SourceHanSansCN-Normal'},
+    {title: '王羲之书法体', value: '王羲之书法体'},
+    {title: '宋体', value: 'SimSun'},
+    {title: '华为楷体', value: 'STKaiti'},
+    {title: 'cursive', value: 'cursive'},
+  ],
+  dataMode: 1, // 1:getJson 其他：getJsonTid 默认1
+  history: true, // 是否需要 撤销重做功能
+  onDataChanged: (type, json) => { // 模板发生改变回调
+    console.log(type); // 新增、移动、删除、修改(参数调整)、大小、旋转
+    console.log(json); // 返回 template
+  },
+  onUpdateError: (e) => { // 更新失败回调
+    console.log(e);
+  },
 });
 // 设计器的容器
 hiprintTemplate.design('#hiprint-printTemplate');

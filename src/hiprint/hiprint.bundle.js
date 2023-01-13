@@ -11,7 +11,7 @@
 
 "use strict";
 
-function _instanceof(left, right) {
+function _instanceof (left, right) {
   if (right != null && typeof Symbol !== "undefined" && right[Symbol.hasInstance]) {
     return !!right[Symbol.hasInstance](left);
   } else {
@@ -19,13 +19,13 @@ function _instanceof(left, right) {
   }
 }
 
-function _typeof(obj) {
+function _typeof (obj) {
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    _typeof = function _typeof(obj) {
+    _typeof = function _typeof (obj) {
       return typeof obj;
     };
   } else {
-    _typeof = function _typeof(obj) {
+    _typeof = function _typeof (obj) {
       return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
     };
   }
@@ -43,13 +43,14 @@ import JsBarcode from "jsbarcode";
 // 二维码
 import "./plugins/qrcode.js";
 // 直接打印需要
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 //引入标尺
 import lImg from "./css/image/l_img.svg";
 import vImg from "./css/image/v_img.svg";
 // pdf
-import {jsPDF} from "jspdf";
+import { jsPDF } from "jspdf";
 import html2canvas from "html2canvas";
+import Nzh from "nzh/dist/nzh.min.js"
 // 解析svg 到 canvas, 二维码条形码需要
 import Canvg from 'canvg';
 // 默认自定义拖拽列表
@@ -62,7 +63,7 @@ window.io = io;
 var hiprint = function (t) {
   var e = {};
 
-  function n(i) {
+  function n (i) {
     if (e[i]) return e[i].exports;
     var o = e[i] = {
       i: i,
@@ -113,11 +114,11 @@ var hiprint = function (t) {
   n.d(e, "a", function () {
     return hinnn;
   }), window.hinnn = {}, hinnn.event = (i = {}, {
-    on: function on(t, e) {
+    on: function on (t, e) {
       i[t] || (i[t] = []), i[t].push(e);
     },
     id: 0,
-    off: function off(t, e) {
+    off: function off (t, e) {
       var n = i[t];
 
       if (n) {
@@ -131,23 +132,23 @@ var hiprint = function (t) {
         o < 0 || i[t].splice(o, 1);
       }
     },
-    trigger: function trigger(t) {
+    trigger: function trigger (t) {
       var e = i[t];
       if (e && e.length) for (var n = Array.prototype.slice.call(arguments, 1), o = 0; o < e.length; o++) {
         e[o].apply(this, n);
       }
     },
-    clear: function clear(t) {
+    clear: function clear (t) {
       i[t] = [];
     },
-    getId: function getId() {
+    getId: function getId () {
       return this.id += 1, this.id;
     },
-    getNameWithId: function getNameWithId(t) {
+    getNameWithId: function getNameWithId (t) {
       return t + "-" + this.getId();
     }
   }), hinnn.form = {
-    serialize: function serialize(t) {
+    serialize: function serialize (t) {
       var e = $(t).serializeArray(),
         n = {};
       return $.each(e, function () {
@@ -155,14 +156,14 @@ var hiprint = function (t) {
       }), n;
     }
   }, hinnn.pt = {
-    toPx: function toPx(t) {
+    toPx: function toPx (t) {
       return t * (this.getDpi() / 72);
     },
-    toMm: function toMm(t) {
+    toMm: function toMm (t) {
       return hinnn.px.toMm(hinnn.pt.toPx(t));
     },
     dpi: 0,
-    getDpi: function getDpi() {
+    getDpi: function getDpi () {
       if (!this.dpi) {
         var _t2 = document.createElement("DIV");
 
@@ -172,14 +173,14 @@ var hiprint = function (t) {
       return this.dpi;
     }
   }, hinnn.px = {
-    toPt: function toPt(t) {
+    toPt: function toPt (t) {
       return t * (72 / this.getDpi());
     },
-    toMm: function toMm(t) {
+    toMm: function toMm (t) {
       return Math.round((t / this.getDpi() * 25.4) * 100) / 100;
     },
     dpi: 0,
-    getDpi: function getDpi() {
+    getDpi: function getDpi () {
       if (!this.dpi) {
         var _t3 = document.createElement("DIV");
 
@@ -189,10 +190,10 @@ var hiprint = function (t) {
       return this.dpi;
     }
   }, hinnn.mm = {
-    toPt: function toPt(t) {
+    toPt: function toPt (t) {
       return 72 / 25.4 * t;
     },
-    toPx: function toPx(t) {
+    toPx: function toPx (t) {
       return hinnn.pt.toPx(hinnn.mm.toPt(t));
     }
   }, hinnn.throttle = function (t, e, n) {
@@ -203,7 +204,7 @@ var hiprint = function (t) {
       p = 0;
     n || (n = {});
 
-    var s = function s() {
+    var s = function s () {
       p = !1 === n.leading ? 0 : _.now(), a = null, r = t.apply(i, o), a || (i = o = null);
     };
 
@@ -220,7 +221,7 @@ var hiprint = function (t) {
       r,
       a,
       p,
-      s = function s() {
+      s = function s () {
         var l = _.now() - a;
         l < e && l >= 0 ? i = setTimeout(s, e - l) : (i = null, n || (p = t.apply(r, o), i || (r = o = null)));
       };
@@ -315,6 +316,36 @@ var hiprint = function (t) {
       return console.log(t), "";
     }
     return "";
+  }, hinnn.toUpperCase = function (type, val) {
+    if (!Nzh) return val;
+    var backStr = val;
+    switch (type) {
+      case "0":
+        backStr = Nzh.cn.encodeS(val);
+        break;
+      case "1":
+        backStr = Nzh.cn.encodeS(val, { tenMin: false });
+        break;
+      case "2":
+        backStr = Nzh.cn.encodeB(val, { tenMin: true });
+        break;
+      case "3":
+        backStr = Nzh.cn.encodeB(val);
+        break;
+      case "4":
+        backStr = Nzh.cn.toMoney(val, { tenMin: true });
+        break;
+      case "5":
+        backStr = Nzh.cn.toMoney(val);
+        break;
+      case "6":
+        backStr = Nzh.cn.toMoney(val, { complete: true });
+        break;
+      case "7":
+        backStr = Nzh.cn.toMoney(val, { complete: true, outSymbol: false });
+        break;
+    }
+    return backStr;
   };
 }, function (t, e, n) {
   "use strict";
@@ -325,7 +356,7 @@ var hiprint = function (t) {
 
   var i = n(9),
     o = function () {
-      function t() {
+      function t () {
         this.providers = [], this.movingDistance = 1.5, this.paperHeightTrim = 1, this.text = {
           supportOptions: [{
             name: "title",
@@ -680,10 +711,10 @@ var hiprint = function (t) {
             name: "rowsColumnsMerge",
             hidden: !1
           },
-            {
-              name: "gridColumnsFooterFormatter",
-              hidden: !1
-            }],
+          {
+            name: "gridColumnsFooterFormatter",
+            hidden: !1
+          }],
           default: {
             fontFamily: void 0,
             fontSize: void 0,
@@ -895,7 +926,7 @@ var hiprint = function (t) {
           i.a.registerItem(new t());
         });
       }, Object.defineProperty(t, "instance", {
-        get: function get() {
+        get: function get () {
           return t._instance || (t._instance = new t(), window.HIPRINT_CONFIG && $.extend(t._instance, HIPRINT_CONFIG), t._instance.optionItems && t._instance.optionItems.forEach(function (t) {
             i.a.registerItem(new t());
           })), t._instance;
@@ -908,7 +939,7 @@ var hiprint = function (t) {
   "use strict";
 
   var i = function () {
-    function t(t) {
+    function t (t) {
       this.printElement = t;
     }
 
@@ -922,7 +953,7 @@ var hiprint = function (t) {
   });
 
   var o = function () {
-    function t() {
+    function t () {
       this.printTemplateContainer = {}, this.A1 = {
         width: 841,
         height: 594
@@ -978,7 +1009,7 @@ var hiprint = function (t) {
     }
 
     return Object.defineProperty(t, "instance", {
-      get: function get() {
+      get: function get () {
         return this._instance || (this._instance = new t()), this._instance;
       },
       enumerable: !0,
@@ -1029,7 +1060,7 @@ var hiprint = function (t) {
   });
 
   var o = function () {
-    function t(t) {
+    function t (t) {
       t = t || {}, this.left = t.left, this.top = t.top, this.topInDesign = this.top, this.height = t.height, this.width = t.width, this.transform = t.transform, this.init(t);
     }
 
@@ -1040,7 +1071,7 @@ var hiprint = function (t) {
     }, t.prototype.initSizeByHtml = function (t, e) {
       this.width || this.setWidth(t), this.height || this.setHeight(e);
     }, t.prototype.getRectInfo = function () {
-      var d = {w: 0, h: 0, diffW: 0, diffH: 0};
+      var d = { w: 0, h: 0, diffW: 0, diffH: 0 };
       if (this.transform) {
         var rad = this.transform * Math.PI / 180,
           width = this.width, height = this.height,
@@ -1141,7 +1172,7 @@ var hiprint = function (t) {
     _PrintReferenceElement__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8),
     _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(2),
     BasePrintElement = function () {
-      function BasePrintElement(t) {
+      function BasePrintElement (t) {
         this.printElementType = t, this.id = _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.guid();
       }
 
@@ -1204,7 +1235,7 @@ var hiprint = function (t) {
             var p = e.designTarget.find(".resize-panel");
             if (e.printElementType.type == "text" && !(e.options.textType && "text" != e.options.textType)) {
               e._editing = true;
-              e.designTarget.hidraggable('update', {draggable: false});
+              e.designTarget.hidraggable('update', { draggable: false });
               c.css("cursor", "text"), c.addClass("editing");
               c.click(function (ev) {
                 if (e._editing) {
@@ -1253,7 +1284,7 @@ var hiprint = function (t) {
           e.updateDesignViewFromOptions(), _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + e.templateId, "编辑修改");
           e._editing = false;
           var draggable = e.options.draggable == undefined || true == e.options.draggable;
-          e.designTarget.hidraggable('update', {draggable: draggable});
+          e.designTarget.hidraggable('update', { draggable: draggable });
         }
       }, BasePrintElement.prototype.getPrintElementSelectEventKey = function () {
         return "PrintElementSelectEventKey_" + this.templateId;
@@ -1264,7 +1295,7 @@ var hiprint = function (t) {
           draggable: n.options.draggable,
           axis: n.options.axis ? n.options.axis : void 0,
           designTarget: n,
-          onDrag: function onDrag(t, i, o) {
+          onDrag: function onDrag (t, i, o) {
             // 处理按住 ctrl / command 多选元素
             var els = n.panel.printElements.filter(function (t) {
               return 'block' == t.designTarget.children().last().css('display') && !t.printElementType.type.includes('table');
@@ -1284,13 +1315,13 @@ var hiprint = function (t) {
           },
           moveUnit: "pt",
           minMove: _HiPrintConfig__WEBPACK_IMPORTED_MODULE_1__.a.instance.movingDistance,
-          onBeforeDrag: function onBeforeDrag(t) {
+          onBeforeDrag: function onBeforeDrag (t) {
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.draging = !0, n.designTarget.focus(), n.createLineOfPosition(e);
           },
-          getScale: function getScale() {
+          getScale: function getScale () {
             return n.designPaper.scale || 1;
           },
-          onStopDrag: function onStopDrag(t) {
+          onStopDrag: function onStopDrag (t) {
             // 普通元素拖动结束事件history
             if (_HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.changed) _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, "移动");
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.draging = !1,
@@ -1320,7 +1351,7 @@ var hiprint = function (t) {
                 t.setResizePanel()
               }
               if (a) {
-                t.designTarget.hidraggable('update', {axis: n})
+                t.designTarget.hidraggable('update', { axis: n })
               }
             })
           });
@@ -1335,10 +1366,21 @@ var hiprint = function (t) {
               t.setResizePanel()
             }
             if (a) {
-              t.designTarget.hidraggable('update', {axis: n})
+              t.designTarget.hidraggable('update', { axis: n })
             }
           });
         }
+
+        // 文字选择字段时，隐藏标题，同时设置测试数据
+        if (t.printElementType.type == "text" && t.options.field) {
+          const fieldStrs = t.options.field.split("#");
+          if (fieldStrs.length > 1) {
+            t.options.testData = fieldStrs[1];
+            t.options.hideTitle = true;
+            t.designTarget.click()
+          }
+        }
+
         this.updateDesignViewFromOptions(), _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + this.templateId, "元素修改");
       }, BasePrintElement.prototype.updateOption = function (o, v, b) {
         try {
@@ -1351,7 +1393,7 @@ var hiprint = function (t) {
               })
             });
           } else {
-            optionKeys = e.supportOptions.map(function (e) {return e.name});
+            optionKeys = e.supportOptions.map(function (e) { return e.name });
           }
           if (optionKeys && optionKeys.includes(o)) {
             this.options[o] = v;
@@ -1371,13 +1413,13 @@ var hiprint = function (t) {
           showPoints: n.getReizeableShowPoints(),
           // 是否显示宽高box
           showSizeBox: _HiPrintConfig__WEBPACK_IMPORTED_MODULE_1__.a.instance.showSizeBox,
-          getScale: function getScale() {
+          getScale: function getScale () {
             return n.designPaper.scale || 1
           },
-          onBeforeResize: function onBeforeResize() {
+          onBeforeResize: function onBeforeResize () {
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.draging = !0;
           },
-          onResize: function onResize(t, i, o, r, a, rt) {
+          onResize: function onResize (t, i, o, r, a, rt) {
             if (undefined != rt) {
               n.onRotate(t, rt);
             } else {
@@ -1385,7 +1427,7 @@ var hiprint = function (t) {
             }
             n.createLineOfPosition(e);
           },
-          onStopResize: function onStopResize(r) {
+          onStopResize: function onStopResize (r) {
             _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, r ? "旋转" : "大小");
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.draging = !1, n.removeLineOfPosition();
           }
@@ -1405,7 +1447,7 @@ var hiprint = function (t) {
         this.isHeaderOrFooter() || this.isFixed() || r > a && "none" != t.panelPageRule && (o.push(new _dto_PaperHtmlResult__WEBPACK_IMPORTED_MODULE_3__.a({
           target: void 0,
           printLine: void 0
-        })), r = r - a + t.paperHeader, i++ , a = t.getPaperFooter(i));
+        })), r = r - a + t.paperHeader, i++, a = t.getPaperFooter(i));
         var p = this.getData(e),
           s = this.createTarget(this.getTitle(), p, n);
         this.updateTargetSize(s), this.css(s, p), s.css("position", "absolute"), s.css("left", this.options.displayLeft()), s.css("top", r + "pt"), o.push(new _dto_PaperHtmlResult__WEBPACK_IMPORTED_MODULE_3__.a({
@@ -1452,10 +1494,11 @@ var hiprint = function (t) {
         this.isHeaderOrFooter() || this.isFixed() || ("none" != t.panelPageRule && r > a && (o.push(new _dto_PaperHtmlResult__WEBPACK_IMPORTED_MODULE_3__.a({
           target: void 0,
           printLine: void 0
-        })), r = r - a + t.paperHeader, i++ , a = t.getPaperFooter(i)), r <= a && r + this.options.getHeight() > a && "none" != t.panelPageRule && (o.push(new _dto_PaperHtmlResult__WEBPACK_IMPORTED_MODULE_3__.a({
+          // (e && r + this.options.getHeight() > a) --> 设计时拖拽元素高度超过页脚线时,导致报错问题
+        })), r = r - a + t.paperHeader, i++, a = t.getPaperFooter(i)), r <= a && (e && r + this.options.getHeight() > a) && "none" != t.panelPageRule && (o.push(new _dto_PaperHtmlResult__WEBPACK_IMPORTED_MODULE_3__.a({
           target: void 0,
           printLine: void 0
-        })), r = t.paperHeader, i++ , a = t.getPaperFooter(i)));
+        })), r = t.paperHeader, i++, a = t.getPaperFooter(i)));
         var p = this.getData(e),
           s = this.createTarget(this.getTitle(), p);
         if ("none" == t.panelPageRule && (r + this.options.getHeight()) > a) this.updatePanelHeight(r + this.options.getHeight(), t);
@@ -1556,7 +1599,7 @@ var hiprint = function (t) {
             })
           });
         } else {
-          names = o.supportOptions.map(function (e) {return e.name});
+          names = o.supportOptions.map(function (e) { return e.name });
         }
         Object.keys(type).forEach(function (e) {
           if (type[e] && ('columns' != e) && names.indexOf(e) > -1) {
@@ -1571,7 +1614,7 @@ var hiprint = function (t) {
         if (e) {
           var t = e.tabs;
           t && t.forEach(function (n, i) {
-            tabs.push({name: n.name, list: []})
+            tabs.push({ name: n.name, list: [] })
             n.options.filter(function (t) {
               return !t.hidden;
             }).forEach(function (e) {
@@ -1834,59 +1877,59 @@ var hiprint = function (t) {
           var movingDistance = _HiPrintConfig__WEBPACK_IMPORTED_MODULE_1__.a.instance.movingDistance;
           switch (r.keyCode) {
             // BackSpace/Delete 删除元素
-          case 8:
-          case 46:
-            var templete = _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.getPrintTemplateById(n.templateId)
-            templete.deletePrintElement(n)
-            _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, "删除");
-            _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("clearSettingContainer")
-            break
-          case 37:
-            i = n.options.getLeft();
-            if (isMultiple) {
-              els.forEach(function (t) {
-                t.updatePositionByMultipleSelect(0 - movingDistance, 0);
-              })
-            } else {
-              n.updateSizeAndPositionOptions(i - movingDistance), t.css("left", n.options.displayLeft());
-            }
-            r.preventDefault();
-            break;
+            case 8:
+            case 46:
+              var templete = _HiPrintlib__WEBPACK_IMPORTED_MODULE_6__.a.instance.getPrintTemplateById(n.templateId)
+              templete.deletePrintElement(n)
+              _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, "删除");
+              _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("clearSettingContainer")
+              break
+            case 37:
+              i = n.options.getLeft();
+              if (isMultiple) {
+                els.forEach(function (t) {
+                  t.updatePositionByMultipleSelect(0 - movingDistance, 0);
+                })
+              } else {
+                n.updateSizeAndPositionOptions(i - movingDistance), t.css("left", n.options.displayLeft());
+              }
+              r.preventDefault();
+              break;
 
-          case 38:
-            o = n.options.getTop();
-            if (isMultiple) {
-              els.forEach(function (t) {
-                t.updatePositionByMultipleSelect(0, 0 - movingDistance);
-              })
-            } else {
-              n.updateSizeAndPositionOptions(void 0, o - movingDistance), t.css("top", n.options.displayTop());
-            }
-            r.preventDefault();
-            break;
+            case 38:
+              o = n.options.getTop();
+              if (isMultiple) {
+                els.forEach(function (t) {
+                  t.updatePositionByMultipleSelect(0, 0 - movingDistance);
+                })
+              } else {
+                n.updateSizeAndPositionOptions(void 0, o - movingDistance), t.css("top", n.options.displayTop());
+              }
+              r.preventDefault();
+              break;
 
-          case 39:
-            i = n.options.getLeft();
-            if (isMultiple) {
-              els.forEach(function (t) {
-                t.updatePositionByMultipleSelect(movingDistance, 0);
-              })
-            } else {
-              n.updateSizeAndPositionOptions(i + movingDistance), t.css("left", n.options.displayLeft());
-            }
-            r.preventDefault();
-            break;
+            case 39:
+              i = n.options.getLeft();
+              if (isMultiple) {
+                els.forEach(function (t) {
+                  t.updatePositionByMultipleSelect(movingDistance, 0);
+                })
+              } else {
+                n.updateSizeAndPositionOptions(i + movingDistance), t.css("left", n.options.displayLeft());
+              }
+              r.preventDefault();
+              break;
 
-          case 40:
-            o = n.options.getTop();
-            if (isMultiple) {
-              els.forEach(function (t) {
-                t.updatePositionByMultipleSelect(0, movingDistance);
-              })
-            } else {
-              n.updateSizeAndPositionOptions(void 0, o + movingDistance), t.css("top", n.options.displayTop());
-            }
-            r.preventDefault();
+            case 40:
+              o = n.options.getTop();
+              if (isMultiple) {
+                els.forEach(function (t) {
+                  t.updatePositionByMultipleSelect(0, movingDistance);
+                })
+              } else {
+                n.updateSizeAndPositionOptions(void 0, o + movingDistance), t.css("top", n.options.displayTop());
+              }
+              r.preventDefault();
           }
           if ([37, 38, 39, 40].includes(r.keyCode)) {
             _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, "键盘移动");
@@ -1913,26 +1956,26 @@ var hiprint = function (t) {
   "use strict";
 
   var i = function () {
-      function t() {
-      }
+    function t () {
+    }
 
-      return t.prototype.init = function (t) {
-        this.target = $('<input type="text" class="hitable-editor-text" value="" />'), t.getTarget().append(this.target), this.target.focus();
-      }, t.prototype.getValue = function () {
-        return this.target.val();
-      }, t.prototype.setValue = function (t) {
-        this.target.val(t);
-      }, t.prototype.destroy = function () {
-        this.target.remove();
-      }, t;
-    }(),
+    return t.prototype.init = function (t) {
+      this.target = $('<input type="text" class="hitable-editor-text" value="" />'), t.getTarget().append(this.target), this.target.focus();
+    }, t.prototype.getValue = function () {
+      return this.target.val();
+    }, t.prototype.setValue = function (t) {
+      this.target.val(t);
+    }, t.prototype.destroy = function () {
+      this.target.remove();
+    }, t;
+  }(),
     o = function () {
-      function t() {
+      function t () {
         this.text = new i();
       }
 
       return Object.defineProperty(t, "Instance", {
-        get: function get() {
+        get: function get () {
           return t._instance || (t._instance = new t()), t._instance;
         },
         enumerable: !0,
@@ -1940,7 +1983,7 @@ var hiprint = function (t) {
       }), t;
     }(),
     i2 = function () {
-      function t() {
+      function t () {
       }
 
       return t.prototype.init = function (e, i) {
@@ -1965,12 +2008,12 @@ var hiprint = function (t) {
       }, t;
     }(),
     o2 = function () {
-      function t() {
+      function t () {
         this.select = new i2();
       }
 
       return Object.defineProperty(t, "Instance", {
-        get: function get() {
+        get: function get () {
           return t._instance || (t._instance = new t()), t._instance;
         },
         enumerable: !0,
@@ -1978,11 +2021,11 @@ var hiprint = function (t) {
       }), t;
     }(),
     r = function () {
-      function t() {
+      function t () {
       }
 
       return Object.defineProperty(t, "Instance", {
-        get: function get() {
+        get: function get () {
           return o._instance || (t._instance = new t()), t._instance;
         },
         enumerable: !0,
@@ -1997,7 +2040,7 @@ var hiprint = function (t) {
     p = n(14),
     s = n(11),
     l = function () {
-      function t() {
+      function t () {
       }
 
       return t.prototype.init = function (t, e) {
@@ -2046,11 +2089,11 @@ var hiprint = function (t) {
     }(),
     u = function () {
       return function (t) {
-        this.title = t.title, this.field = t.field, this.width = t.width, this.align = t.align, this.halign = t.halign, this.vAlign = t.vAlign, this.colspan = t.colspan, this.rowspan = t.rowspan, this.checked = t.checked, this.columnId = t.columnId, this.tableSummaryTitle = t.tableSummaryTitle, this.tableSummaryText = t.tableSummaryText, this.tableSummary = t.tableSummary, this.tableSummaryAlign = t.tableSummaryAlign, this.tableSummaryNumFormat = t.tableSummaryNumFormat, this.formatter2 = t.formatter2, this.styler2 = t.styler2, this.tableColumnHeight = t.tableColumnHeight, this.tableTextType = t.tableTextType, this.tableBarcodeMode = t.tableBarcodeMode, this.tableQRCodeLevel = t.tableQRCodeLevel;
+        this.title = t.title, this.field = t.field, this.width = t.width, this.align = t.align, this.halign = t.halign, this.vAlign = t.vAlign, this.colspan = t.colspan, this.rowspan = t.rowspan, this.checked = t.checked, this.columnId = t.columnId, this.tableSummaryTitle = t.tableSummaryTitle, this.tableSummaryText = t.tableSummaryText, this.tableSummary = t.tableSummary, this.tableSummaryAlign = t.tableSummaryAlign, this.tableSummaryNumFormat = t.tableSummaryNumFormat, this.upperCase = t.upperCase, this.renderFormatter = t.renderFormatter, this.formatter2 = t.formatter2, this.styler2 = t.styler2, this.tableColumnHeight = t.tableColumnHeight, this.tableTextType = t.tableTextType, this.tableBarcodeMode = t.tableBarcodeMode, this.tableQRCodeLevel = t.tableQRCodeLevel;
       };
     }(),
     d = function () {
-      function t() {
+      function t () {
         this.id = s.a.createId();
       }
 
@@ -2128,7 +2171,7 @@ var hiprint = function (t) {
   });
 
   var _c,
-    h = (_c = function c(t, e) {
+    h = (_c = function c (t, e) {
       return (_c = Object.setPrototypeOf || _instanceof({
         __proto__: []
       }, Array) && function (t, e) {
@@ -2139,16 +2182,16 @@ var hiprint = function (t) {
         }
       })(t, e);
     }, function (t, e) {
-      function n() {
+      function n () {
         this.constructor = t;
       }
 
       _c(t, e), t.prototype = null === e ? Object.create(e) : (n.prototype = e.prototype, new n());
     }),
     f = function (t) {
-      function e(e) {
+      function e (e) {
         var n = this;
-        return e = e || {}, (n = t.call(this) || this).width = e.width ? parseFloat(e.width.toString()) : 100, n.title = e.title, n.descTitle = e.descTitle, n.field = e.field, n.fixed = e.fixed, n.rowspan = e.rowspan ? parseInt(e.rowspan) : 1, n.colspan = e.colspan ? parseInt(e.colspan) : 1, n.align = e.align, n.halign = e.halign, n.vAlign = e.vAlign, n.formatter = e.formatter, n.styler = e.styler, n.formatter2 = e.formatter2, n.styler2 = e.styler2, n.checkbox = e.checkbox, n.checked = 0 != e.checked, n.columnId = e.columnId || e.field, n.tableColumnHeight = e.tableColumnHeight || 30, n.tableTextType = e.tableTextType || 'text', n.tableBarcodeMode = e.tableBarcodeMode || 'CODE128A', n.tableQRCodeLevel = e.tableQRCodeLevel, n.tableSummaryTitle = e.tableSummaryTitle, n.tableSummaryText = e.tableSummaryText, n.tableSummary = e.tableSummary, n.tableSummaryAlign = e.tableSummaryAlign, n.tableSummaryNumFormat = e.tableSummaryNumFormat, n;
+        return e = e || {}, (n = t.call(this) || this).width = e.width ? parseFloat(e.width.toString()) : 100, n.title = e.title, n.descTitle = e.descTitle, n.field = e.field, n.fixed = e.fixed, n.rowspan = e.rowspan ? parseInt(e.rowspan) : 1, n.colspan = e.colspan ? parseInt(e.colspan) : 1, n.align = e.align, n.halign = e.halign, n.vAlign = e.vAlign, n.formatter = e.formatter, n.styler = e.styler, n.renderFormatter = e.renderFormatter, n.formatter2 = e.formatter2, n.styler2 = e.styler2, n.checkbox = e.checkbox, n.checked = 0 != e.checked, n.columnId = e.columnId || e.field, n.tableColumnHeight = e.tableColumnHeight || 30, n.tableTextType = e.tableTextType || 'text', n.tableBarcodeMode = e.tableBarcodeMode || 'CODE128A', n.tableQRCodeLevel = e.tableQRCodeLevel, n.tableSummaryTitle = e.tableSummaryTitle, n.tableSummaryText = e.tableSummaryText, n.tableSummary = e.tableSummary, n.tableSummaryAlign = e.tableSummaryAlign, n.tableSummaryNumFormat = e.tableSummaryNumFormat, n.upperCase = e.upperCase, n;
       }
 
       return h(e, t), e.prototype.css = function (t) {
@@ -2176,11 +2219,11 @@ var hiprint = function (t) {
   var _ReconsitutionTableColumns__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(19),
     _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(0),
     TableExcelHelper = function () {
-      function TableExcelHelper() {
+      function TableExcelHelper () {
       }
 
       return TableExcelHelper.createTableHead = function (t, e) {
-        for (var n = TableExcelHelper.reconsitutionTableColumnTree(t), i = $("<thead></thead>"), o = TableExcelHelper.getColumnsWidth(n, e), r = function r(t) {
+        for (var n = TableExcelHelper.reconsitutionTableColumnTree(t), i = $("<thead></thead>"), o = TableExcelHelper.getColumnsWidth(n, e), r = function r (t) {
           var e = $("<tr></tr>");
           n[t].filter(function (t) {
             return t.checked;
@@ -2200,7 +2243,7 @@ var hiprint = function (t) {
         let tSumData = n.tableFooterRepeat == "last" ? e : r;
         let idx = n.columns.length - 1;
         var rowColumns = this.rowColumns || n.columns[idx].columns;
-        if (n.tableFooterRepeat != 'no' && rowColumns.some(function (column) {return column.tableSummary})) {
+        if (n.tableFooterRepeat != 'no' && rowColumns.some(function (column) { return column.tableSummary })) {
           var tableFooter = $("<tr></tr>");
           rowColumns.filter(function (t) {
             return t.checked;
@@ -2212,46 +2255,49 @@ var hiprint = function (t) {
             });
             var text = column.tableSummaryText;
             var numF = column.tableSummaryNumFormat || 2;
+            var upperCaseType = column.upperCase;
+            let { toUpperCase, numFormat } = _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a;
             switch (column.tableSummary) {
-            case "count":
-              var title = tst(column, text || "计数:", o);
-              tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${tSumData.length || 0}</td>`);
-              break;
-            case "sum":
-              var sum = parseFloat(Number(fieldData.reduce(function (prev, cur) {
-                return prev + cur;
-              }, 0)));
-              sum = _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a.numFormat(sum, numF);
-              var title = tst(column, text || "合计:", o);
-              tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${sum}</td>`)
-              break;
-            case "avg":
-              var sum = parseFloat(Number(fieldData.reduce(function (prev, cur) {
-                return prev + cur;
-              }, 0)));
-              var avg = parseFloat(Number(sum / (fieldData.length || 1)));
-              avg = _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a.numFormat(avg, numF);
-              var title = tst(column, text || "平均值:", o);
-              tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${avg}</td>`)
-              break;
-            case "min":
-              var min = Math.min(...fieldData);
-              min = _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a.numFormat(min, numF);
-              var title = tst(column, text || "最小值:", o);
-              tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${min || 0}</td>`)
-              break;
-            case "max":
-              var max = Math.max(...fieldData);
-              max = _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a.numFormat(max, numF);
-              var title = tst(column, text || "最大值:", o);
-              tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${max || 0}</td>`);
-              break;
-            case "text":
-              tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${text || ""}</td>`);
-              break;
-            default:
-              tableFooter.append("<td></td>")
-              break;
+              case "count":
+                var title = tst(column, text || "计数:", o);
+                var count = toUpperCase(upperCaseType, tSumData.length || 0);
+                tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${count}</td>`);
+                break;
+              case "sum":
+                var sum = parseFloat(Number(fieldData.reduce(function (prev, cur) {
+                  return prev + cur;
+                }, 0)));
+                sum = toUpperCase(upperCaseType, numFormat(sum, numF));
+                var title = tst(column, text || "合计:", o);
+                tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${sum}</td>`)
+                break;
+              case "avg":
+                var sum = parseFloat(Number(fieldData.reduce(function (prev, cur) {
+                  return prev + cur;
+                }, 0)));
+                var avg = parseFloat(Number(sum / (fieldData.length || 1)));
+                avg = toUpperCase(upperCaseType, numFormat(avg, numF));
+                var title = tst(column, text || "平均值:", o);
+                tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${avg}</td>`)
+                break;
+              case "min":
+                var min = Math.min(...fieldData);
+                min = toUpperCase(upperCaseType, numFormat(min, numF));
+                var title = tst(column, text || "最小值:", o);
+                tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${min || 0}</td>`)
+                break;
+              case "max":
+                var max = Math.max(...fieldData);
+                max = toUpperCase(upperCaseType, numFormat(max, numF));
+                var title = tst(column, text || "最大值:", o);
+                tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${title}${max || 0}</td>`);
+                break;
+              case "text":
+                tableFooter.append(`<td style="text-align: ${column.tableSummaryAlign || "center"}">${text || ""}</td>`);
+                break;
+              default:
+                tableFooter.append("<td></td>")
+                break;
             }
           })
           a.append(tableFooter);
@@ -2326,8 +2372,11 @@ var hiprint = function (t) {
           }
           var a = TableExcelHelper.getColumnFormatter(t),
             p = a ? a(e[t.field], e, i, n) : e[t.field];
-          //表格内容插入二维码等
-          if ("text" == t.tableTextType) r.html(p);
+          var rf = TableExcelHelper.getColumnRenderFormatter(t);
+          if (rf) {
+            r.html(rf(e[t.field], e, i, n))
+            //表格内容插入二维码等
+          } else if ("text" == t.tableTextType) r.html(p);
           else {
             if ("barcode" == t.tableTextType) {
               r.html(
@@ -2406,15 +2455,19 @@ var hiprint = function (t) {
         }
 
         return o;
-      }, TableExcelHelper.createEmptyRowTarget = function (t) {
+      }, TableExcelHelper.createEmptyRowTarget = function (t, tableElement) {
         var e = TableExcelHelper.reconsitutionTableColumnTree(t),
           n = $("<tr></tr>");
-        return e.rowColumns.filter(function (t) {
+        e.rowColumns.filter(function (t) {
           return t.checked;
         }).forEach(function (t, e) {
           var i = $("<td></td>");
           t.field && i.attr("field", t.field), t.align && i.css("text-align", t.align), t.vAlign && i.css("vertical-align", t.vAlign), n.append(i);
-        }), n;
+        });
+        if (tableElement && tableElement.options.tableBodyRowHeight) {
+          n.find('td:not([rowspan])').css('height', tableElement.options.tableBodyRowHeight + 'pt');
+        }
+        return n;
       }, TableExcelHelper.getColumnsWidth = function (t, e) {
         var n = {},
           i = TableExcelHelper.allAutoWidth(t),
@@ -2454,7 +2507,7 @@ var hiprint = function (t) {
         var i = e || new _ReconsitutionTableColumns__WEBPACK_IMPORTED_MODULE_0__.a();
         i.colspan = 0;
 
-        for (var o = function o(e) {
+        for (var o = function o (e) {
           i.totalLayer = e + 1, i[e] = t[e].columns, 0 == e && t[e].columns.forEach(function (t) {
             0 == e && (i.colspan += t.colspan);
           });
@@ -2496,6 +2549,15 @@ var hiprint = function (t) {
           console.log(t);
         }
         return styler;
+      }, TableExcelHelper.getColumnRenderFormatter = function (column) {
+        var renderFormatter = void 0;
+        if (column.renderFormatter && (renderFormatter = column.renderFormatter), column.renderFormatter) try {
+          var s = "renderFormatter=" + column.renderFormatter;
+          eval(s);
+        } catch (t) {
+          console.log(t);
+        }
+        return renderFormatter;
       }, TableExcelHelper.getColumnFormatter = function (column) {
         var formatter = void 0;
         if (column.formatter && (formatter = column.formatter), column.formatter2) try {
@@ -2539,7 +2601,7 @@ var hiprint = function (t) {
   });
 
   var i = function () {
-    function t(t) {
+    function t (t) {
       this.top = t.top, this.left = t.left, this.height = t.height, this.width = t.width, this.bottomInLastPaper = t.bottomInLastPaper, this.beginPrintPaperIndex = t.beginPrintPaperIndex, this.printTopInPaper = t.printTopInPaper, this.endPrintPaperIndex = t.endPrintPaperIndex;
     }
 
@@ -2551,31 +2613,31 @@ var hiprint = function (t) {
   "use strict";
 
   var i = function () {
-      function t() {
-        this.name = "lineHeight";
+    function t () {
+      this.name = "lineHeight";
+    }
+
+    return t.prototype.css = function (t, e) {
+      if (t && t.length) {
+        if (e) return t.css("line-height", e + "pt"), "line-height:" + e + "pt";
+        t[0].style.lineHeight = "";
       }
 
-      return t.prototype.css = function (t, e) {
-        if (t && t.length) {
-          if (e) return t.css("line-height", e + "pt"), "line-height:" + e + "pt";
-          t[0].style.lineHeight = "";
-        }
-
-        return null;
-      }, t.prototype.createTarget = function () {
-        return this.target = $(' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字体行高\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="6" >6pt</option>\n        <option value="6.75" >6.75pt</option>\n        <option value="7.5" >7.5pt</option>\n        <option value="8.25" >8.25pt</option>\n        <option value="9" >9pt</option>\n        <option value="9.75" >9.75pt</option>\n        <option value="10.5" >10.5pt</option>\n        <option value="11.25" >11.25pt</option>\n        <option value="12" >12pt</option>\n        <option value="12.75" >12.75pt</option>\n        <option value="13.5" >13pt</option>\n        <option value="14.25" >14.25pt</option>\n        <option value="15" >15pt</option>\n        <option value="15.75" >15.75pt</option>\n        <option value="16.5" >16.5pt</option>\n        <option value="17.25" >17.25pt</option>\n        <option value="18" >18pt</option>\n        <option value="18.75" >18.75pt</option>\n        <option value="19.5" >19.5pt</option>\n        <option value="20.25" >20.25pt</option>\n        <option value="21" >21pt</option>\n        <option value="21.75" >21.75pt</option>\n        <option value="22.5" >22.5pt</option>\n        <option value="23.25" >23.25pt</option>\n        <option value="24" >24pt</option>\n        <option value="24.75" >24.75pt</option>\n        <option value="25.5" >25.5pt</option>\n        <option value="26.25" >26.25pt</option>\n        <option value="27" >27pt</option>\n        <option value="27.75" >27.75pt</option>\n        <option value="28.5" >28.5pt</option>\n        <option value="29.25" >29.25pt</option>\n        <option value="30" >30pt</option>\n        <option value="30.75" >30.75pt</option>\n        <option value="31.5" >31.5pt</option>\n        <option value="32.25" >32.25pt</option>\n        <option value="33" >33pt</option>\n        <option value="33.75" >33.75pt</option>\n        <option value="34.5" >34.5pt</option>\n        <option value="35.25" >35.25pt</option>\n        <option value="36" >36pt</option>\n        </select>\n        </div>\n    </div>'), this.target;
-      }, t.prototype.getValue = function () {
-        var t = this.target.find("select").val();
-        if (t) return parseFloat(t.toString());
-      }, t.prototype.setValue = function (t) {
-        t && (this.target.find('option[value="' + t + '"]').length || this.target.find("select").prepend('<option value="' + t + '" >' + t + "</option>"));
-        this.target.find("select").val(t);
-      }, t.prototype.destroy = function () {
-        this.target.remove();
-      }, t;
-    }(),
+      return null;
+    }, t.prototype.createTarget = function () {
+      return this.target = $(' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字体行高\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="6" >6pt</option>\n        <option value="6.75" >6.75pt</option>\n        <option value="7.5" >7.5pt</option>\n        <option value="8.25" >8.25pt</option>\n        <option value="9" >9pt</option>\n        <option value="9.75" >9.75pt</option>\n        <option value="10.5" >10.5pt</option>\n        <option value="11.25" >11.25pt</option>\n        <option value="12" >12pt</option>\n        <option value="12.75" >12.75pt</option>\n        <option value="13.5" >13pt</option>\n        <option value="14.25" >14.25pt</option>\n        <option value="15" >15pt</option>\n        <option value="15.75" >15.75pt</option>\n        <option value="16.5" >16.5pt</option>\n        <option value="17.25" >17.25pt</option>\n        <option value="18" >18pt</option>\n        <option value="18.75" >18.75pt</option>\n        <option value="19.5" >19.5pt</option>\n        <option value="20.25" >20.25pt</option>\n        <option value="21" >21pt</option>\n        <option value="21.75" >21.75pt</option>\n        <option value="22.5" >22.5pt</option>\n        <option value="23.25" >23.25pt</option>\n        <option value="24" >24pt</option>\n        <option value="24.75" >24.75pt</option>\n        <option value="25.5" >25.5pt</option>\n        <option value="26.25" >26.25pt</option>\n        <option value="27" >27pt</option>\n        <option value="27.75" >27.75pt</option>\n        <option value="28.5" >28.5pt</option>\n        <option value="29.25" >29.25pt</option>\n        <option value="30" >30pt</option>\n        <option value="30.75" >30.75pt</option>\n        <option value="31.5" >31.5pt</option>\n        <option value="32.25" >32.25pt</option>\n        <option value="33" >33pt</option>\n        <option value="33.75" >33.75pt</option>\n        <option value="34.5" >34.5pt</option>\n        <option value="35.25" >35.25pt</option>\n        <option value="36" >36pt</option>\n        </select>\n        </div>\n    </div>'), this.target;
+    }, t.prototype.getValue = function () {
+      var t = this.target.find("select").val();
+      if (t) return parseFloat(t.toString());
+    }, t.prototype.setValue = function (t) {
+      t && (this.target.find('option[value="' + t + '"]').length || this.target.find("select").prepend('<option value="' + t + '" >' + t + "</option>"));
+      this.target.find("select").val(t);
+    }, t.prototype.destroy = function () {
+      this.target.remove();
+    }, t;
+  }(),
     fontFamily = function () {
-      function t() {
+      function t () {
         this.name = "fontFamily";
       }
 
@@ -2607,7 +2669,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     r = function () {
-      function t() {
+      function t () {
         this.name = "fontSize";
       }
 
@@ -2631,7 +2693,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     a = function () {
-      function t() {
+      function t () {
         this.name = "fontWeight";
       }
 
@@ -2655,7 +2717,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     p = function () {
-      function t() {
+      function t () {
         this.name = "letterSpacing";
       }
 
@@ -2679,7 +2741,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     s = function () {
-      function t() {
+      function t () {
         this.name = "textAlign";
       }
 
@@ -2702,7 +2764,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     l = function () {
-      function t() {
+      function t () {
         this.name = "hideTitle";
       }
 
@@ -2717,7 +2779,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     u = function () {
-      function t() {
+      function t () {
         this.name = "tableBorder";
       }
 
@@ -2740,7 +2802,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     d = function () {
-      function t() {
+      function t () {
         this.name = "tableHeaderBorder";
       }
 
@@ -2765,7 +2827,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     c = function () {
-      function t() {
+      function t () {
         this.name = "tableHeaderCellBorder";
       }
 
@@ -2790,7 +2852,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     d2 = function () {
-      function t() {
+      function t () {
         this.name = "tableFooterBorder";
       }
 
@@ -2815,7 +2877,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     c2 = function () {
-      function t() {
+      function t () {
         this.name = "tableFooterCellBorder";
       }
 
@@ -2840,7 +2902,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     h = function () {
-      function t() {
+      function t () {
         this.name = "tableHeaderRowHeight";
       }
 
@@ -2866,7 +2928,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     f = function () {
-      function t() {
+      function t () {
         this.name = "tableHeaderFontSize";
       }
 
@@ -2892,7 +2954,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     g = function () {
-      function t() {
+      function t () {
         this.name = "tableHeaderFontWeight";
       }
 
@@ -2918,7 +2980,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     m = function () {
-      function t() {
+      function t () {
         this.name = "tableBodyCellBorder";
       }
 
@@ -2943,7 +3005,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     v = function () {
-      function t() {
+      function t () {
         this.name = "tableBodyRowHeight";
       }
 
@@ -2969,7 +3031,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     y = function () {
-      function t() {
+      function t () {
         this.name = "tableHeaderBackground";
       }
 
@@ -2997,7 +3059,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     b = function () {
-      function t() {
+      function t () {
         this.name = "borderWidth";
       }
 
@@ -3022,7 +3084,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     E = function () {
-      function t() {
+      function t () {
         this.name = "barcodeMode";
       }
 
@@ -3038,7 +3100,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     qrCodeLevel = function () {
-      function t() {
+      function t () {
         this.name = "qrCodeLevel";
       }
 
@@ -3054,7 +3116,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     T = function () {
-      function t() {
+      function t () {
         this.name = "color";
       }
 
@@ -3080,7 +3142,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     P = function () {
-      function t() {
+      function t () {
         this.name = "textDecoration";
       }
 
@@ -3104,7 +3166,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     _ = function () {
-      function t() {
+      function t () {
         this.name = "field";
       }
 
@@ -3132,7 +3194,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     w = function () {
-      function t() {
+      function t () {
         this.name = "title";
       }
 
@@ -3148,7 +3210,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     x = function () {
-      function t() {
+      function t () {
         this.name = "testData";
       }
 
@@ -3164,7 +3226,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     coordinate = function () {
-      function t() {
+      function t () {
         this.name = "coordinate";
       }
 
@@ -3231,7 +3293,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     widthHeight = function () {
-      function t() {
+      function t () {
         this.name = "widthHeight";
       }
 
@@ -3298,7 +3360,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     C = function () {
-      function t() {
+      function t () {
         this.name = "src";
       }
 
@@ -3370,7 +3432,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     imageFit = function () {
-      function t() {
+      function t () {
         this.name = "fit";
       }
 
@@ -3392,7 +3454,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     O = function () {
-      function t() {
+      function t () {
         this.name = "borderColor";
       }
 
@@ -3419,12 +3481,12 @@ var hiprint = function (t) {
       }, t;
     }(),
     H = function () {
-      function t() {
+      function t () {
         this.name = "paperNumberFormat";
       }
 
       return t.prototype.createTarget = function () {
-        return this.target = $(' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        页码格式\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="text" placeholder="paperNo-paperCount" class="auto-submit">\n        </div>\n    </div>'), this.target;
+        return this.target = $(' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        页码格式\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="text" placeholder="${paperNo}-${paperCount}" class="auto-submit">\n        </div>\n    </div>'), this.target;
       }, t.prototype.getValue = function () {
         var t = this.target.find("input").val();
         if (t) return t.toString();
@@ -3435,7 +3497,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     D = function () {
-      function t() {
+      function t () {
         this.name = "paperNumberDisabled";
       }
 
@@ -3450,7 +3512,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     I = function () {
-      function t() {
+      function t () {
         this.name = "longTextIndent";
       }
 
@@ -3469,7 +3531,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     R = function () {
-      function t() {
+      function t () {
         this.name = "showInPage";
       }
 
@@ -3491,7 +3553,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     pageBreak = function () {
-      function t() {
+      function t () {
         this.name = "pageBreak";
       }
 
@@ -3512,7 +3574,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     M = function () {
-      function t() {
+      function t () {
         this.name = "panelPaperRule";
       }
 
@@ -3528,7 +3590,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     M2 = function () {
-      function t() {
+      function t () {
         this.name = "panelPageRule";
       }
 
@@ -3544,7 +3606,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     S = function () {
-      function t() {
+      function t () {
         this.name = "leftSpaceRemoved";
       }
 
@@ -3559,7 +3621,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     B = function () {
-      function t() {
+      function t () {
         this.name = "firstPaperFooter";
       }
 
@@ -3575,7 +3637,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     F = function () {
-      function t() {
+      function t () {
         this.name = "lastPaperFooter";
       }
 
@@ -3591,7 +3653,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     L = function () {
-      function t() {
+      function t () {
         this.name = "evenPaperFooter";
       }
 
@@ -3607,7 +3669,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     A = function () {
-      function t() {
+      function t () {
         this.name = "oddPaperFooter";
       }
 
@@ -3623,7 +3685,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     z = function () {
-      function t() {
+      function t () {
         this.name = "fixed";
       }
 
@@ -3638,7 +3700,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     k = function () {
-      function t() {
+      function t () {
         this.name = "axis";
       }
 
@@ -3654,7 +3716,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     N = function () {
-      function t() {
+      function t () {
         this.name = "leftOffset";
       }
 
@@ -3670,7 +3732,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     V = function () {
-      function t() {
+      function t () {
         this.name = "lHeight";
       }
 
@@ -3686,7 +3748,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     W = function () {
-      function t() {
+      function t () {
         this.name = "unShowInPage";
       }
 
@@ -3702,7 +3764,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     j = function () {
-      function t() {
+      function t () {
         this.name = "tableBodyRowBorder";
       }
 
@@ -3727,7 +3789,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     U = function () {
-      function t() {
+      function t () {
         this.name = "transform";
       }
 
@@ -3759,7 +3821,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     zIndex = function () {
-      function t() {
+      function t () {
         this.name = "zIndex";
       }
 
@@ -3780,7 +3842,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     K = function () {
-      function t() {
+      function t () {
         this.name = "optionsGroup";
       }
 
@@ -3793,7 +3855,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     G = function () {
-      function t() {
+      function t () {
         this.name = "borderTop";
       }
 
@@ -3816,7 +3878,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     q = function () {
-      function t() {
+      function t () {
         this.name = "borderLeft";
       }
 
@@ -3839,7 +3901,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     X = function () {
-      function t() {
+      function t () {
         this.name = "borderRight";
       }
 
@@ -3862,7 +3924,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     Y = function () {
-      function t() {
+      function t () {
         this.name = "borderBottom";
       }
 
@@ -3885,7 +3947,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     J = function () {
-      function t() {
+      function t () {
         this.name = "contentPaddingLeft";
       }
 
@@ -3911,7 +3973,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     Q = function () {
-      function t() {
+      function t () {
         this.name = "contentPaddingTop";
       }
 
@@ -3937,7 +3999,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     Z = function () {
-      function t() {
+      function t () {
         this.name = "contentPaddingRight";
       }
 
@@ -3963,7 +4025,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tt = function () {
-      function t() {
+      function t () {
         this.name = "contentPaddingBottom";
       }
 
@@ -3989,7 +4051,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     et = function () {
-      function t() {
+      function t () {
         this.name = "borderStyle";
       }
 
@@ -4013,7 +4075,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     nt = function () {
-      function t() {
+      function t () {
         this.name = "backgroundColor";
       }
 
@@ -4039,7 +4101,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     it = function () {
-      function t() {
+      function t () {
         this.name = "orient";
       }
 
@@ -4055,7 +4117,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     ot = function () {
-      function t() {
+      function t () {
         this.name = "textContentVerticalAlign";
       }
 
@@ -4063,8 +4125,8 @@ var hiprint = function (t) {
         return this.target = $(' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        上下对齐\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="middle" >垂直居中</option>\n        <option value="bottom" >底部</option>\n       \n        </select>\n        </div>\n    </div>'), this.target;
       }, t.prototype.css = function (t, e) {
         if (t && t.length) {
-          if (e) return "middle" === e && t.addClass("hiprint-text-content-middle"), "bottom" === e && t.addClass("hiprint-text-content-bottom"), "";
           t.removeClass("hiprint-text-content-middle"), t.removeClass("hiprint-text-content-bottom");
+          if (e) return "middle" === e && t.addClass("hiprint-text-content-middle"), "bottom" === e && t.addClass("hiprint-text-content-bottom"), "";
         }
 
         return null;
@@ -4079,7 +4141,7 @@ var hiprint = function (t) {
     }(),
     rt = n(5),
     at = function () {
-      function t() {
+      function t () {
         this.name = "columns";
       }
 
@@ -4118,13 +4180,13 @@ var hiprint = function (t) {
           deltaX: 0,
           deltaY: 0
         }).hidroppable({
-          onDragOver: function onDragOver(t, e) {
+          onDragOver: function onDragOver (t, e) {
             $(this).css("border-top-color", "red");
           },
-          onDragLeave: function onDragLeave(t, e) {
+          onDragLeave: function onDragLeave (t, e) {
             $(this).css("border-top-color", "");
           },
-          onDrop: function onDrop(t, e) {
+          onDrop: function onDrop (t, e) {
             $(e).insertBefore(this), $(this).css("border-top-color", ""), o.submit();
           }
         }));
@@ -4148,7 +4210,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     pt = function () {
-      function t() {
+      function t () {
         this.name = "textType";
       }
 
@@ -4164,7 +4226,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tablept = function () {
-      function t() {
+      function t () {
         this.name = "tableTextType";
       }
 
@@ -4182,7 +4244,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tableE = function () {
-      function t() {
+      function t () {
         this.name = "tableBarcodeMode";
       }
 
@@ -4200,7 +4262,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tableQRCodeLevel = function () {
-      function t() {
+      function t () {
         this.name = "tableQRCodeLevel";
       }
 
@@ -4218,7 +4280,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tableColumnH = function () {
-      function t() {
+      function t () {
         this.name = "tableColumnHeight";
       }
 
@@ -4236,7 +4298,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tableSummaryTitle = function () {
-      function t() {
+      function t () {
         this.name = "tableSummaryTitle"
       }
 
@@ -4251,7 +4313,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tableSummaryText = function () {
-      function t() {
+      function t () {
         this.name = "tableSummaryText";
       }
 
@@ -4267,7 +4329,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     tableSummaryAlign = function () {
-      function t() {
+      function t () {
         this.name = "tableSummaryAlign";
       }
 
@@ -4283,14 +4345,14 @@ var hiprint = function (t) {
       }, t;
     }(),
     tableSummaryNumFormat = function () {
-      function t() {
+      function t () {
         this.name = "tableSummaryNumFormat";
       }
 
       return t.prototype.createTarget = function () {
-        var list = [{t: '整数',v: '0'}], num = [1,2,3,4,5,6];
+        var list = [{ t: '整数', v: '0' }], num = [1, 2, 3, 4, 5, 6];
         num.forEach(function (n) {
-          list.push({t: '保留' + n + '位', v: '' + n})
+          list.push({ t: '保留' + n + '位', v: '' + n })
         })
         var n = '\n            <option value="" >默认</option>';
         list.forEach(function (e) {
@@ -4308,9 +4370,42 @@ var hiprint = function (t) {
         this.target.remove();
       }, t;
     }(),
+    upperCase = function () {
+      function t () {
+        this.name = "upperCase";
+      }
+      return t.prototype.createTarget = function () {
+        var list = [
+          { t: "「小写」十点八", v: "0" },
+          { t: "「小写」一十点八", v: "1" },
+          { t: "「大写」拾点捌", v: "2" },
+          { t: "「大写」壹拾点捌", v: "3" },
+          { t: "「金额」人民币拾元捌角", v: "4" },
+          { t: "「金额」人民币壹拾元捌角", v: "5" },
+          { t: "「金额」人民币壹拾元捌角零分", v: "6" },
+          { t: "「金额」壹拾元捌角零分", v: "7" },
+        ];
+        var n = '\n<option value="">默认</option>';
+        list.forEach((e) => {
+          n += `\n<option value='${e.v}'>${e.t}</option>`;
+        })
+        this.target = $(
+          '<div class="hiprint-option-item hiprint-option-item-row">\n<div class="hiprint-option-item-label">\n转大小写\n</div>\n<div class="hiprint-option-item-field">\n<select class="auto-submit"></select>\n</div>\n</div>'
+        );
+        this.target.find(".auto-submit").append($(n));
+        return this.target;
+      }, t.prototype.getValue = function () {
+        var t = this.target.find("select").val();
+        if (t) return t.toString();
+      }, t.prototype.setValue = function (t) {
+        this.target.find("select").val(t);
+      }, t.prototype.destroy = function () {
+        this.target.remove();
+      }, t;
+    }(),
     // 表格底部合计栏
     tableSummary = function () {
-      function t() {
+      function t () {
         this.name = "tableSummary"
       }
 
@@ -4325,7 +4420,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     st = function () {
-      function t() {
+      function t () {
         this.name = "topOffset";
       }
 
@@ -4341,7 +4436,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     lt = function () {
-      function t() {
+      function t () {
         this.name = "gridColumns";
       }
 
@@ -4358,7 +4453,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     ut = function () {
-      function t() {
+      function t () {
         this.name = "gridColumnsGutter";
       }
 
@@ -4386,7 +4481,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     ith = function () {
-      function t() {
+      function t () {
         this.name = "tableHeaderRepeat";
       }
 
@@ -4402,7 +4497,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     dt = function () {
-      function t() {
+      function t () {
         this.name = "paddingLeft";
       }
 
@@ -4428,7 +4523,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     ct = function () {
-      function t() {
+      function t () {
         this.name = "paddingRight";
       }
 
@@ -4454,7 +4549,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     ht = function () {
-      function t() {
+      function t () {
         this.name = "dataType";
       }
 
@@ -4488,7 +4583,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     ft = function () {
-      function t() {
+      function t () {
         this.name = "formatter";
       }
 
@@ -4505,7 +4600,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     gt = function () {
-      function t() {
+      function t () {
         this.name = "styler";
       }
 
@@ -4521,7 +4616,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     rowcolumns = function () {
-      function t() {
+      function t () {
         this.name = "rowsColumnsMerge";
       }
 
@@ -4537,7 +4632,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     mt = function () {
-      function t() {
+      function t () {
         this.name = "footerFormatter";
       }
 
@@ -4553,7 +4648,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     vt = function () {
-      function t() {
+      function t () {
         this.name = "gridColumnsFooterFormatter";
       }
 
@@ -4569,7 +4664,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     yt = function () {
-      function t() {
+      function t () {
         this.name = "rowStyler";
       }
 
@@ -4585,7 +4680,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     bt = function () {
-      function t() {
+      function t () {
         this.name = "align";
       }
 
@@ -4601,7 +4696,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     Et = function () {
-      function t() {
+      function t () {
         this.name = "vAlign";
       }
 
@@ -4617,7 +4712,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     Tt = function () {
-      function t() {
+      function t () {
         this.name = "halign";
       }
 
@@ -4633,7 +4728,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     Pt = function () {
-      function t() {
+      function t () {
         this.name = "styler2";
       }
 
@@ -4649,7 +4744,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     _t = function () {
-      function t() {
+      function t () {
         this.name = "formatter2";
       }
 
@@ -4664,8 +4759,24 @@ var hiprint = function (t) {
         this.target.remove();
       }, t;
     }(),
+    renderFormatter = function () {
+      function t () {
+        this.name = "renderFormatter";
+      }
+
+      return t.prototype.createTarget = function () {
+        return this.target = $(' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        单元格渲染函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(value,row,index,options){ return \'<td></td>\'; }" class="auto-submit"></textarea>\n        </div>\n    </div>'), this.target;
+      }, t.prototype.getValue = function () {
+        var t = this.target.find("textarea").val();
+        if (t) return t;
+      }, t.prototype.setValue = function (t) {
+        this.target.find("textarea").val(t ? t.toString() : null);
+      }, t.prototype.destroy = function () {
+        this.target.remove();
+      }, t;
+    }(),
     wt = function () {
-      function t() {
+      function t () {
         this.name = "autoCompletion";
       }
 
@@ -4680,7 +4791,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     xt = function () {
-      function t() {
+      function t () {
         this.name = "tableFooterRepeat";
       }
 
@@ -4701,7 +4812,7 @@ var hiprint = function (t) {
   });
 
   var Ct = function () {
-    function t() {
+    function t () {
     }
 
     return t.init = function () {
@@ -4713,7 +4824,7 @@ var hiprint = function (t) {
       t.init(), t.printElementOptionItems[e.name] = e;
     }, t.getItem = function (e) {
       return t.init(), t.printElementOptionItems[e];
-    }, t._printElementOptionItems = [new fontFamily(), new r(), new a(), new p(), new i(), new s(), new l(), new pt(), new u(), new d(), new c(), new h(), new f(), new g(), new m(), new d2(), new c2(), new v(), new y(), new b(), new E(), new qrCodeLevel(), new T(), new P(), new _(), new w(), new x(), new coordinate(), new widthHeight(), new C(), new imageFit(), new O(), new H(), new D(), new I(), new R(), new pageBreak(), new M(), new M2(), new S(), new B(), new F(), new L(), new A(), new z(), new k(), new st(), new N(), new V(), new W(), new j(), new U(), new zIndex(), new K(), new G(), new q(), new X(), new Y(), new Q(), new J(), new Z(), new tt(), new et(), new nt(), new it(), new ot(), new at(), new lt(), new ut(), new ith(), new dt(), new ct(), new ht(), new ft(), new gt(), new mt(), new rowcolumns(), new vt(), new yt(), new bt(), new Tt(), new Et(), new Pt(), new _t(), new wt(), new xt(), new tableColumnH(), new tableE(), new tableQRCodeLevel(), new tablept(), new tableSummaryTitle(), new tableSummaryText(), new tableSummary(), new tableSummaryAlign(), new tableSummaryNumFormat()], t;
+    }, t._printElementOptionItems = [new fontFamily(), new r(), new a(), new p(), new i(), new s(), new l(), new pt(), new u(), new d(), new c(), new h(), new f(), new g(), new m(), new d2(), new c2(), new v(), new y(), new b(), new E(), new qrCodeLevel(), new T(), new P(), new _(), new w(), new x(), new coordinate(), new widthHeight(), new C(), new imageFit(), new O(), new H(), new D(), new I(), new R(), new pageBreak(), new M(), new M2(), new S(), new B(), new F(), new L(), new A(), new z(), new k(), new st(), new N(), new V(), new W(), new j(), new U(), new zIndex(), new K(), new G(), new q(), new X(), new Y(), new Q(), new J(), new Z(), new tt(), new et(), new nt(), new it(), new ot(), new at(), new lt(), new ut(), new ith(), new dt(), new ct(), new ht(), new ft(), new gt(), new mt(), new rowcolumns(), new vt(), new yt(), new bt(), new Tt(), new Et(), new Pt(), new renderFormatter(), new _t(), new wt(), new xt(), new tableColumnH(), new tableE(), new tableQRCodeLevel(), new tablept(), new tableSummaryTitle(), new tableSummaryText(), new tableSummary(), new tableSummaryAlign(), new tableSummaryNumFormat(), new upperCase()], t;
   }();
 }, function (t, e, n) {
   "use strict";
@@ -4726,7 +4837,7 @@ var hiprint = function (t) {
 
   var i = n(14),
     o = function () {
-      function t(t, e) {
+      function t (t, e) {
         this.selectedCells = [], this.rows = t, this.tableTatget = e;
       }
 
@@ -4770,7 +4881,7 @@ var hiprint = function (t) {
       }, t.prototype.getCellByXY = function (t, e) {
         var n;
         return this.rows.forEach(function (i, o) {
-          var r = (i.columns || []).filter(function (column) {return column.checked}).filter(function (n) {
+          var r = (i.columns || []).filter(function (column) { return column.checked }).filter(function (n) {
             return n.isXYinCell(t, e);
           });
           r.length && (n = new p(o, r[0]));
@@ -4800,7 +4911,7 @@ var hiprint = function (t) {
   });
 
   var i = function () {
-    function t() {
+    function t () {
     }
 
     return t.createId = function () {
@@ -4817,7 +4928,7 @@ var hiprint = function (t) {
   var _i,
     o = n(5),
     r = n(13),
-    a = (_i = function i(t, e) {
+    a = (_i = function i (t, e) {
       return (_i = Object.setPrototypeOf || _instanceof({
         __proto__: []
       }, Array) && function (t, e) {
@@ -4828,14 +4939,14 @@ var hiprint = function (t) {
         }
       })(t, e);
     }, function (t, e) {
-      function n() {
+      function n () {
         this.constructor = t;
       }
 
       _i(t, e), t.prototype = null === e ? Object.create(e) : (n.prototype = e.prototype, new n());
     }),
     p = function (t) {
-      function e(e) {
+      function e (e) {
         var n = t.call(this) || this;
         (n.columns = [], e && e.constructor === Array) ? (e || []).forEach(function (t) {
           n.columns.push(new o.a(t));
@@ -4847,7 +4958,7 @@ var hiprint = function (t) {
 
       return a(e, t), e.prototype.getPrintElementOptionEntity = function () {
         var t = [];
-        var all = this.allColumns ? this.allColumns.filter(function (c) {return !c.checked}) : [];
+        var all = this.allColumns ? this.allColumns.filter(function (c) { return !c.checked }) : [];
         return [...this.columns, ...all].forEach(function (e) {
           t.push(e.getEntity());
         }), t;
@@ -4863,14 +4974,14 @@ var hiprint = function (t) {
   var i = n(11),
     o = n(5),
     r = function () {
-      function t() {
+      function t () {
         this.id = i.a.createId();
       }
 
       return t.prototype.init = function (t, e, n) {
         this.isHead = n, this.target = e || $("<tr></tr>"), this.tableOptions = t,
           this.allColumns = (this.columns || []),
-          this.initCells((this.columns || []).filter(function (column) {return column.checked}));
+          this.initCells((this.columns || []).filter(function (column) { return column.checked }));
       }, t.prototype.getTarget = function () {
         return this.target;
       }, t.prototype.initCells = function (t) {
@@ -4899,7 +5010,7 @@ var hiprint = function (t) {
         this.columns.push(t), this.target.append(t.getTarget());
       }, t.prototype.getPrintElementOptionEntity = function () {
         var t = [];
-        return [...this.columns, ...this.allColumns.filter(function (c) {return !c.checked})].forEach(function (e) {
+        return [...this.columns, ...this.allColumns.filter(function (c) { return !c.checked })].forEach(function (e) {
           t.push(e.getEntity());
         }), t;
       }, t;
@@ -4913,7 +5024,7 @@ var hiprint = function (t) {
 
   var i = n(10),
     o = function () {
-      function t() {
+      function t () {
       }
 
       return t.mergeRect = function (t, e) {
@@ -4951,7 +5062,7 @@ var hiprint = function (t) {
     _hitable_HiTale__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(16),
     _table_GridColumnsStructure__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(20),
     _HiPrintlib__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(2),
-    __extends = (_extendStatics = function extendStatics(t, e) {
+    __extends = (_extendStatics = function extendStatics (t, e) {
       return (_extendStatics = Object.setPrototypeOf || _instanceof({
         __proto__: []
       }, Array) && function (t, e) {
@@ -4962,7 +5073,7 @@ var hiprint = function (t) {
         }
       })(t, e);
     }, function (t, e) {
-      function n() {
+      function n () {
         this.constructor = t;
       }
 
@@ -4970,7 +5081,7 @@ var hiprint = function (t) {
     }),
     _extendStatics,
     TablePrintElement = function (_super) {
-      function TablePrintElement(t, e) {
+      function TablePrintElement (t, e) {
         var n = _super.call(this, t) || this;
         return n.gridColumnsFooterCss = "hiprint-gridColumnsFooter", n.tableGridRowCss = "table-grid-row", n.options = new _option_TablePrintElementOption__WEBPACK_IMPORTED_MODULE_5__.a(e, n.printElementType), n.options.setDefault(new _option_TablePrintElementOption__WEBPACK_IMPORTED_MODULE_5__.a(_HiPrintConfig__WEBPACK_IMPORTED_MODULE_1__.a.instance.table.default).getPrintElementOptionEntity()), n;
       }
@@ -4992,12 +5103,12 @@ var hiprint = function (t) {
       }, TablePrintElement.prototype.getDesignTarget = function (t) {
         return this.designTarget = this.getHtml(t)[0].target, this.css(this.designTarget, this.getData()), this.designPaper = t, this.designTarget.find("td").hidroppable({
           accept: ".rn-draggable-item",
-          onDrop: function onDrop(t, e) {
+          onDrop: function onDrop (t, e) {
           },
-          onDragEnter: function onDragEnter(t, e) {
+          onDragEnter: function onDragEnter (t, e) {
             $(e).removeClass("rn-draggable-item");
           },
-          onDragLeave: function onDragLeave(t, e) {
+          onDragLeave: function onDragLeave (t, e) {
             $(e).addClass("rn-draggable-item");
           }
         }), this.designTarget;
@@ -5034,7 +5145,7 @@ var hiprint = function (t) {
         var o = $('<table class="hiprint-printElement-tableTarget" style="border-collapse: collapse;"></table>');
         return o.append(_table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createTableHead(this.getColumns(), this.options.getWidth() / this.options.getGridColumns())), o.append(_table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createTableRow(this.getColumns(), t, this.options, this.printElementType)), "no" == this.options.tableFooterRepeat || _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createTableFooter(this.printElementType.columns, t, this.options, this.printElementType, e, t).insertBefore(o.find("tbody")), o;
       }, TablePrintElement.prototype.getEmptyRowTarget = function () {
-        return _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createEmptyRowTarget(this.getColumns());
+        return _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createEmptyRowTarget(this.getColumns(), this);
       }, TablePrintElement.prototype.getHtml = function (t, e) {
         this.createTempContainer();
         var n = this.getPaperHtmlResult(t, e);
@@ -5054,7 +5165,7 @@ var hiprint = function (t) {
           0 == s && p > d && "none" != t.panelPageRule && (p = p - d + t.paperHeader, n.push(new _dto_PaperHtmlResult__WEBPACK_IMPORTED_MODULE_2__.a({
             target: void 0,
             printLine: void 0
-          })), u = t.getContentHeight(s) - (p - t.paperHeader), s++ , d = t.getPaperFooter(s));
+          })), u = t.getContentHeight(s) - (p - t.paperHeader), s++, d = t.getPaperFooter(s));
           var c = n.length > 0 ? n[n.length - 1].target : void 0,
             h = this.getRowsInSpecificHeight(e, u > 0 ? u : 0 == s ? d - p : t.getContentHeight(s), r, o, s, c, tfh);
           l = h.isEnd;
@@ -5078,7 +5189,7 @@ var hiprint = function (t) {
           h.target && (h.target.css("left", this.options.displayLeft()), h.target[0].height = "");
           if (0 == s || u > 0) {
             (h.target && (a = p, h.target.css("top", p + "pt")),
-            f = l && null != this.options.lHeight ? p + (h.height > this.options.lHeight ? h.height : this.options.lHeight) : p + h.height)
+              f = l && null != this.options.lHeight ? p + (h.height > this.options.lHeight ? h.height : this.options.lHeight) : p + h.height)
           } else {
             (h.target && (a = t.paperHeader, h.target.css("top", t.paperHeader + "pt")), f = t.paperHeader + h.height)
           }
@@ -5138,7 +5249,7 @@ var hiprint = function (t) {
               if (0 == trLen) c = {
                 height: _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_3__.a.px.toPt(s),
                 isEnd: !0
-              }, t && this.options.autoCompletion && (this.autoCompletion(p, d), s = n.outerHeight()); else {
+              }, t && this.options.autoCompletion && (this.autoCompletion(p, d, tfh), s = n.outerHeight()); else {
                 var f = a.find("tr:lt(1)");
                 d.find("tbody").append(f);
                 var g = f.data("rowData");
@@ -5152,7 +5263,7 @@ var hiprint = function (t) {
               if (s <= p) if (0 == a.find("tr").length) c = {
                 height: _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_3__.a.px.toPt(s),
                 isEnd: !0
-              }, t && this.options.autoCompletion && (this.autoCompletion(p, d), s = d.outerHeight()); else {
+              }, t && this.options.autoCompletion && (this.autoCompletion(p, d, tfh), s = d.outerHeight()); else {
                 var f = a.find("tr:lt(1)");
                 d.find("tbody").append(f);
                 var g = f.data("rowData");
@@ -5197,9 +5308,9 @@ var hiprint = function (t) {
           isEnd: !1
         };
         return zz;
-      }, TablePrintElement.prototype.autoCompletion = function (t, e) {
-        for (var n, i = this.getEmptyRowTarget(), o = e.outerHeight(); t > o;) {
-          n = i.clone(), e.find("tbody").append(n), o = e.outerHeight();
+      }, TablePrintElement.prototype.autoCompletion = function (t, e, tfh) {
+        for (var n, i = this.getEmptyRowTarget(), o = e.outerHeight() + tfh; t > o;) {
+          n = i.clone(), e.find("tbody").append(n), o = e.outerHeight() + tfh;
         }
 
         n && n.remove();
@@ -5218,19 +5329,19 @@ var hiprint = function (t) {
           handle: this.designTarget.find(".hiprint-printElement-table-handle"),
           axis: n.options.axis ? n.options.axis : void 0,
           designTarget: n,
-          onDrag: function onDrag(t, i, o) {
+          onDrag: function onDrag (t, i, o) {
             n.updateSizeAndPositionOptions(i, o), n.createLineOfPosition(e);
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_9__.a.instance.changed = !0;
           },
           moveUnit: "pt",
           minMove: _HiPrintConfig__WEBPACK_IMPORTED_MODULE_1__.a.instance.movingDistance,
-          onBeforeDrag: function onBeforeDrag(t) {
+          onBeforeDrag: function onBeforeDrag (t) {
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_9__.a.instance.draging = !0, n.createLineOfPosition(e);
           },
-          getScale: function getScale() {
+          getScale: function getScale () {
             return n.designPaper.scale || 1;
           },
-          onStopDrag: function onStopDrag(t) {
+          onStopDrag: function onStopDrag (t) {
             if (_HiPrintlib__WEBPACK_IMPORTED_MODULE_9__.a.instance.changed) _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_3__.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, "移动");
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_9__.a.instance.draging = !1,
               _HiPrintlib__WEBPACK_IMPORTED_MODULE_9__.a.instance.changed = !1,
@@ -5241,16 +5352,16 @@ var hiprint = function (t) {
           // 是否显示宽高box
           showSizeBox: _HiPrintConfig__WEBPACK_IMPORTED_MODULE_1__.a.instance.showSizeBox,
           noContainer: !0,
-          onBeforeResize: function onBeforeResize() {
+          onBeforeResize: function onBeforeResize () {
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_9__.a.instance.draging = !0;
           },
-          getScale: function getScale() {
+          getScale: function getScale () {
             return n.designPaper.scale || 1
           },
-          onResize: function onResize(t, i, o, r, a) {
+          onResize: function onResize (t, i, o, r, a) {
             n.onResize(t, i, o, r, a), n.hitable && n.hitable.updateColumnGrips(), n.createLineOfPosition(e);
           },
-          onStopResize: function onStopResize(r) {
+          onStopResize: function onStopResize (r) {
             _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_3__.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, r ? "旋转" : "大小");
             _HiPrintlib__WEBPACK_IMPORTED_MODULE_9__.a.instance.draging = !1, n.removeLineOfPosition();
           }
@@ -5296,7 +5407,7 @@ var hiprint = function (t) {
                 title: (i.title || `${i.id}(id)`) + "-列属性",
                 optionItems: o,
                 options: i,
-                callback: function callback(t) {
+                callback: function callback (t) {
                   o.forEach(function (t) {
                     var e = t.getValue();
                     if ("title" == t.name && !e.trim().endsWith("#") && !e.trim().startsWith("#")) {
@@ -5345,12 +5456,12 @@ var hiprint = function (t) {
   "use strict";
 
   var i = function () {
-      return function (t) {
-        this.table = t.table, this.fields = t.fields, this.isEnableEdit = t.isEnableEdit, this.trs = t.trs, this.resizeRow = t.resizeRow, this.resizeColumn = t.resizeColumn, this.isEnableEditField = t.isEnableEditField, this.isEnableContextMenu = t.isEnableContextMenu, this.isEnableEditField = t.isEnableEditField, this.isEnableInsertRow = t.isEnableInsertRow, this.isEnableDeleteRow = t.isEnableDeleteRow, this.isEnableInsertColumn = t.isEnableInsertColumn, this.isEnableDeleteColumn = t.isEnableDeleteColumn, this.isEnableMergeCell = t.isEnableMergeCell, this.columnResizable = t.columnResizable, this.columnAlignEditable = t.columnAlignEditable;
-      };
-    }(),
+    return function (t) {
+      this.table = t.table, this.fields = t.fields, this.isEnableEdit = t.isEnableEdit, this.trs = t.trs, this.resizeRow = t.resizeRow, this.resizeColumn = t.resizeColumn, this.isEnableEditField = t.isEnableEditField, this.isEnableContextMenu = t.isEnableContextMenu, this.isEnableEditField = t.isEnableEditField, this.isEnableInsertRow = t.isEnableInsertRow, this.isEnableDeleteRow = t.isEnableDeleteRow, this.isEnableInsertColumn = t.isEnableInsertColumn, this.isEnableDeleteColumn = t.isEnableDeleteColumn, this.isEnableMergeCell = t.isEnableMergeCell, this.columnResizable = t.columnResizable, this.columnAlignEditable = t.columnAlignEditable;
+    };
+  }(),
     o = function () {
-      function t(t) {
+      function t (t) {
         this.options = new i(t);
       }
 
@@ -5370,7 +5481,7 @@ var hiprint = function (t) {
     }(),
     p = n(10),
     s = function () {
-      function t() {
+      function t () {
       }
 
       return t.getLeftTableCell = function (t, e) {
@@ -5403,7 +5514,7 @@ var hiprint = function (t) {
       };
     }(),
     f = function () {
-      function t() {
+      function t () {
       }
 
       return t.getColumnsWidth = function (e, n) {
@@ -5426,7 +5537,7 @@ var hiprint = function (t) {
           e += t.width;
         }), e;
       }, t.reconsitutionTableColumnTree = function (t, e, n) {
-        for (var i = e || new h(), o = function o(e) {
+        for (var i = e || new h(), o = function o (e) {
           i.totalLayer = e + 1, i[e] = t[e].columns, i.rowColumns = i.rowColumns.concat(i[e].filter(function (n) {
             return n.rowspan == t.length - e;
           }));
@@ -5439,7 +5550,7 @@ var hiprint = function (t) {
     }(),
     g = n(2),
     m = function () {
-      function t(t) {
+      function t (t) {
         this.signature = "HiTresizer", this.hitable = t, this.rows = t.rows, this.target = t.target;
       }
 
@@ -5454,25 +5565,25 @@ var hiprint = function (t) {
           n = [],
           i = $('<div class="columngrips"/>');
         i.width(this.target.width()), this.rows.forEach(function (o) {
-          (o.columns || []).filter(function (column) {return column.checked}).forEach(function (o, a) {
+          (o.columns || []).filter(function (column) { return column.checked }).forEach(function (o, a) {
             if (o.getTarget().attr("haswidth")) {
               var p = $('<div class="columngrip"><div class="gripResizer"></div></div>');
               i.append(p);
               var s = new c(p);
               n.length > 0 && (n[n.length - 1].nextGrip = s), n.push(s), t.syncGrips(o, s), $(p).hidraggable({
                 axis: "h",
-                onDrag: function onDrag(t, e, n) {
+                onDrag: function onDrag (t, e, n) {
                 },
                 moveUnit: "pt",
                 minMove: 1,
-                getScale: function getScale() {
+                getScale: function getScale () {
                   return ($('.hiprint-printPaper')[0].style.transform && parseFloat($('.hiprint-printPaper')[0].style.transform.slice(6, -1))) || 1;
                 },
-                onBeforeDrag: function onBeforeDrag(t) {
+                onBeforeDrag: function onBeforeDrag (t) {
                   if (g.a.instance.draging = !0, !s.nextGrip) return !1;
                   e.dragingGrip = s, e.dragingGrip.left = parseFloat(e.dragingGrip.target.css("left").replace("px", "")), s.target.addClass("columngripDraging");
                 },
-                onStopDrag: function onStopDrag(n) {
+                onStopDrag: function onStopDrag (n) {
                   g.a.instance.draging = !1;
                   var i = parseFloat(e.dragingGrip.target.css("left").replace("px", "")),
                     o = r.a.px.toPt(i - e.dragingGrip.left);
@@ -5503,14 +5614,14 @@ var hiprint = function (t) {
           var s = new c(p);
           n.push(s), a > 0 && a < t.rows.length && $(p).hidraggable({
             axis: "v",
-            onDrag: function onDrag(t, e, n) {
+            onDrag: function onDrag (t, e, n) {
             },
             moveUnit: "pt",
             minMove: 1,
-            onBeforeDrag: function onBeforeDrag(t) {
+            onBeforeDrag: function onBeforeDrag (t) {
               e.dragingGrip = s, e.dragingGrip.top = parseFloat(e.dragingGrip.target.css("top").replace("px", "")), s.target.addClass("rowgripDraging");
             },
-            onStopDrag: function onStopDrag(t) {
+            onStopDrag: function onStopDrag (t) {
               var n = parseFloat(e.dragingGrip.target.css("top").replace("px", "")),
                 i = r.a.px.toPt(n - e.dragingGrip.top + e.rows[a].columns[0].getTarget().height());
               e.rows[a].columns[0].getTarget().css("height", i + "pt"), e.syncRowGrips(), s.target.removeClass("rowgripDraging");
@@ -5537,7 +5648,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     v = function () {
-      function t() {
+      function t () {
       }
 
       return t.prototype.init = function () {
@@ -5551,7 +5662,7 @@ var hiprint = function (t) {
   });
 
   var y = function () {
-    function t(t) {
+    function t (t) {
       this.id = u.a.createId(), this.optionsCoat = new o(t), this.handle = t.handle, this.target = t.table, this.initRows(t.rows), this.init(t), this.tableCellSelector = new p.a(this.rows, this.target), this.resizer = this.optionsCoat.options.columnResizable ? new m(this) : new v(), this.resizer.init();
     }
 
@@ -5665,8 +5776,8 @@ var hiprint = function (t) {
           if (1 == e.cell.rowspan) o.removeCell(e.cell); else {
             o.removeCell(e.cell);
             var a = i[n + 1].filter(function (t, e) {
-                return t.cell && e > r;
-              }),
+              return t.cell && e > r;
+            }),
               p = t.rows[n + 1],
               s = p.createTableCell(e.cell.rowspan - 1, e.cell.colspan);
             a.length ? p.insertToTargetCellLeft(a[0].cell, s) : p.insertCellToLast(s);
@@ -5759,7 +5870,7 @@ var hiprint = function (t) {
         t.columns.forEach(function (t, o) {
           for (var r = 0; r < t.colspan; r++) {
             for (var p = 0, s = !1; p < n && !s;) {
-              if (i[e] = i[e] || [], i[e][p]) ; else {
+              if (i[e] = i[e] || [], i[e][p]); else {
                 i[e][p] = new a({
                   cell: 0 == r ? t : void 0,
                   link: 0 != r ? t : void 0,
@@ -5811,58 +5922,58 @@ var hiprint = function (t) {
         menus: [{
           text: "在上方插入行",
           enabled: this.optionsCoat.options.isEnableInsertRow,
-          disable: function disable() {
+          disable: function disable () {
             return !t.tableCellSelector.getSingleSelect();
           },
-          callback: function callback() {
+          callback: function callback () {
             t.insertRow("above"), t.resizer.updateRowGrips(), r.a.event.trigger("updateTable" + t.id);
           }
         }, {
           text: "在下方插入行",
           borderBottom: !0,
           enabled: this.optionsCoat.options.isEnableInsertRow,
-          disable: function disable() {
+          disable: function disable () {
             return !t.tableCellSelector.getSingleSelect();
           },
-          callback: function callback() {
+          callback: function callback () {
             t.insertRow("below"), t.resizer.updateRowGrips(), r.a.event.trigger("updateTable" + t.id);
           }
         }, {
           text: "向左方插入列",
           enabled: this.optionsCoat.options.isEnableInsertColumn,
-          disable: function disable() {
+          disable: function disable () {
             return !t.tableCellSelector.getSingleSelect();
           },
-          callback: function callback() {
+          callback: function callback () {
             t.insertColumn("left"), t.resizer.updateColumnGrips(), r.a.event.trigger("updateTable" + t.id);
           }
         }, {
           text: "向右方插入列",
           enabled: this.optionsCoat.options.isEnableInsertColumn,
-          disable: function disable() {
+          disable: function disable () {
             return !t.tableCellSelector.getSingleSelect();
           },
           borderBottom: !0,
-          callback: function callback() {
+          callback: function callback () {
             t.insertColumn("right"), t.resizer.updateColumnGrips(), r.a.event.trigger("updateTable" + t.id);
           }
         }, {
           text: "删除行",
           enabled: this.optionsCoat.options.isEnableDeleteRow,
-          disable: function disable() {
+          disable: function disable () {
             return !t.tableCellSelector.getSingleSelect() || t.rows.length <= 1;
           },
-          callback: function callback() {
+          callback: function callback () {
             t.deleteRow(), t.resizer.updateRowGrips(), r.a.event.trigger("updateTable" + t.id);
           }
         }, {
           text: "删除列",
           borderBottom: !0,
           enabled: this.optionsCoat.options.isEnableDeleteColumn,
-          disable: function disable() {
+          disable: function disable () {
             return !t.tableCellSelector.getSingleSelect() || (t.rows.length > 0 && t.rows[0].columns.length <= 1);
           },
-          callback: function callback() {
+          callback: function callback () {
             t.deleteColums(), t.resizer.updateColumnGrips(), r.a.event.trigger("updateTable" + t.id);
           }
         }, {
@@ -5871,63 +5982,63 @@ var hiprint = function (t) {
           enabled: this.optionsCoat.options.columnAlignEditable,
           menus: [{
             text: "左",
-            callback: function callback() {
+            callback: function callback () {
               t.setAlign("left");
             }
           }, {
             text: "左右居中",
-            callback: function callback() {
+            callback: function callback () {
               t.setAlign("center");
             }
           }, {
             text: "右",
-            callback: function callback() {
+            callback: function callback () {
               t.setAlign("right");
             }
           }, {
             text: "默认",
             borderBottom: !0,
-            callback: function callback() {
+            callback: function callback () {
               t.setAlign("");
             }
           }, {
             text: "上",
-            callback: function callback() {
+            callback: function callback () {
               t.setVAlign("top");
             }
           }, {
             text: "垂直居中",
-            callback: function callback() {
+            callback: function callback () {
               t.setVAlign("middle");
             }
           }, {
             text: "下",
-            callback: function callback() {
+            callback: function callback () {
               t.setVAlign("bottom");
             }
           }, {
             text: "默认",
-            callback: function callback() {
+            callback: function callback () {
               t.setVAlign("");
             }
           }]
         }, {
           text: "合并单元格",
           enabled: this.optionsCoat.options.isEnableMergeCell,
-          disable: function disable() {
+          disable: function disable () {
             return t.tableCellSelector.getSingleSelect();
           },
-          callback: function callback() {
+          callback: function callback () {
             t.mergeCell(), r.a.event.trigger("updateTable" + t.id);
           }
         }, {
           text: "解开单元格",
           enabled: this.optionsCoat.options.isEnableMergeCell,
-          disable: function disable() {
+          disable: function disable () {
             var e = t.tableCellSelector.getSingleSelect();
             return !e || 1 == e.cell.rowspan && 1 == e.cell.colspan;
           },
-          callback: function callback() {
+          callback: function callback () {
             t.splitCell(), r.a.event.trigger("updateTable" + t.id);
           }
         }].filter(function (t) {
@@ -5962,7 +6073,7 @@ var hiprint = function (t) {
     r = (function () {
     }(), function () {
       return function (t) {
-        this.width = t.width, this.title = t.title, this.field = t.field, this.checked = t.checked, this.columnId = t.columnId, this.fixed = !1, this.rowspan = t.rowspan || 1, this.colspan = t.colspan || 1, this.align = t.align, this.halign = t.halign, this.vAlign = t.vAlign, this.formatter2 = t.formatter2, this.styler2 = t.styler2, this.tableColumnHeight = t.tableColumnHeight || 30, this.tableTextType = t.tableTextType || 'text', this.tableBarcodeMode = t.tableBarcodeMode || 'CODE128A', this.tableQRCodeLevel = t.tableQRCodeLevel || 0, this.tableSummaryTitle = t.tableSummaryTitle, this.tableSummaryText = t.tableSummaryText, this.tableSummary = t.tableSummary, this.tableSummaryAlign = t.tableSummaryAlign, this.tableSummaryNumFormat = t.tableSummaryNumFormat;
+        this.width = t.width, this.title = t.title, this.field = t.field, this.checked = t.checked, this.columnId = t.columnId, this.fixed = !1, this.rowspan = t.rowspan || 1, this.colspan = t.colspan || 1, this.align = t.align, this.halign = t.halign, this.vAlign = t.vAlign, this.renderFormatter = t.renderFormatter, this.formatter2 = t.formatter2, this.styler2 = t.styler2, this.tableColumnHeight = t.tableColumnHeight || 30, this.tableTextType = t.tableTextType || 'text', this.tableBarcodeMode = t.tableBarcodeMode || 'CODE128A', this.tableQRCodeLevel = t.tableQRCodeLevel || 0, this.tableSummaryTitle = t.tableSummaryTitle, this.tableSummaryText = t.tableSummaryText, this.tableSummary = t.tableSummary, this.tableSummaryAlign = t.tableSummaryAlign, this.tableSummaryNumFormat = t.tableSummaryNumFormat, this.upperCase = t.upperCase;
       };
     }()),
     a = n(5);
@@ -5971,7 +6082,7 @@ var hiprint = function (t) {
   });
 
   var _p,
-    s = (_p = function p(t, e) {
+    s = (_p = function p (t, e) {
       return (_p = Object.setPrototypeOf || _instanceof({
         __proto__: []
       }, Array) && function (t, e) {
@@ -5982,14 +6093,14 @@ var hiprint = function (t) {
         }
       })(t, e);
     }, function (t, e) {
-      function n() {
+      function n () {
         this.constructor = t;
       }
 
       _p(t, e), t.prototype = null === e ? Object.create(e) : (n.prototype = e.prototype, new n());
     }),
     l = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = this;
         (e = e || {}, (i = t.call(this, e) || this).lHeight = e.lHeight, i.autoCompletion = e.autoCompletion, i.tableFooterRepeat = e.tableFooterRepeat, n) && (i.columns = [], n.editable && e.columns && e.columns.length ? e.columns.forEach(function (t) {
           var e = [];
@@ -6047,7 +6158,7 @@ var hiprint = function (t) {
   });
 
   var i = function () {
-    function t(t, e) {
+    function t (t, e) {
       this.gridColumns = t, this.target = e;
     }
 
@@ -6059,7 +6170,7 @@ var hiprint = function (t) {
   t.exports = n(33);
 }, function (t, e) {
   !function (t) {
-    function e(e) {
+    function e (e) {
       var n = t.data(e.data.target, "hidraggable"),
         i = n.options,
         o = n.proxy,
@@ -6067,11 +6178,11 @@ var hiprint = function (t) {
         a = r.startLeft + (e.pageX - r.startX) / (n.options.getScale() || 1),
         p = r.startTop + (e.pageY - r.startY) / (n.options.getScale() || 1);
       o && (o.parent()[0] == document.body ? (a = null != i.deltaX && null != i.deltaX ? e.pageX + i.deltaX : e.pageX - e.data.offsetWidth, p = null != i.deltaY && null != i.deltaY ? e.pageY + i.deltaY : e.pageY - e.data.offsetHeight) : (null != i.deltaX && null != i.deltaX && (a += e.data.offsetWidth + i.deltaX), null != i.deltaY && null != i.deltaY && (p += e.data.offsetHeight + i.deltaY))),
-      e.data.parent != document.body && (a += t(e.data.parent).scrollLeft(), p += t(e.data.parent).scrollTop()),
+        e.data.parent != document.body && (a += t(e.data.parent).scrollLeft(), p += t(e.data.parent).scrollTop()),
         "h" == i.axis ? r.left = a : "v" == i.axis ? r.top = p : (e.shiftKey && e.altKey ? r.top = p : e.shiftKey ? r.left = a : (r.left = a, r.top = p));
     }
 
-    function n(e) {
+    function n (e) {
       var n = t.data(e.data.target, "hidraggable"),
         i = n.options,
         o = n.proxy;
@@ -6081,7 +6192,7 @@ var hiprint = function (t) {
       }), t("body").css("cursor", i.cursor);
     }
 
-    function i(i) {
+    function i (i) {
       t.fn.hidraggable.isDragging = !0;
       var o = t.data(i.data.target, "hidraggable"),
         r = o.options,
@@ -6098,7 +6209,7 @@ var hiprint = function (t) {
       return p || (r.proxy ? (p = "clone" == r.proxy ? t(i.data.target).clone().insertAfter(i.data.target) : r.proxy.call(i.data.target, i.data.target), o.proxy = p) : p = t(i.data.target)), p.css("position", "absolute"), e(i), n(i), r.onStartDrag.call(i.data.target, i), !1;
     }
 
-    function o(i) {
+    function o (i) {
       // 移动开始动作
       var o = t.data(i.data.target, "hidraggable");
       e(i);
@@ -6118,7 +6229,7 @@ var hiprint = function (t) {
           cPosition.hCenter = top + cPosition.height / 2;
           (() => {
             let oPositions = o.options.designTarget.panel.printElements.filter(el => el.id != o.options.designTarget.id).map(el => {
-              let {left, top, width, height} = el.options;
+              let { left, top, width, height } = el.options;
               return {
                 ...el.options,
                 bottom: top + height,
@@ -6217,7 +6328,7 @@ var hiprint = function (t) {
       }), !1;
     }
 
-    function r(e) {
+    function r (e) {
       // 这里原 mouseup时, 回调了 o(e) ==> onDrag
       t.fn.hidraggable.isDragging = !1;
       var n,
@@ -6245,18 +6356,19 @@ var hiprint = function (t) {
         top: t.fn.dragLengthC(e.data.top, p)
       }), l());
 
-      function s() {
+      function s () {
         a && a.remove(), r.proxy = null;
       }
 
-      function l() {
+      function l () {
         var n = !1;
         return r.hidroppables.each(function () {
           var i = t(this);
 
           if (!i.hidroppable("options").disabled) {
             var o = i.offset();
-            return e.pageX > o.left && e.pageX < o.left + i.outerWidth() && e.pageY > o.top && e.pageY < o.top + i.outerHeight() ? (p.revert && t(e.data.target).css({
+            var ptr = (this.style.transform && parseFloat(this.style.transform.slice(6, -1))) || 1;
+            return e.pageX > o.left && e.pageX < o.left + (i.outerWidth() * ptr) && e.pageY > o.top && e.pageY < o.top + (i.outerHeight() * ptr) ? (p.revert && t(e.data.target).css({
               position: e.data.startPosition,
               left: e.data.startLeft,
               top: e.data.startTop
@@ -6277,7 +6389,7 @@ var hiprint = function (t) {
         a ? (a.handle.unbind(".hidraggable"), n = t.extend(a.options, e)) : n = t.extend({}, t.fn.hidraggable.defaults, t.fn.hidraggable.parseOptions(this), e || {});
         var p = n.handle ? "string" == typeof n.handle ? t(n.handle, this) : n.handle : t(this);
 
-        function s(e) {
+        function s (e) {
           var n = t.data(e.data.target, "hidraggable"),
             i = n.handle,
             o = t(i).offset(),
@@ -6369,27 +6481,27 @@ var hiprint = function (t) {
         });
       });
     }, t.fn.hidraggable.methods = {
-      options: function options(e) {
+      options: function options (e) {
         return t.data(e[0], "hidraggable").options;
       },
-      update: function update(e, n) {
+      update: function update (e, n) {
         if (n && "object" == typeof n) {
           t.data(e[0], "hidraggable") && Object.keys(n).forEach(function (k) {
             t.data(e[0], "hidraggable").options[k] = n[k]
           })
         }
       },
-      proxy: function proxy(e) {
+      proxy: function proxy (e) {
         return t.data(e[0], "hidraggable").proxy;
       },
-      enable: function enable(e) {
+      enable: function enable (e) {
         return e.each(function () {
           t(this).hidraggable({
             disabled: !1
           });
         });
       },
-      disable: function disable(e) {
+      disable: function disable (e) {
         return e.each(function () {
           t(this).hidraggable({
             disabled: !0
@@ -6416,14 +6528,14 @@ var hiprint = function (t) {
       disabled: !1,
       edge: 0,
       axis: null,
-      getScale: function getScale(t) {},
-      onBeforeDrag: function onBeforeDrag(t) {
+      getScale: function getScale (t) { },
+      onBeforeDrag: function onBeforeDrag (t) {
       },
-      onStartDrag: function onStartDrag(t) {
+      onStartDrag: function onStartDrag (t) {
       },
-      onDrag: function onDrag(t) {
+      onDrag: function onDrag (t) {
       },
-      onStopDrag: function onStopDrag(t) {
+      onStopDrag: function onStopDrag (t) {
       }
     }, t.fn.hidraggable.isDragging = !1;
   }(jQuery);
@@ -6446,17 +6558,17 @@ var hiprint = function (t) {
         }));
       }));
     }, t.fn.hidroppable.methods = {
-      options: function options(e) {
+      options: function options (e) {
         return t.data(e[0], "hidroppable").options;
       },
-      enable: function enable(e) {
+      enable: function enable (e) {
         return e.each(function () {
           t(this).hidroppable({
             disabled: !1
           });
         });
       },
-      disable: function disable(e) {
+      disable: function disable (e) {
         return e.each(function () {
           t(this).hidroppable({
             disabled: !0
@@ -6471,20 +6583,20 @@ var hiprint = function (t) {
     }, t.fn.hidroppable.defaults = {
       accept: null,
       disabled: !1,
-      onDragEnter: function onDragEnter(t, e) {
+      onDragEnter: function onDragEnter (t, e) {
       },
-      onDragOver: function onDragOver(t, e) {
+      onDragOver: function onDragOver (t, e) {
       },
-      onDragLeave: function onDragLeave(t, e) {
+      onDragLeave: function onDragLeave (t, e) {
       },
-      onDrop: function onDrop(t, e) {
+      onDrop: function onDrop (t, e) {
       }
     };
   }(jQuery);
 }, function (t, e) {
   var n;
   (n = jQuery).hiprintparser = {
-    parseOptions: function parseOptions(t, e) {
+    parseOptions: function parseOptions (t, e) {
       var i = n(t),
         o = {},
         r = n.trim(i.attr("data-options"));
@@ -6519,336 +6631,336 @@ var hiprint = function (t) {
   var n, i, o;
   n = jQuery, i = {
     maxPanelIndex: 0
-  }, (o = function o(t) {
+  }, (o = function o (t) {
     this.options = n.data(t.target, "hireizeable").options, this.init(t.target);
   }).prototype = {
-    numHandlerText: function numHandlerText(t) {
-      return this.numHandler(t) + "pt";
-    },
-    numHandler: function numHandler(t) {
-      var e = 1.5,
-        n = .75 * t;
-      return this.options.minResize && (e = this.options.minResize), Math.round(n / e) * e;
-    },
-    init: function init(t) {
-      this.initResizeBox(t);
-    },
-    initResizeBox: function initResizeBox(t) {
-      var e = this;
-      n(t).each(function () {
-        var o;
-        i.maxPanelIndex += 1, e.options.noContainer ? o = n(t) : (o = n("<div panelIndex=" + i.maxPanelIndex + ' class="resize-panel"></div>')).css({
-          width: "100%",
-          height: "100%",
-          top: 0,
-          left: 0,
-          position: "absolute",
-          "background-color": "rgba(0,0,0,0.5)",
-          cursor: "move",
-          display: "none"
-        }), e.appendHandler(o, n(this));
+      numHandlerText: function numHandlerText (t) {
+        return this.numHandler(t) + "pt";
+      },
+      numHandler: function numHandler (t) {
+        var e = 1.5,
+          n = .75 * t;
+        return this.options.minResize && (e = this.options.minResize), Math.round(n / e) * e;
+      },
+      init: function init (t) {
+        this.initResizeBox(t);
+      },
+      initResizeBox: function initResizeBox (t) {
+        var e = this;
+        n(t).each(function () {
+          var o;
+          i.maxPanelIndex += 1, e.options.noContainer ? o = n(t) : (o = n("<div panelIndex=" + i.maxPanelIndex + ' class="resize-panel"></div>')).css({
+            width: "100%",
+            height: "100%",
+            top: 0,
+            left: 0,
+            position: "absolute",
+            "background-color": "rgba(0,0,0,0.5)",
+            cursor: "move",
+            display: "none"
+          }), e.appendHandler(o, n(this));
 
-        var r = {
+          var r = {
             name: "n",
             target: n('<div class="n resizebtn" style="cursor: n-resize;top: -12px;margin-left: -4px;left: 50%;"></div>')
           },
-          a = {
-            name: "s",
-            target: n('<div class="s resizebtn" style="cursor: s-resize;bottom: -12px;margin-left: -4px;left: 50%;"></div>')
-          },
-          p = {
-            name: "w",
-            target: n('<div class="w resizebtn" style="cursor: w-resize;left: -12px;margin-top: -4px;top: 50%;"></div>')
-          },
-          s = {
-            name: "e",
-            target: n('<div class="e resizebtn" style="cursor: e-resize; top: 50%; margin-top:-4px;right: -12px;"></div>')
-          },
-          l = {
-            name: "ne",
-            target: n('<div class="ne resizebtn" style="cursor: ne-resize;top: -12px;right: -12px;"></div>')
-          },
-          u = {
-            name: "nw",
-            target: n('<div class="nw resizebtn" style=" cursor: nw-resize;top: -12px;left:-12px;"></div>')
-          },
-          d = {
-            name: "se",
-            target: n('<div class="se resizebtn" style="cursor: se-resize;bottom:-12px;right: -12px;"></div>')
-          },
-          c = {
-            name: "sw",
-            target: n('<div class="sw resizebtn" style="cursor: sw-resize;bottom: -12px;left: -12px;"></div>')
-          },
-          r = {
-            name: "r",
-            target: n('<div class="r resizebtn" style="cursor:url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABvUExURUdwTP///9XV1R0dHf///3Nzc////////////////1ZWVq+vr/T09PX19QQEBP///////8XFxf///////////wYGBv///+jo6P///4aGhqioqMzMzP///2BgYP///////////zExMf///wAAAP///xLps0AAAAAjdFJOUwCxxOdixRDmzSDMv8/Z+tz5wWpXWPk3zALCv8KnyXZVMNuNPnv3CwAAAJ1JREFUKM/NkckOwyAMRFkDBMhC9qWr+//fWCIV1WlzrjoXS36yxmMT8hdqqKoUvRAjMtw22kvecem1GjTuK1vApmI+wQMBbQFy5li+QQRaX4AtRX+vbntAJeRl9HTTx4TiwESs61DXNUPmVQeujzVrQwh43TTxpeRBslVfMUhbiXKWyiAwvnIsMcdyJkfJYdpNvG/ltDm+bjP+8KFP8ggL+zQLGxwAAAAASUVORK5CYII=\') 14 14,alias;top: -16px;margin-left: -4px;left: 50%;"></div>')
-          },
-          sizeBox = n('<div class="size-box" style="position: absolute;left:-2px;"></div>'),
-          h = function h() {
-            var t = [],
-              i = e.options.showPoints;
-            return n.each([r, a, p, s, l, u, d, c], function (e, o) {
-              n.inArray(o.name, i) > -1 && t.push(o.target);
-            }), t;
-          };
-        e.refreshSizeBox(void 0, sizeBox, o);
-        e.addHandlerCss(h()), e.appendHandler(h(), o), e.bindResizeEvent(o, n(this));
-        var f = n(this);
-        n(o).on("mousedown", ".resizebtn", function () {
-          f.addClass("resizeing");
-        }), n(".easyui-droppable").on("mouseup", function () {
-          f.removeClass("resizeing");
-        }), e.bindTrigger(n(this));
-      }), e.bindHidePanel();
-    },
-    addHandlerCss: function addHandlerCss(t) {
-      for (var e = 0; e < t.length; e++) {
-        t[e].css({
-          position: "absolute",
-          width: "8px",
-          height: "8px",
-          background: "#ff6600",
-          "border-radius": "50%"
-        });
-      }
-    },
-    appendHandler: function appendHandler(t, e) {
-      e.find(".resize-panel").remove()
-      for (var n = 0; n < t.length; n++) {
-        e.append(t[n]);
-      }
-    },
-    refreshSizeBox: function refreshSizeBox(t, box, o) {
-      if (!this.options.showSizeBox) return;
-      if (box) {
-        o.append(box);
-      } else {
-        if (t && t.length) {
-          var style = t[0].style;
-          var sizeBox = t.children("div[panelindex]").find(".size-box");
-          if (sizeBox) {
-            sizeBox.text(style.width + ' x ' + style.height);
-            sizeBox.css('top', -(sizeBox.outerHeight()));
+            a = {
+              name: "s",
+              target: n('<div class="s resizebtn" style="cursor: s-resize;bottom: -12px;margin-left: -4px;left: 50%;"></div>')
+            },
+            p = {
+              name: "w",
+              target: n('<div class="w resizebtn" style="cursor: w-resize;left: -12px;margin-top: -4px;top: 50%;"></div>')
+            },
+            s = {
+              name: "e",
+              target: n('<div class="e resizebtn" style="cursor: e-resize; top: 50%; margin-top:-4px;right: -12px;"></div>')
+            },
+            l = {
+              name: "ne",
+              target: n('<div class="ne resizebtn" style="cursor: ne-resize;top: -12px;right: -12px;"></div>')
+            },
+            u = {
+              name: "nw",
+              target: n('<div class="nw resizebtn" style=" cursor: nw-resize;top: -12px;left:-12px;"></div>')
+            },
+            d = {
+              name: "se",
+              target: n('<div class="se resizebtn" style="cursor: se-resize;bottom:-12px;right: -12px;"></div>')
+            },
+            c = {
+              name: "sw",
+              target: n('<div class="sw resizebtn" style="cursor: sw-resize;bottom: -12px;left: -12px;"></div>')
+            },
+            r = {
+              name: "r",
+              target: n('<div class="r resizebtn" style="cursor:url(\'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAABvUExURUdwTP///9XV1R0dHf///3Nzc////////////////1ZWVq+vr/T09PX19QQEBP///////8XFxf///////////wYGBv///+jo6P///4aGhqioqMzMzP///2BgYP///////////zExMf///wAAAP///xLps0AAAAAjdFJOUwCxxOdixRDmzSDMv8/Z+tz5wWpXWPk3zALCv8KnyXZVMNuNPnv3CwAAAJ1JREFUKM/NkckOwyAMRFkDBMhC9qWr+//fWCIV1WlzrjoXS36yxmMT8hdqqKoUvRAjMtw22kvecem1GjTuK1vApmI+wQMBbQFy5li+QQRaX4AtRX+vbntAJeRl9HTTx4TiwESs61DXNUPmVQeujzVrQwh43TTxpeRBslVfMUhbiXKWyiAwvnIsMcdyJkfJYdpNvG/ltDm+bjP+8KFP8ggL+zQLGxwAAAAASUVORK5CYII=\') 14 14,alias;top: -16px;margin-left: -4px;left: 50%;"></div>')
+            },
+            sizeBox = n('<div class="size-box" style="position: absolute;left:-2px;"></div>'),
+            h = function h () {
+              var t = [],
+                i = e.options.showPoints;
+              return n.each([r, a, p, s, l, u, d, c], function (e, o) {
+                n.inArray(o.name, i) > -1 && t.push(o.target);
+              }), t;
+            };
+          e.refreshSizeBox(void 0, sizeBox, o);
+          e.addHandlerCss(h()), e.appendHandler(h(), o), e.bindResizeEvent(o, n(this));
+          var f = n(this);
+          n(o).on("mousedown", ".resizebtn", function () {
+            f.addClass("resizeing");
+          }), n(".easyui-droppable").on("mouseup", function () {
+            f.removeClass("resizeing");
+          }), e.bindTrigger(n(this));
+        }), e.bindHidePanel();
+      },
+      addHandlerCss: function addHandlerCss (t) {
+        for (var e = 0; e < t.length; e++) {
+          t[e].css({
+            position: "absolute",
+            width: "8px",
+            height: "8px",
+            background: "#ff6600",
+            "border-radius": "50%"
+          });
+        }
+      },
+      appendHandler: function appendHandler (t, e) {
+        e.find(".resize-panel").remove()
+        for (var n = 0; n < t.length; n++) {
+          e.append(t[n]);
+        }
+      },
+      refreshSizeBox: function refreshSizeBox (t, box, o) {
+        if (!this.options.showSizeBox) return;
+        if (box) {
+          o.append(box);
+        } else {
+          if (t && t.length) {
+            var style = t[0].style;
+            var sizeBox = t.children("div[panelindex]").find(".size-box");
+            if (sizeBox) {
+              sizeBox.text(style.width + ' x ' + style.height);
+              sizeBox.css('top', -(sizeBox.outerHeight()));
+            }
           }
         }
-      }
-    },
-    triggerResize: function triggerResize(t, n) {
-      // 处理按住 ctrl / command 点击元素 多选
-      if (!(n.ctrlKey || n.metaKey)) {
-        t.siblings().children("div[panelindex]").css({
-          display: "none"
-        })
-      }
-      t.children("div[panelindex]").css({
-        display: "block"
-      });
-      this.refreshSizeBox(t)
-    },
-    bindResizeEvent: function bindResizeEvent(t, e) {
-      var i = this,
-        o = 0,
-        r = 0,
-        a = t.width(),
-        p = t.height(),
-        s = t.offset().left,
-        l = t.offset().top,
-        u = i.options.noContainer ? n(e) : t.parent(),
-        d = !1; // 右
-      t.on("mousedown", ".e", function (e) {
-        o = e.pageX, a = t.width(), d = !0;
-      });
-      var c = !1; // 下
-      t.on("mousedown", ".s", function (e) {
-        r = e.pageY, p = t.height(), c = !0;
-      });
-      var h = !1; // 左
-      t.on("mousedown", ".w", function (e) {
-        o = e.pageX, a = t.width(), h = !0, s = u.offset().left;
-      });
-      var f = !1; // 上
-      t.on("mousedown", ".n", function (e) {
-        r = e.pageY, p = t.height(), f = !0, l = u.offset().top;
-      });
-      var g = !1; // 右上
-      t.on("mousedown", ".ne", function (e) {
-        o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), g = !0, l = u.offset().top;
-      });
-      var m = !1; // 左上
-      t.on("mousedown", ".nw", function (e) {
-        o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), l = u.offset().top, s = u.offset().left, m = !0;
-      });
-      var v = !1; // 右下
-      t.on("mousedown", ".se", function (e) {
-        o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), v = !0;
-      });
-      var y = !1; // 左下
-      t.on("mousedown", ".sw", function (e) {
-        o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), y = !0, s = u.offset().left;
-      });
-      var rt = !1; // 旋转
-      t.on("mousedown", ".r", function (e) {
-        o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), rt = !0, s = a / 2 + u.offset().left, l = p / 2 + u.offset().top;
-      });
-      t.on("dblclick", ".r", function (e) {
-        u.css({transform: "rotate(" + 0 + "deg)"});
-        i.options.onResize(e, void 0, void 0, void 0, void 0, 0);
-      });
-      var b = !1;
-      t.on("mousedown", function (t) {
-        i.options.onBeforeResize(), o = t.pageX, r = t.pageY, l = u.offset().top, s = u.offset().left, b = !1;
-      }), n(i.options.stage).on("mousemove", function (e) {
-        if (d) { // 右
-          var n = (e.pageX - o) / i.options.getScale();
-          t.css({
-            width: "100%"
-          }), u.css({
-            width: i.numHandlerText(a + n)
-          }), i.options.onResize(e, void 0, i.numHandler(a + n), void 0, void 0);
-        } else if (c) { // 下
-          var E = (e.pageY - r) / i.options.getScale();
-          t.css({
-            height: "100%"
-          }), u.css({
-            height: i.numHandlerText(p + E)
-          }), i.options.onResize(e, i.numHandler(p + E), void 0, void 0, void 0);
-        } else if (rt) { // 旋转
-          t.css({height: "100%"});
-          var eo = e.pageX, er = e.pageY;
-          var direct = (eo - o) * 360 / 100;
-          o = e.pageX
-          var lastAngle = (u[0].style.transform && parseInt(u[0].style.transform.slice(7, -1))) || 0;
-          var R = lastAngle + direct;
-          if (Math.abs(R) > 360) {
-            R = R % 360
-          }
-          u.css({transform: "rotate(" + R + "deg)"});
-          i.options.onResize(e, void 0, void 0, void 0, void 0, R);
-        } else if (h) { // 左
-          (n = (e.pageX - o) / i.options.getScale(), t.css({
-            width: "100%"
-          }), u.css({
-            width: i.numHandlerText(a - n),
-            left: i.numHandlerText(i.options.noDrag ? void 0 : i.numHandler(s + n))
-          }), i.options.onResize(e, void 0, i.numHandler(a - n), void 0, i.options.noDrag ? void 0 : i.numHandler(s + n)))
-        } else if (f) { // 上
-          (E = (e.pageY - r) / i.options.getScale(), t.css({
-            height: "100%"
-          }), u.css({
-            height: i.numHandlerText(p - E),
-            top: i.numHandlerText(i.options.noDrag ? void 0 : l + E)
-          }), i.options.onResize(e, i.numHandler(p - E), void 0, i.options.noDrag ? void 0 : i.numHandler(l + E), void 0))
-        } else if (g) { // 右上
-          (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), t.css({
-            height: "100%",
-            width: "100%"
-          }), u.css({
-            height: i.numHandlerText(p - E),
-            top: i.numHandlerText(i.options.noDrag ? void 0 : l + E),
-            width: i.numHandlerText(a + n)
-          }), i.options.onResize(e, i.numHandler(p - E), i.numHandler(a + n), i.options.noDrag ? void 0 : i.numHandler(l + E), void 0))
-        } else if (m) { // 左上
-          (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), t.css({
-            height: "100%",
-            width: "100%"
-          }), u.css({
-            height: i.numHandlerText(p - E),
-            top: i.numHandlerText(i.options.noDrag ? void 0 : l + E),
-            width: i.numHandlerText(a - n),
-            left: i.numHandlerText(i.options.noDrag ? void 0 : s + n)
-          }), i.options.onResize(e, i.numHandler(p - E), i.numHandler(a - n), i.options.noDrag ? void 0 : i.numHandler(l + E), i.options.noDrag ? void 0 : i.numHandler(s + n)))
-        } else if (v) { // 右下
-          (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale()),
-            t.css({width: "100%", height: "100%"});
-          if (e.shiftKey) {
-            u.css({width: i.numHandlerText(a + n), height: i.numHandlerText(p + E)});
-            i.options.onResize(e, i.numHandler(p + E), i.numHandler(a + n), void 0, void 0);
-          } else {
-            // 宽高比
-            var ratio = p / a;
-            var width = a + n, height = p + E;
-            console.log('ratio', ratio)
-            height = width * ratio;
-            u.css({width: i.numHandlerText(width), height: i.numHandlerText(height)});
-            i.options.onResize(e, i.numHandler(height), i.numHandler(width), void 0, void 0);
-          }
-        } else if (y) { // 左下
-          (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), t.css({
-            width: "100%",
-            height: "100%"
-          }), u.css({
-            width: i.numHandlerText(a - n),
-            left: i.numHandlerText(i.options.noDrag ? void 0 : s + n),
-            height: i.numHandlerText(p + E)
-          }), i.options.onResize(e, i.numHandler(p + E), i.numHandler(a - n), i.numHandler(otundefinedop), i.options.noDrag ? void 0 : i.numHandler(s + n)))
-        } else { // 按下
-          b && (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), u.css({
-            left: i.numHandlerText(i.options.noDrag ? void 0 : s + n),
-            top: i.numHandlerText(i.options.noDrag ? void 0 : l + E)
-          }), i.options.onResize(e, void 0, void 0, i.options.noDrag ? void 0 : i.numHandler(l + E), i.options.noDrag ? void 0 : i.numHandler(s + n)))
+      },
+      triggerResize: function triggerResize (t, n) {
+        // 处理按住 ctrl / command 点击元素 多选
+        if (!(n.ctrlKey || n.metaKey)) {
+          t.siblings().children("div[panelindex]").css({
+            display: "none"
+          })
         }
-        ;
-      }).on("mouseup", function (t) {
-        // i.options.onStopResize(rt);
-        // 当某个 '控制点' 按下时 (每个'控制点'按下状态是独立的)
-        if ((d || c || h || f || g || m || y || v || b || rt)) {
-          i.options.onStopResize(rt);
-        }
-        d = !1, c = !1, h = !1, f = !1, g = !1, m = !1, y = !1, v = !1, b = !1, rt = !1;
-      });
-    },
-    bindTrigger: function bindTrigger(t) {
-      var e = this;
-      t.on("click", function (_n) {
-        _n.stopPropagation(), e.triggerResize(t, _n), n(".mouseRect").remove();
-      });
-    },
-    bindHidePanel: function bindHidePanel(t) {
-      if (i.maxPanelIndex < 2) {
-        var e = this.options.stage;
-        n(e).bind("click", function (t) {
-          // 仅点击设计面板时清除多选元素
-          if (t.target.className && _typeof(t.target.className) == "string" && t.target.className.includes("design")) {
-            t.stopPropagation(), n("div[panelindex]").css({
-              display: "none"
-            });
+        t.children("div[panelindex]").css({
+          display: "block"
+        });
+        this.refreshSizeBox(t)
+      },
+      bindResizeEvent: function bindResizeEvent (t, e) {
+        var i = this,
+          o = 0,
+          r = 0,
+          a = t.width(),
+          p = t.height(),
+          s = t.offset().left,
+          l = t.offset().top,
+          u = i.options.noContainer ? n(e) : t.parent(),
+          d = !1; // 右
+        t.on("mousedown", ".e", function (e) {
+          o = e.pageX, a = t.width(), d = !0;
+        });
+        var c = !1; // 下
+        t.on("mousedown", ".s", function (e) {
+          r = e.pageY, p = t.height(), c = !0;
+        });
+        var h = !1; // 左
+        t.on("mousedown", ".w", function (e) {
+          o = e.pageX, a = t.width(), h = !0, s = u.offset().left;
+        });
+        var f = !1; // 上
+        t.on("mousedown", ".n", function (e) {
+          r = e.pageY, p = t.height(), f = !0, l = u.offset().top;
+        });
+        var g = !1; // 右上
+        t.on("mousedown", ".ne", function (e) {
+          o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), g = !0, l = u.offset().top;
+        });
+        var m = !1; // 左上
+        t.on("mousedown", ".nw", function (e) {
+          o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), l = u.offset().top, s = u.offset().left, m = !0;
+        });
+        var v = !1; // 右下
+        t.on("mousedown", ".se", function (e) {
+          o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), v = !0;
+        });
+        var y = !1; // 左下
+        t.on("mousedown", ".sw", function (e) {
+          o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), y = !0, s = u.offset().left;
+        });
+        var rt = !1; // 旋转
+        t.on("mousedown", ".r", function (e) {
+          o = e.pageX, r = e.pageY, a = t.width(), p = t.height(), rt = !0, s = a / 2 + u.offset().left, l = p / 2 + u.offset().top;
+        });
+        t.on("dblclick", ".r", function (e) {
+          u.css({ transform: "rotate(" + 0 + "deg)" });
+          i.options.onResize(e, void 0, void 0, void 0, void 0, 0);
+        });
+        var b = !1;
+        t.on("mousedown", function (t) {
+          i.options.onBeforeResize(), o = t.pageX, r = t.pageY, l = u.offset().top, s = u.offset().left, b = !1;
+        }), n(i.options.stage).on("mousemove", function (e) {
+          if (d) { // 右
+            var n = (e.pageX - o) / i.options.getScale();
+            t.css({
+              width: "100%"
+            }), u.css({
+              width: i.numHandlerText(a + n)
+            }), i.options.onResize(e, void 0, i.numHandler(a + n), void 0, void 0);
+          } else if (c) { // 下
+            var E = (e.pageY - r) / i.options.getScale();
+            t.css({
+              height: "100%"
+            }), u.css({
+              height: i.numHandlerText(p + E)
+            }), i.options.onResize(e, i.numHandler(p + E), void 0, void 0, void 0);
+          } else if (rt) { // 旋转
+            t.css({ height: "100%" });
+            var eo = e.pageX, er = e.pageY;
+            var direct = (eo - o) * 360 / 100;
+            o = e.pageX
+            var lastAngle = (u[0].style.transform && parseInt(u[0].style.transform.slice(7, -1))) || 0;
+            var R = lastAngle + direct;
+            if (Math.abs(R) > 360) {
+              R = R % 360
+            }
+            u.css({ transform: "rotate(" + R + "deg)" });
+            i.options.onResize(e, void 0, void 0, void 0, void 0, R);
+          } else if (h) { // 左
+            (n = (e.pageX - o) / i.options.getScale(), t.css({
+              width: "100%"
+            }), u.css({
+              width: i.numHandlerText(a - n),
+              left: i.numHandlerText(i.options.noDrag ? void 0 : i.numHandler(s + n))
+            }), i.options.onResize(e, void 0, i.numHandler(a - n), void 0, i.options.noDrag ? void 0 : i.numHandler(s + n)))
+          } else if (f) { // 上
+            (E = (e.pageY - r) / i.options.getScale(), t.css({
+              height: "100%"
+            }), u.css({
+              height: i.numHandlerText(p - E),
+              top: i.numHandlerText(i.options.noDrag ? void 0 : l + E)
+            }), i.options.onResize(e, i.numHandler(p - E), void 0, i.options.noDrag ? void 0 : i.numHandler(l + E), void 0))
+          } else if (g) { // 右上
+            (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), t.css({
+              height: "100%",
+              width: "100%"
+            }), u.css({
+              height: i.numHandlerText(p - E),
+              top: i.numHandlerText(i.options.noDrag ? void 0 : l + E),
+              width: i.numHandlerText(a + n)
+            }), i.options.onResize(e, i.numHandler(p - E), i.numHandler(a + n), i.options.noDrag ? void 0 : i.numHandler(l + E), void 0))
+          } else if (m) { // 左上
+            (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), t.css({
+              height: "100%",
+              width: "100%"
+            }), u.css({
+              height: i.numHandlerText(p - E),
+              top: i.numHandlerText(i.options.noDrag ? void 0 : l + E),
+              width: i.numHandlerText(a - n),
+              left: i.numHandlerText(i.options.noDrag ? void 0 : s + n)
+            }), i.options.onResize(e, i.numHandler(p - E), i.numHandler(a - n), i.options.noDrag ? void 0 : i.numHandler(l + E), i.options.noDrag ? void 0 : i.numHandler(s + n)))
+          } else if (v) { // 右下
+            (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale()),
+              t.css({ width: "100%", height: "100%" });
+            if (e.shiftKey) {
+              u.css({ width: i.numHandlerText(a + n), height: i.numHandlerText(p + E) });
+              i.options.onResize(e, i.numHandler(p + E), i.numHandler(a + n), void 0, void 0);
+            } else {
+              // 宽高比
+              var ratio = p / a;
+              var width = a + n, height = p + E;
+              console.log('ratio', ratio)
+              height = width * ratio;
+              u.css({ width: i.numHandlerText(width), height: i.numHandlerText(height) });
+              i.options.onResize(e, i.numHandler(height), i.numHandler(width), void 0, void 0);
+            }
+          } else if (y) { // 左下
+            (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), t.css({
+              width: "100%",
+              height: "100%"
+            }), u.css({
+              width: i.numHandlerText(a - n),
+              left: i.numHandlerText(i.options.noDrag ? void 0 : s + n),
+              height: i.numHandlerText(p + E)
+            }), i.options.onResize(e, i.numHandler(p + E), i.numHandler(a - n), i.numHandler(otundefinedop), i.options.noDrag ? void 0 : i.numHandler(s + n)))
+          } else { // 按下
+            b && (n = (e.pageX - o) / i.options.getScale(), E = (e.pageY - r) / i.options.getScale(), u.css({
+              left: i.numHandlerText(i.options.noDrag ? void 0 : s + n),
+              top: i.numHandlerText(i.options.noDrag ? void 0 : l + E)
+            }), i.options.onResize(e, void 0, void 0, i.options.noDrag ? void 0 : i.numHandler(l + E), i.options.noDrag ? void 0 : i.numHandler(s + n)))
           }
+          ;
+        }).on("mouseup", function (t) {
+          // i.options.onStopResize(rt);
+          // 当某个 '控制点' 按下时 (每个'控制点'按下状态是独立的)
+          if ((d || c || h || f || g || m || y || v || b || rt)) {
+            i.options.onStopResize(rt);
+          }
+          d = !1, c = !1, h = !1, f = !1, g = !1, m = !1, y = !1, v = !1, b = !1, rt = !1;
+        });
+      },
+      bindTrigger: function bindTrigger (t) {
+        var e = this;
+        t.on("click", function (_n) {
+          _n.stopPropagation(), e.triggerResize(t, _n), n(".mouseRect").remove();
+        });
+      },
+      bindHidePanel: function bindHidePanel (t) {
+        if (i.maxPanelIndex < 2) {
+          var e = this.options.stage;
+          n(e).bind("click", function (t) {
+            // 仅点击设计面板时清除多选元素
+            if (t.target.className && _typeof(t.target.className) == "string" && t.target.className.includes("design")) {
+              t.stopPropagation(), n("div[panelindex]").css({
+                display: "none"
+              });
+            }
+          });
+        }
+      }
+    }, n.fn.extend({
+      hireizeable: function hireizeable (t) {
+        return this.each(function () {
+          var e,
+            i = n.data(this, "hireizeable");
+          e = i ? n.extend({}, i.options, t || {}) : n.extend({}, n.fn.hireizeable.defaults, t || {});
+          n.data(this, "hireizeable", {
+            options: e
+          }), new o({
+            target: this,
+            onResize: function onResize (t, e, n, i, o) {
+            },
+            onStopResize: function onStopResize (t, e, n, i, o) {
+            }
+          });
         });
       }
-    }
-  }, n.fn.extend({
-    hireizeable: function hireizeable(t) {
-      return this.each(function () {
-        var e,
-          i = n.data(this, "hireizeable");
-        e = i ? n.extend({}, i.options, t || {}) : n.extend({}, n.fn.hireizeable.defaults, t || {});
-        n.data(this, "hireizeable", {
-          options: e
-        }), new o({
-          target: this,
-          onResize: function onResize(t, e, n, i, o) {
-          },
-          onStopResize: function onStopResize(t, e, n, i, o) {
-          }
-        });
-      });
-    }
-  }), n.fn.hireizeable.defaults = {
-    stage: document,
-    reizeUnit: "pt",
-    minResize: 1.5,
-    showSizeBox: !0,
-    showPoints: ["s", "e"],
-    noContainer: !1,
-    onBeforeResize: function onBeforeResize(t, e, n, i, o) {
-    },
-    onResize: function onResize(t, e, n, i, o) {
-    },
-    onStopResize: function onStopResize(t, e, n, i, o) {
-    },
-    noDrag: !1
-  };
+    }), n.fn.hireizeable.defaults = {
+      stage: document,
+      reizeUnit: "pt",
+      minResize: 1.5,
+      showSizeBox: !0,
+      showPoints: ["s", "e"],
+      noContainer: !1,
+      onBeforeResize: function onBeforeResize (t, e, n, i, o) {
+      },
+      onResize: function onResize (t, e, n, i, o) {
+      },
+      onStopResize: function onStopResize (t, e, n, i, o) {
+      },
+      noDrag: !1
+    };
 }, function (t, e) {
   var n, i;
   jQuery, n = "connected", i = "reconnecting", window.hiwebSocket = {
@@ -6858,44 +6970,44 @@ var hiprint = function (t) {
     reconnectTimeout: 6e4,
     reconnectWindowSetTimeout: null,
     reconnectDelay: 2e3,
-    supportsKeepAlive: function supportsKeepAlive() {
+    supportsKeepAlive: function supportsKeepAlive () {
       return !0;
     },
-    hasIo: function hasIo(t) {
+    hasIo: function hasIo (t) {
       return window.io;
     },
-    send: function send(t) {
+    send: function send (t) {
       try {
         this.socket.emit("news", t);
       } catch (e) {
         console.log("send data error:" + (t || "") + JSON.stringify(e));
       }
     },
-    getPrinterList: function getPrinterList() {
+    getPrinterList: function getPrinterList () {
       return this.printerList;
     },
-    refreshPrinterList: function refreshPrinterList() {
+    refreshPrinterList: function refreshPrinterList () {
       try {
         this.socket.emit("refreshPrinterList");
       } catch (e) {
         console.log("refreshPrinterList error:" + JSON.stringify(e));
       }
     },
-    getAddress: function getAddress(type, ...args) {
+    getAddress: function getAddress (type, ...args) {
       try {
         this.socket.emit("address", type, ...args);
       } catch (e) {
         console.log("getAddress error:" + JSON.stringify(e));
       }
     },
-    ippPrint: function ippPrint(options) {
+    ippPrint: function ippPrint (options) {
       try {
         this.socket.emit("ippPrint", options);
       } catch (e) {
         console.log("ippPrint error:" + JSON.stringify(e));
       }
     },
-    ippRequest: function ippRequest(options) {
+    ippRequest: function ippRequest (options) {
       try {
         this.socket.emit("ippRequest", options);
       } catch (e) {
@@ -6907,7 +7019,7 @@ var hiprint = function (t) {
       this.stop()
       this.start()
     },
-    start: function start(cb) {
+    start: function start (cb) {
       var _this = this;
 
       var t = this;
@@ -6922,13 +7034,13 @@ var hiprint = function (t) {
           t.printerList = e;
           hinnn.event.trigger("printerList", e);
         }), _this.socket.on("address", function (type, addr, e) {
-          hinnn.event.trigger("address_" + type, {'addr': addr, 'e': e});
+          hinnn.event.trigger("address_" + type, { 'addr': addr, 'e': e });
         }), _this.socket.on("ippPrinterConnected", function (printer) {
           hinnn.event.trigger("ippPrinterConnected", printer);
         }), _this.socket.on("ippPrinterCallback", function (err, res) {
-          hinnn.event.trigger("ippPrinterCallback", {'err': err, 'res': res});
+          hinnn.event.trigger("ippPrinterCallback", { 'err': err, 'res': res });
         }), _this.socket.on("ippRequestCallback", function (err, res) {
-          hinnn.event.trigger("ippRequestCallback", {'err': err, 'res': res});
+          hinnn.event.trigger("ippRequestCallback", { 'err': err, 'res': res });
         }), t.state = n;
         cb && cb(true, e);
       }), this.socket.on("disconnect", function () {
@@ -6936,13 +7048,13 @@ var hiprint = function (t) {
         cb && cb(false);
       })) : console.log("WebSocket start fail"), cb && cb(false);
     },
-    reconnect: function reconnect() {
+    reconnect: function reconnect () {
       this.state !== n && this.state !== i || (this.stop(), this.ensureReconnectingState() && (console.log("Websocket reconnecting."), this.start()));
     },
-    stop: function stop() {
+    stop: function stop () {
       this.socket && (console.log("Closing the Websocket."), this.socket.close(), this.socket = null, this.printerList = []);
     },
-    ensureReconnectingState: function ensureReconnectingState() {
+    ensureReconnectingState: function ensureReconnectingState () {
       return this.state = i, this.state === i;
     }
   };
@@ -7002,7 +7114,7 @@ var hiprint = function (t) {
   var i,
     o,
     r = {},
-    a = (i = function i() {
+    a = (i = function i () {
       return window && document && document.all && !window.atob;
     }, function () {
       return void 0 === o && (o = i.apply(this, arguments)), o;
@@ -7033,7 +7145,7 @@ var hiprint = function (t) {
     u = [],
     d = n(31);
 
-  function c(t, e) {
+  function c (t, e) {
     for (var n = 0; n < t.length; n++) {
       var i = t[n],
         o = r[i.id];
@@ -7064,7 +7176,7 @@ var hiprint = function (t) {
     }
   }
 
-  function h(t, e) {
+  function h (t, e) {
     for (var n = [], i = {}, o = 0; o < t.length; o++) {
       var r = t[o],
         a = e.base ? r[0] + e.base : r[0],
@@ -7082,7 +7194,7 @@ var hiprint = function (t) {
     return n;
   }
 
-  function f(t, e) {
+  function f (t, e) {
     var n = p(t.insertInto);
     if (!n) throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");
     var i = u[u.length - 1];
@@ -7093,14 +7205,14 @@ var hiprint = function (t) {
     }
   }
 
-  function g(t) {
+  function g (t) {
     if (null === t.parentNode) return !1;
     t.parentNode.removeChild(t);
     var e = u.indexOf(t);
     e >= 0 && u.splice(e, 1);
   }
 
-  function m(t) {
+  function m (t) {
     var e = document.createElement("style");
 
     if (void 0 === t.attrs.type && (t.attrs.type = "text/css"), void 0 === t.attrs.nonce) {
@@ -7115,13 +7227,13 @@ var hiprint = function (t) {
     return v(e, t.attrs), f(t, e), e;
   }
 
-  function v(t, e) {
+  function v (t, e) {
     Object.keys(e).forEach(function (n) {
       t.setAttribute(n, e[n]);
     });
   }
 
-  function y(t, e) {
+  function y (t, e) {
     var n, i, o, r;
 
     if (e.transform && t.css) {
@@ -7143,11 +7255,11 @@ var hiprint = function (t) {
       (e.convertToAbsoluteUrls || r) && (i = d(i));
       o && (i += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(o)))) + " */");
       var a = new Blob([i], {
-          type: "text/css"
-        }),
+        type: "text/css"
+      }),
         p = t.href;
       t.href = URL.createObjectURL(a), p && URL.revokeObjectURL(p);
-    }.bind(null, n, e), o = function o() {
+    }.bind(null, n, e), o = function o () {
       g(n), n.href && URL.revokeObjectURL(n.href);
     }) : (n = m(e), i = function (t, e) {
       var n = e.css,
@@ -7160,7 +7272,7 @@ var hiprint = function (t) {
 
         t.appendChild(document.createTextNode(n));
       }
-    }.bind(null, n), o = function o() {
+    }.bind(null, n), o = function o () {
       g(n);
     });
 
@@ -7179,7 +7291,7 @@ var hiprint = function (t) {
     return c(n, e), function (t) {
       for (var i = [], o = 0; o < n.length; o++) {
         var a = n[o];
-        (p = r[a.id]).refs-- , i.push(p);
+        (p = r[a.id]).refs--, i.push(p);
       }
 
       t && c(h(t, e), e);
@@ -7203,7 +7315,7 @@ var hiprint = function (t) {
       return b[t] = e, b.filter(Boolean).join("\n");
     });
 
-  function T(t, e, n, i) {
+  function T (t, e, n, i) {
     var o = n ? "" : i.css;
     if (t.styleSheet) t.styleSheet.cssText = E(e, o); else {
       var r = document.createTextNode(o),
@@ -7230,18 +7342,18 @@ var hiprint = function (t) {
   };
 }, function (t, e) {
   var n, i;
-  window, document, n = jQuery, (i = function i(t, e) {
+  window, document, n = jQuery, (i = function i (t, e) {
     this.init(t, e);
   }).prototype = {
-    init: function init(t, e) {
+    init: function init (t, e) {
       this.ele = t, this.defaults = {
         menu: [{
           text: "text",
           menus: [{}, {}],
-          callback: function callback() {
+          callback: function callback () {
           }
         }],
-        target: function target(t) {
+        target: function target (t) {
         },
         width: 100,
         itemHeight: 28,
@@ -7251,7 +7363,7 @@ var hiprint = function (t) {
         hoverBgColor: "#f5f5f5"
       }, this.opts = n.extend(!0, {}, this.defaults, e), this.random = new Date().getTime() + parseInt(1e3 * Math.random()), this.eventBind();
     },
-    renderMenu: function renderMenu(t, e) {
+    renderMenu: function renderMenu (t, e) {
       var n = this,
         i = e;
 
@@ -7268,13 +7380,13 @@ var hiprint = function (t) {
 
       e || $("body").append(i).find(".hicontextmenuroot").hide();
     },
-    setPosition: function setPosition(t) {
+    setPosition: function setPosition (t) {
       $(".hicontextmenuroot").css({
         left: t.pageX + 2,
         top: t.pageY + 2
       }).show();
     },
-    eventBind: function eventBind() {
+    eventBind: function eventBind () {
       var t = this;
       this.ele.on("contextmenu", function (e) {
         $(".hicontextmenuroot").remove(), e.preventDefault(), t.renderMenu(t.opts.menus), t.setPosition(e), t.opts.target && "function" == typeof t.opts.target && t.opts.target(n(this));
@@ -7294,13 +7406,13 @@ var hiprint = function (t) {
     o = n(0);
   n(26);
   window.hiLocalStorage = (i = window.localStorage || null, {
-    saveLocalData: function saveLocalData(t, e) {
+    saveLocalData: function saveLocalData (t, e) {
       return !(!i || !e || (i.setItem(t, e), 0));
     },
-    getLocalData: function getLocalData(t) {
+    getLocalData: function getLocalData (t) {
       return i ? i.getItem(t) : null;
     },
-    removeItem: function removeItem(t) {
+    removeItem: function removeItem (t) {
       i && i.removeItem(t);
     }
   });
@@ -7308,12 +7420,12 @@ var hiprint = function (t) {
 
   var _r,
     a = function () {
-      function t() {
+      function t () {
         this.allElementTypes = [];
       }
 
       return Object.defineProperty(t, "instance", {
-        get: function get() {
+        get: function get () {
           return t._instance || (t._instance = new t()), t._instance;
         },
         enumerable: !0,
@@ -7355,7 +7467,7 @@ var hiprint = function (t) {
     p = n(1),
     s = n(2),
     l = function () {
-      function t() {
+      function t () {
       }
 
       return t.prototype.createPrintElementTypeHtml = function (t, e) {
@@ -7384,7 +7496,7 @@ var hiprint = function (t) {
       };
     }(),
     h = function () {
-      function t(t) {
+      function t (t) {
         var e = this;
         this.text = t.text, this.field = t.field, this.fields = t.fields, this.title = t.title, this.tid = t.tid, this.data = t.data, this.styler = t.styler, this.formatter = t.formatter, this.type = t.type, this.options = t.options, this.editable = t.editable != void 0 ? t.editable : !0, this.columnDisplayEditable = t.columnDisplayEditable != void 0 ? t.columnDisplayEditable : !0, this.columnDisplayIndexEditable = t.columnDisplayIndexEditable != void 0 ? t.columnDisplayIndexEditable : !0, this.columnTitleEditable = t.columnTitleEditable != void 0 ? t.columnTitleEditable : !0, this.columnResizable = t.columnResizable != void 0 ? t.columnResizable : !0, this.columnAlignEditable = t.columnAlignEditable != void 0 ? t.columnAlignEditable : !0, this.columns = [], (t.columns || []).forEach(function (t, n) {
           e.columns.push(e.createTableColumnArray(t));
@@ -7449,7 +7561,7 @@ var hiprint = function (t) {
     }(),
     f = n(4),
     g = n(3),
-    m = (_r = function r(t, e) {
+    m = (_r = function r (t, e) {
       return (_r = Object.setPrototypeOf || _instanceof({
         __proto__: []
       }, Array) && function (t, e) {
@@ -7460,14 +7572,14 @@ var hiprint = function (t) {
         }
       })(t, e);
     }, function (t, e) {
-      function n() {
+      function n () {
         this.constructor = t;
       }
 
       _r(t, e), t.prototype = null === e ? Object.create(e) : (n.prototype = e.prototype, new n());
     }),
     v = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new g.a(n), i.options.setDefault(new g.a(p.a.instance.image.default).getPrintElementOptionEntity()), i;
       }
@@ -7499,7 +7611,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     y = function () {
-      var _t4 = function t(e, n) {
+      var _t4 = function t (e, n) {
         return (_t4 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -7512,7 +7624,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -7520,7 +7632,7 @@ var hiprint = function (t) {
       };
     }(),
     b = function (t) {
-      function e(e) {
+      function e (e) {
         var n = this;
         return e = e || {}, (n = t.call(this, e) || this).leftSpaceRemoved = e.leftSpaceRemoved, n;
       }
@@ -7531,18 +7643,18 @@ var hiprint = function (t) {
     }(g.a),
     E = n(8),
     T = function () {
-      function t(t, pr, scl, e, n, i, r, a, p, s, l, u, d) {
+      function t (t, pr, scl, e, n, i, r, a, p, s, l, u, d) {
         this.panelPageRule = pr, this.scale = scl,
-          this.defaultPaperNumberFormat = "paperNo-paperCount", this.printLine = 0, this.templateId = t, this.width = o.a.mm.toPt(e), this.height = o.a.mm.toPt(n), this.mmwidth = e, this.mmheight = n, this.paperHeader = i >= 0 ? i : 0, this.paperFooter = r, this.contentHeight = r - i, this.createTarget(), this.index = u, this.paperNumberLeft = a || parseInt((this.width - 30).toString()), this.paperNumberTop = p || parseInt((this.height - 22).toString()), this.paperNumberDisabled = s, this.paperNumberFormat = l, this.referenceElement = d ? $.extend({}, d) : new E.a({
-          top: 0,
-          left: 0,
-          height: 0,
-          width: 0,
-          bottomInLastPaper: 0,
-          beginPrintPaperIndex: 0,
-          printTopInPaper: 0,
-          endPrintPaperIndex: 0
-        });
+          this.defaultPaperNumberFormat = "${paperNo}-${paperCount}", this.printLine = 0, this.templateId = t, this.width = o.a.mm.toPt(e), this.height = o.a.mm.toPt(n), this.mmwidth = e, this.mmheight = n, this.paperHeader = i >= 0 ? i : 0, this.paperFooter = r, this.contentHeight = r - i, this.createTarget(), this.index = u, this.paperNumberLeft = a || parseInt((this.width - 30).toString()), this.paperNumberTop = p || parseInt((this.height - 22).toString()), this.paperNumberDisabled = s, this.paperNumberFormat = l, this.referenceElement = d ? $.extend({}, d) : new E.a({
+            top: 0,
+            left: 0,
+            height: 0,
+            width: 0,
+            bottomInLastPaper: 0,
+            beginPrintPaperIndex: 0,
+            printTopInPaper: 0,
+            endPrintPaperIndex: 0
+          });
       }
 
       return t.prototype.subscribePaperBaseInfoChanged = function (t) {
@@ -7611,7 +7723,7 @@ var hiprint = function (t) {
               paperNumberFormat: e.paperNumberFormat,
               paperNumberDisabled: e.paperNumberDisabled
             },
-            callback: function callback(t) {
+            callback: function callback (t) {
               e.paperNumberDisabled = !!t.paperNumberDisabled || void 0, e.paperNumberFormat = t.paperNumberFormat ? t.paperNumberFormat : void 0, e.createPaperNumber(e.formatPaperNumber(1, 1), true), e.resetPaperNumber(e.paperNumberTarget), e.triggerOnPaperBaseInfoChanged();
             }
           });
@@ -7622,23 +7734,23 @@ var hiprint = function (t) {
         var i = this.createPaperNumber(this.formatPaperNumber(t, e));
         this.paperNumberDisabled ? i.hide() : n && this.index % 2 == 1 && (i[0].style.left = "", i.css("right", this.paperNumberLeft + "pt"));
       }, t.prototype.formatPaperNumber = function (t, e) {
-        return (this.paperNumberFormat ? this.paperNumberFormat : this.defaultPaperNumberFormat).replace("paperNo", t.toString()).replace("paperCount", e.toString());
+        return eval("`" + (this.paperNumberFormat ? this.paperNumberFormat : this.defaultPaperNumberFormat).replace("paperNo", t).replace("paperCount", e) + "`");
       }, t.prototype.dragHeadLineOrFootLine = function (t, e, n) {
         var i = this;
         t.hidraggable({
           axis: n ? void 0 : "v",
-          onDrag: function onDrag(t, n, i) {
+          onDrag: function onDrag (t, n, i) {
             e(n, i);
           },
           moveUnit: "pt",
           minMove: p.a.instance.movingDistance,
-          onBeforeDrag: function onBeforeDrag(t) {
+          onBeforeDrag: function onBeforeDrag (t) {
             s.a.instance.draging = !0;
           },
-          getScale: function getScale() {
+          getScale: function getScale () {
             return i.scale || 1;
           },
-          onStopDrag: function onStopDrag(t) {
+          onStopDrag: function onStopDrag (t) {
             i.headerLinetarget.css("top", i.paperHeader + "pt");
             i.footerLinetarget.css("top", i.paperFooter + "pt");
             s.a.instance.draging = !1, i.footerLinetarget.removeClass("hidefooterLinetarget"), i.headerLinetarget.removeClass("hideheaderLinetarget");
@@ -7683,7 +7795,7 @@ var hiprint = function (t) {
     }(),
     P = n(6),
     _ = function () {
-      var _t5 = function t(e, n) {
+      var _t5 = function t (e, n) {
         return (_t5 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -7696,7 +7808,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -7704,7 +7816,7 @@ var hiprint = function (t) {
       };
     }(),
     w = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new b(n), i.options.setDefault(new b(p.a.instance.longText.default).getPrintElementOptionEntity()), i;
       }
@@ -7785,7 +7897,7 @@ var hiprint = function (t) {
           0 == r && d > h && "none" != t.panelPageRule && (d = d - h + t.paperHeader, o.push(new P.a({
             target: void 0,
             printLine: void 0
-          })), r++ , c = t.getContentHeight(r) - (d - t.paperHeader), h = t.getPaperFooter(r));
+          })), r++, c = t.getContentHeight(r) - (d - t.paperHeader), h = t.getPaperFooter(r));
           var f = this.getStringBySpecificHeight(l, c > 0 ? c : 0 == r ? h - d : t.getContentHeight(r), s);
           l.splice(0, f.length);
           var g = void 0,
@@ -7865,7 +7977,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     x = function () {
-      function t() {
+      function t () {
       }
 
       return t.replaceEnterAndNewline = function (t, e) {
@@ -7877,7 +7989,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     C = function () {
-      var _t6 = function t(e, n) {
+      var _t6 = function t (e, n) {
         return (_t6 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -7890,7 +8002,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -7898,7 +8010,7 @@ var hiprint = function (t) {
       };
     }(),
     O = function (t) {
-      function e(e) {
+      function e (e) {
         var n = t.call(this, e) || this;
         return n.title && (n.title = x.replaceEnterAndNewlineAndTab(n.title, "")), n;
       }
@@ -7916,7 +8028,7 @@ var hiprint = function (t) {
       }, e;
     }(g.a),
     H = function () {
-      var _t7 = function t(e, n) {
+      var _t7 = function t (e, n) {
         return (_t7 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -7929,7 +8041,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -7937,7 +8049,7 @@ var hiprint = function (t) {
       };
     }(),
     D = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new O(n), i.options.setDefault(new O(p.a.instance.text.default).getPrintElementOptionEntity()), i;
       }
@@ -7976,7 +8088,7 @@ var hiprint = function (t) {
         var r = this.getFormatter(),
           a = t.find(".hiprint-printElement-text-content"),
           p = "";
-        p = this.getField() ? (this.options.getHideTitle() ? "" : e ? e + "：" : "") + (r ? r(e, n, this.options, this._currenttemplateData, t) : n) : n = r ? r(e, e, this.options, this._currenttemplateData, t) : e;
+        p = this.getField() ? (this.options.getHideTitle() ? "" : e ? e + "：" : "") + hinnn.toUpperCase(this.options.upperCase, (r ? r(e, n, this.options, this._currenttemplateData, t) : n)) : n = hinnn.toUpperCase(this.options.upperCase, (r ? r(e, e, this.options, this._currenttemplateData, t) : e));
         var s = this.options.getTextType();
         if ("text" == s) a.html(p); else {
           if ("barcode" == s) {
@@ -8040,7 +8152,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     I = function () {
-      var _t8 = function t(e, n) {
+      var _t8 = function t (e, n) {
         return (_t8 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8053,7 +8165,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8061,14 +8173,14 @@ var hiprint = function (t) {
       };
     }(),
     R = function (t) {
-      function e(e) {
+      function e (e) {
         return t.call(this, e) || this;
       }
 
       return I(e, t), e;
     }(g.a),
     M = function () {
-      var _t9 = function t(e, n) {
+      var _t9 = function t (e, n) {
         return (_t9 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8081,7 +8193,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8089,7 +8201,7 @@ var hiprint = function (t) {
       };
     }(),
     S = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new R(n), i.options.setDefault(new R(p.a.instance.html.default).getPrintElementOptionEntity()), i;
       }
@@ -8123,7 +8235,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     B = function () {
-      var _t10 = function t(e, n) {
+      var _t10 = function t (e, n) {
         return (_t10 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8136,7 +8248,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8144,7 +8256,7 @@ var hiprint = function (t) {
       };
     }(),
     F = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new g.a(n), i.options.setDefault(new g.a(p.a.instance.vline.default).getPrintElementOptionEntity()), i;
       }
@@ -8165,7 +8277,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     L = function () {
-      var _t11 = function t(e, n) {
+      var _t11 = function t (e, n) {
         return (_t11 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8178,7 +8290,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8186,7 +8298,7 @@ var hiprint = function (t) {
       };
     }(),
     A = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new g.a(n), i.options.setDefault(new g.a(p.a.instance.hline.default).getPrintElementOptionEntity()), i;
       }
@@ -8205,7 +8317,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     z = function () {
-      var _t12 = function t(e, n) {
+      var _t12 = function t (e, n) {
         return (_t12 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8218,7 +8330,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8226,7 +8338,7 @@ var hiprint = function (t) {
       };
     }(),
     k = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new g.a(n), i.options.setDefault(new g.a(p.a.instance.rect.default).getPrintElementOptionEntity()), i;
       }
@@ -8245,7 +8357,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     N = function () {
-      var _t13 = function t(e, n) {
+      var _t13 = function t (e, n) {
         return (_t13 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8258,7 +8370,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8266,7 +8378,7 @@ var hiprint = function (t) {
       };
     }(),
     V = function (t) {
-      function e(e, n) {
+      function e (e, n) {
         var i = t.call(this, e) || this;
         return i.options = new g.a(n), i.options.setDefault(new g.a(p.a.instance.oval.default).getPrintElementOptionEntity()), i;
       }
@@ -8285,7 +8397,7 @@ var hiprint = function (t) {
       }, e;
     }(f.a),
     W = function () {
-      function t() {
+      function t () {
       }
 
       return t.createPrintElement = function (t, e) {
@@ -8293,7 +8405,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     j = function () {
-      function t(t) {
+      function t (t) {
         this.field = t.field, this.fields = t.fields, this.title = t.title, this.text = t.text, this.tid = t.tid, this.data = t.data, this.styler = t.styler, this.formatter = t.formatter, this.type = t.type, this.onRendered = t.onRendered, this.options = t.options;
       }
 
@@ -8318,7 +8430,7 @@ var hiprint = function (t) {
     U = n(16),
     K = n(12),
     G = function () {
-      var _t14 = function t(e, n) {
+      var _t14 = function t (e, n) {
         return (_t14 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8331,7 +8443,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8339,7 +8451,7 @@ var hiprint = function (t) {
       };
     }(),
     q = function (t) {
-      function e(e) {
+      function e (e) {
         var n = t.call(this, e) || this;
         (e = e || {}).columns ? (n.columns = [], e.columns.forEach(function (t) {
           n.columns.push(new K.a(t));
@@ -8362,7 +8474,7 @@ var hiprint = function (t) {
       }, e;
     }(g.a),
     Q = function () {
-      var _t16 = function t(e, n) {
+      var _t16 = function t (e, n) {
         return (_t16 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8375,7 +8487,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8383,7 +8495,7 @@ var hiprint = function (t) {
       };
     }(),
     tt = function () {
-      var _t17 = function t(e, n) {
+      var _t17 = function t (e, n) {
         return (_t17 = Object.setPrototypeOf || _instanceof({
           __proto__: []
         }, Array) && function (t, e) {
@@ -8396,7 +8508,7 @@ var hiprint = function (t) {
       };
 
       return function (e, n) {
-        function i() {
+        function i () {
           this.constructor = e;
         }
 
@@ -8404,7 +8516,7 @@ var hiprint = function (t) {
       };
     }(),
     et = function (t) {
-      function e(e) {
+      function e (e) {
         return t.call(this, e) || this;
       }
 
@@ -8419,7 +8531,7 @@ var hiprint = function (t) {
       }, e;
     }(j),
     nt = function () {
-      function t() {
+      function t () {
       }
 
       return t.createPrintElementType = function (t) {
@@ -8427,7 +8539,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     it = function () {
-      function t() {
+      function t () {
       }
 
       return t.getElementTypeGroups = function (e) {
@@ -8447,22 +8559,22 @@ var hiprint = function (t) {
       }, t.enableDrag = function (e) {
         e.hidraggable({
           revert: !0,
-          proxy: function proxy(t) {
+          proxy: function proxy (t) {
             var e = s.a.instance.getDragingPrintElement(),
               n = e.printElement.getProxyTarget(e.printElement.printElementType.getOptions());
             return n.appendTo("body"), n.css("z-index", "9999"), n;
           },
           moveUnit: "pt",
           minMove: 4,
-          onBeforeDrag: function onBeforeDrag(e) {
+          onBeforeDrag: function onBeforeDrag (e) {
             s.a.instance.draging = !0;
             var n = t.getElementType($(e.data.target).attr("tid"), $(e.data.target).attr("ptype"));
             return s.a.instance.setDragingPrintElement(n.createPrintElement()), !0;
           },
-          onDrag: function onDrag(t, e, n) {
+          onDrag: function onDrag (t, e, n) {
             s.a.instance.getDragingPrintElement().updatePosition(e, n);
           },
-          onStopDrag: function onStopDrag(t) {
+          onStopDrag: function onStopDrag (t) {
             s.a.instance.draging = !1;
           }
         });
@@ -8489,7 +8601,7 @@ var hiprint = function (t) {
       };
     }(),
     at = function () {
-      function t(t, e, n, i) {
+      function t (t, e, n, i) {
         this.bx = t, this.by = e, this.ex = t, this.ey = e, this.startX = this.minX = t, this.startY = this.minY = e, this.maxX = t, this.maxY = e, this.lastLeft = n, this.lastTop = i;
       }
 
@@ -8503,7 +8615,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     pt = function () {
-      function t(t, e) {
+      function t (t, e) {
         this.templateId = e, this.index = t.index, this.width = t.width, this.height = t.height, this.paperType = t.paperType, this.paperHeader = t.paperHeader, this.paperFooter = t.paperFooter, this.initPrintElements(t.printElements), this.paperNumberLeft = t.paperNumberLeft, this.paperNumberTop = t.paperNumberTop, this.paperNumberDisabled = t.paperNumberDisabled, this.paperNumberFormat = t.paperNumberFormat, this.panelPaperRule = t.panelPaperRule, this.panelPageRule = t.panelPageRule, this.firstPaperFooter = t.firstPaperFooter, this.evenPaperFooter = t.evenPaperFooter, this.oddPaperFooter = t.oddPaperFooter, this.lastPaperFooter = t.lastPaperFooter, this.topOffset = t.topOffset, this.leftOffset = t.leftOffset, this.fontFamily = t.fontFamily, this.orient = t.orient, this.target = this.createTarget(), this.rotate = t.rotate, this.scale = t.scale;
       }
 
@@ -8529,7 +8641,7 @@ var hiprint = function (t) {
               paperNumberDisabled: e.paperNumberDisabled,
               paperNumberFormat: e.paperNumberFormat
             },
-            callback: function callback(t) {
+            callback: function callback (t) {
               e.panelPaperRule = t.panelPaperRule, e.panelPageRule = t.panelPageRule, e.firstPaperFooter = t.firstPaperFooter, e.evenPaperFooter = t.evenPaperFooter, e.oddPaperFooter = t.oddPaperFooter, e.lastPaperFooter = t.lastPaperFooter, e.leftOffset = t.leftOffset, e.topOffset = t.topOffset, e.fontFamily = t.fontFamily, e.orient = t.orient, e.paperNumberDisabled = e.designPaper.paperNumberDisabled = !!t.paperNumberDisabled || void 0, e.paperNumberFormat = t.paperNumberFormat, e.designPaper.paperNumberFormat = t.paperNumberFormat, (t.paperNumberFormat && (e.designPaper.paperNumberTarget = e.designPaper.createPaperNumber(e.designPaper.formatPaperNumber(1, 1), true))), e.designPaper.setOffset(e.leftOffset, e.topOffset), e.css(e.target), e.designPaper.resetPaperNumber(e.designPaper.paperNumberTarget), e.designPaper.triggerOnPaperBaseInfoChanged();
             }
           });
@@ -8548,10 +8660,10 @@ var hiprint = function (t) {
           this.designPaper.mmheight = t.height, this.designPaper.mmwidth = t.width;
           // 页眉线
           this.designPaper.headerLinetarget.css("top", (this.paperHeader || -1) + "pt"),
-          0 == this.paperHeader && this.designPaper.headerLinetarget.addClass("hideheaderLinetarget");
+            0 == this.paperHeader && this.designPaper.headerLinetarget.addClass("hideheaderLinetarget");
           // 页脚线
           this.designPaper.footerLinetarget.css("top", parseInt(this.paperFooter.toString()) + "pt"),
-          this.paperFooter == this.height && (this.designPaper.footerLinetarget.css("top", t.height - p.a.instance.paperHeightTrim + "mm"));
+            this.paperFooter == this.height && (this.designPaper.footerLinetarget.css("top", t.height - p.a.instance.paperHeightTrim + "mm"));
           // 页码
           this.paperNumberLeft = t.paperNumberLeft, this.paperNumberTop = t.paperNumberTop, this.paperNumberDisabled = t.paperNumberDisabled, this.paperNumberFormat = t.paperNumberFormat;
           this.designPaper.paperNumberLeft = this.paperNumberLeft, this.designPaper.paperNumberTop = this.paperNumberTop, this.designPaper.paperNumberDisabled = this.paperNumberDisabled, this.designPaper.paperNumberFormat = this.paperNumberFormat;
@@ -8771,10 +8883,13 @@ var hiprint = function (t) {
         var e = this;
         t.getTarget().hidroppable({
           accept: ".ep-draggable-item",
-          onDrop: function onDrop(n, i) {
+          onDrop: function onDrop (n, i) {
             var r = s.a.instance.getDragingPrintElement(),
               a = r.printElement;
-            a.updateSizeAndPositionOptions(e.mathroundToporleft(r.left - o.a.px.toPt(e.target.offset().left)), e.mathroundToporleft(r.top - o.a.px.toPt(e.target.offset().top)));
+            var ptr = e.designPaper.scale || 1;
+            var left = (r.left - o.a.px.toPt(e.target.children(".hiprint-printPaper").offset().left)) / ptr,
+              top = (r.top - o.a.px.toPt(e.target.children(".hiprint-printPaper").offset().top)) / ptr;
+            a.updateSizeAndPositionOptions(e.mathroundToporleft(left), e.mathroundToporleft(top));
             a.setTemplateId(e.templateId), a.setPanel(e), e.appendDesignPrintElement(e.designPaper, a, !0);
             e.printElements.push(a), a.design(void 0, t);
             o.a.event.trigger("hiprintTemplateDataChanged_" + e.templateId, "新增");
@@ -8916,25 +9031,25 @@ var hiprint = function (t) {
           n = this.designPaper.getTarget();
         var ptr = this.designPaper.scale || 1;
         this.mouseRect.target || (this.mouseRect.target = $('<div tabindex="1" class="mouseRect" style="z-index:2;position: absolute;opacity:0.2;border: 1px dashed #000;background-color:#31676f;"><span></span></div>'), n.find(".hiprint-printPaper-content").append(this.mouseRect.target), this.bingKeyboardMoveEvent(this.mouseRect.target), this.mouseRect.target.hidraggable({
-          onDrag: function onDrag(t, n, i) {
+          onDrag: function onDrag (t, n, i) {
             e.mouseRect.target.css({
               transform: 'unset'
             }),
               e.mouseRect.lastLeft = e.mouseRect.lastLeft ? o.a.px.toPt(e.mouseRect.target[0].offsetLeft) : n / ptr, e.mouseRect.lastTop = e.mouseRect.lastTop ? o.a.px.toPt(e.mouseRect.target[0].offsetTop) : i / ptr
               , (e.mouseRect.mouseRectSelectedElement || []).forEach(function (t) {
-              t.updatePositionByMultipleSelect(n - e.mouseRect.lastLeft, i - e.mouseRect.lastTop);
-            }), e.mouseRect.lastLeft = n / ptr, e.mouseRect.lastTop = i / ptr;
+                t.updatePositionByMultipleSelect(n - e.mouseRect.lastLeft, i - e.mouseRect.lastTop);
+              }), e.mouseRect.lastLeft = n / ptr, e.mouseRect.lastTop = i / ptr;
             s.a.instance.changed = !0;
           },
           moveUnit: "pt",
           minMove: p.a.instance.movingDistance,
-          onBeforeDrag: function onBeforeDrag(t) {
+          onBeforeDrag: function onBeforeDrag (t) {
             e.mouseRect.target.focus(), s.a.instance.draging = !0, e.mouseRect.mouseRectSelectedElement || (e.mouseRect.mouseRectSelectedElement = e.getElementInRect(e.mouseRect));
           },
-          getScale: function getScale() {
+          getScale: function getScale () {
             return e.designPaper.scale || 1;
           },
-          onStopDrag: function onStopDrag(t) {
+          onStopDrag: function onStopDrag (t) {
             if (s.a.instance.changed) o.a.event.trigger("hiprintTemplateDataChanged_" + n.templateId, "框选移动");
             s.a.instance.draging = !1;
             s.a.instance.changed = !1;
@@ -8985,28 +9100,28 @@ var hiprint = function (t) {
           var n = e.mouseRect.mouseRectSelectedElement || [];
 
           switch (t.keyCode) {
-          case 37:
-            e.mouseRect.updatePositionByMultipleSelect(0 - p.a.instance.movingDistance, 0), n.forEach(function (t) {
-              t.updatePositionByMultipleSelect(0 - p.a.instance.movingDistance, 0);
-            }), t.preventDefault();
-            break;
+            case 37:
+              e.mouseRect.updatePositionByMultipleSelect(0 - p.a.instance.movingDistance, 0), n.forEach(function (t) {
+                t.updatePositionByMultipleSelect(0 - p.a.instance.movingDistance, 0);
+              }), t.preventDefault();
+              break;
 
-          case 38:
-            e.mouseRect.updatePositionByMultipleSelect(0, 0 - p.a.instance.movingDistance), n.forEach(function (t) {
-              t.updatePositionByMultipleSelect(0, 0 - p.a.instance.movingDistance);
-            }), t.preventDefault();
-            break;
+            case 38:
+              e.mouseRect.updatePositionByMultipleSelect(0, 0 - p.a.instance.movingDistance), n.forEach(function (t) {
+                t.updatePositionByMultipleSelect(0, 0 - p.a.instance.movingDistance);
+              }), t.preventDefault();
+              break;
 
-          case 39:
-            e.mouseRect.updatePositionByMultipleSelect(p.a.instance.movingDistance, 0), n.forEach(function (t) {
-              t.updatePositionByMultipleSelect(p.a.instance.movingDistance, 0);
-            }), t.preventDefault();
-            break;
+            case 39:
+              e.mouseRect.updatePositionByMultipleSelect(p.a.instance.movingDistance, 0), n.forEach(function (t) {
+                t.updatePositionByMultipleSelect(p.a.instance.movingDistance, 0);
+              }), t.preventDefault();
+              break;
 
-          case 40:
-            e.mouseRect.updatePositionByMultipleSelect(0, p.a.instance.movingDistance), n.forEach(function (t) {
-              t.updatePositionByMultipleSelect(0, p.a.instance.movingDistance);
-            }), t.preventDefault();
+            case 40:
+              e.mouseRect.updatePositionByMultipleSelect(0, p.a.instance.movingDistance), n.forEach(function (t) {
+                t.updatePositionByMultipleSelect(0, p.a.instance.movingDistance);
+              }), t.preventDefault();
           }
           if ([37, 38, 39, 40].includes(t.keyCode)) {
             o.a.event.trigger("hiprintTemplateDataChanged_" + e.templateId, "框选移动");
@@ -9027,7 +9142,7 @@ var hiprint = function (t) {
     }(),
     lt = n(9),
     ut = function () {
-      function t(t, e) {
+      function t (t, e) {
         var n = this;
         this.printElementOptionSettingPanel = {}, this.printTemplate = t, this.settingContainer = $(e), o.a.event.on(t.getPrintElementSelectEventKey(), function (t) {
           n.buildSetting(t);
@@ -9217,7 +9332,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     dt = function () {
-      function t(t, e) {
+      function t (t, e) {
         this.paginationContainer = t, this.jqPaginationContainer = $(this.paginationContainer), this.template = e;
       }
 
@@ -9226,7 +9341,7 @@ var hiprint = function (t) {
           n = this;
         this.jqPaginationContainer.html("");
 
-        for (var i = $('<ul class="hiprint-pagination"></ul>'), o = function o() {
+        for (var i = $('<ul class="hiprint-pagination"></ul>'), o = function o () {
           var t = r,
             e = $("<li><span>" + (t + 1) + '</span><a href="javascript:void(0);">x</a></li>');
           e.find("span").click(function () {
@@ -9245,7 +9360,7 @@ var hiprint = function (t) {
       }, t;
     }(),
     ct = function () {
-      function t(t) {
+      function t (t) {
         var e = this;
         this.tempimageBase64 = {}, this.id = s.a.instance.guid(), s.a.instance.setPrintTemplateById(this.id, this);
         var n = t || {};
@@ -9255,13 +9370,13 @@ var hiprint = function (t) {
         this.onDataChanged = n.onDataChanged;
         this.onUpdateError = n.onUpdateError;
         this.lastJson = n.template || {};
-        this.historyList = [{id: s.a.instance.guid(), type: '初始', json: this.lastJson}];
+        this.historyList = [{ id: s.a.instance.guid(), type: '初始', json: this.lastJson }];
         this.historyPos = 0;
         var i = new st(n.template || []);
         n.template && i.panels.forEach(function (t) {
           e.printPanels.push(new pt(t, e.id));
         }), n.fontList && (this.fontList = n.fontList), n.fields && (this.fields = n.fields), n.onImageChooseClick && (this.onImageChooseClick = n.onImageChooseClick),
-        n.settingContainer && new ut(this, n.settingContainer), n.paginationContainer && (this.printPaginationCreator = new dt(n.paginationContainer, this), this.printPaginationCreator.buildPagination()), this.initAutoSave();
+          n.settingContainer && new ut(this, n.settingContainer), n.paginationContainer && (this.printPaginationCreator = new dt(n.paginationContainer, this), this.printPaginationCreator.buildPagination()), this.initAutoSave();
       }
 
       return t.prototype.design = function (t, e) {
@@ -9506,9 +9621,9 @@ var hiprint = function (t) {
           if (t.className != 'hiprint-printPaper-content') {
             return this.parentWidthHeight(t.parentNode);
           }
-          return {width: 10, height: 10}
+          return { width: 10, height: 10 }
         } else {
-          return {width: o.a.pt.toPx(parseFloat(t.style.width)), height: o.a.pt.toPx(parseFloat(t.style.height))}
+          return { width: o.a.pt.toPx(parseFloat(t.style.width)), height: o.a.pt.toPx(parseFloat(t.style.height)) }
         }
       }, t.prototype.on = function (t, e) {
         o.a.event.clear(t + "_" + this.id);
@@ -9533,7 +9648,7 @@ var hiprint = function (t) {
           p.src && p.src !== window.location.href && -1 == p.src.indexOf("base64") && (p && void 0 !== p.naturalWidth && 0 !== p.naturalWidth && p.complete || (r = !1));
         }
 
-        n++ , !r && n < 10 ? setTimeout(function () {
+        n++, !r && n < 10 ? setTimeout(function () {
           i.loadAllImages(t, e, n);
         }, 500) : e();
       }, t.prototype.setFontList = function (t) {
@@ -9568,7 +9683,7 @@ var hiprint = function (t) {
         var t = this;
         var elements = [];
         // 获取选区元素
-        if (t.editingPanel.mouseRect && t.editingPanel.mouseRect.target) {
+        if (t.editingPanel.mouseRect && t.editingPanel.mouseRect.target && $(".mouseRect").length) {
           elements = t.editingPanel.getElementInRect(t.editingPanel.mouseRect);
         } else { // 获取多选元素
           elements = t.editingPanel.printElements.filter(function (el) {
@@ -9588,79 +9703,79 @@ var hiprint = function (t) {
         var t = this;
         var elements = this.getSelectEls();
         if (elements.length) {
-          var minLeft = Math.min.apply(null, elements.map(function (el) {return el.options.left}));
-          var maxRight = Math.max.apply(null, elements.map(function (el) {return el.options.left + el.options.width}));
-          var minTop = Math.min.apply(null, elements.map(function (el) {return el.options.top}));
-          var maxBottom = Math.max.apply(null, elements.map(function (el) {return el.options.top + el.options.height}));
+          var minLeft = Math.min.apply(null, elements.map(function (el) { return el.options.left }));
+          var maxRight = Math.max.apply(null, elements.map(function (el) { return el.options.left + el.options.width }));
+          var minTop = Math.min.apply(null, elements.map(function (el) { return el.options.top }));
+          var maxBottom = Math.max.apply(null, elements.map(function (el) { return el.options.top + el.options.height }));
           switch (e) {
-          case "left": // 左对齐
-            elements.forEach(function (el) {
-              el.updateSizeAndPositionOptions(minLeft);
-              el.designTarget.css("left", el.options.displayLeft());
-            })
-            break;
-          case "vertical": // 居中
-            var vertical = minLeft + (maxRight - minLeft) / 2;
-            elements.forEach(function (el) {
-              el.updateSizeAndPositionOptions(vertical - el.options.width / 2);
-              el.designTarget.css("left", el.options.displayLeft());
-            })
-            break;
-          case "right": // 右对齐
-            elements.forEach(function (el) {
-              el.updateSizeAndPositionOptions(maxRight - el.options.width);
-              el.designTarget.css("left", el.options.displayLeft())
-            })
-            break;
-          case "top": // 顶部对齐
-            elements.forEach(function (el) {
-              el.updateSizeAndPositionOptions(undefined, minTop);
-              el.designTarget.css("top", el.options.displayTop());
-            })
-            break;
-          case "horizontal": // 垂直居中
-            var horizontal = minTop + (maxBottom - minTop) / 2;
-            elements.forEach(function (el) {
-              el.updateSizeAndPositionOptions(undefined, horizontal - el.options.height / 2);
-              el.designTarget.css("top", el.options.displayTop());
-            })
-            break;
-          case "bottom": //底部对齐
-            elements.forEach(function (el) {
-              el.updateSizeAndPositionOptions(undefined, maxBottom - el.options.height);
-              el.designTarget.css("top", el.options.displayTop());
-            })
-            break;
-          case "distributeHor": // 横向分散
-            var sumWidth = [].reduce.call(elements, function (total, el) {
-              return total + el.options.width;
-            }, 0)
-            var distributeHor = ((maxRight - minLeft) - sumWidth) / (elements.length - 1);
-            elements.sort(function (prev, curr) {
-              return prev.options.left - curr.options.left;
-            })
-            elements.forEach(function (el, index) {
-              if (![0, elements.length - 1].includes(index)) {
-                el.updateSizeAndPositionOptions(elements[index - 1].options.left + elements[index - 1].options.width + distributeHor);
+            case "left": // 左对齐
+              elements.forEach(function (el) {
+                el.updateSizeAndPositionOptions(minLeft);
                 el.designTarget.css("left", el.options.displayLeft());
-              }
-            })
-            break;
-          case "distributeVer": // 纵向分散
-            var sumHeight = [].reduce.call(elements, function (total, el) {
-              return total + el.options.height;
-            }, 0)
-            var distributeVer = ((maxBottom - minTop) - sumHeight) / (elements.length - 1);
-            elements.sort(function (prev, curr) {
-              return prev.options.top - curr.options.top;
-            })
-            elements.forEach(function (el, index) {
-              if (![0, elements.length - 1].includes(index)) {
-                el.updateSizeAndPositionOptions(undefined, elements[index - 1].options.top + elements[index - 1].options.height + distributeVer);
+              })
+              break;
+            case "vertical": // 居中
+              var vertical = minLeft + (maxRight - minLeft) / 2;
+              elements.forEach(function (el) {
+                el.updateSizeAndPositionOptions(vertical - el.options.width / 2);
+                el.designTarget.css("left", el.options.displayLeft());
+              })
+              break;
+            case "right": // 右对齐
+              elements.forEach(function (el) {
+                el.updateSizeAndPositionOptions(maxRight - el.options.width);
+                el.designTarget.css("left", el.options.displayLeft())
+              })
+              break;
+            case "top": // 顶部对齐
+              elements.forEach(function (el) {
+                el.updateSizeAndPositionOptions(undefined, minTop);
                 el.designTarget.css("top", el.options.displayTop());
-              }
-            })
-            break;
+              })
+              break;
+            case "horizontal": // 垂直居中
+              var horizontal = minTop + (maxBottom - minTop) / 2;
+              elements.forEach(function (el) {
+                el.updateSizeAndPositionOptions(undefined, horizontal - el.options.height / 2);
+                el.designTarget.css("top", el.options.displayTop());
+              })
+              break;
+            case "bottom": //底部对齐
+              elements.forEach(function (el) {
+                el.updateSizeAndPositionOptions(undefined, maxBottom - el.options.height);
+                el.designTarget.css("top", el.options.displayTop());
+              })
+              break;
+            case "distributeHor": // 横向分散
+              var sumWidth = [].reduce.call(elements, function (total, el) {
+                return total + el.options.width;
+              }, 0)
+              var distributeHor = ((maxRight - minLeft) - sumWidth) / (elements.length - 1);
+              elements.sort(function (prev, curr) {
+                return prev.options.left - curr.options.left;
+              })
+              elements.forEach(function (el, index) {
+                if (![0, elements.length - 1].includes(index)) {
+                  el.updateSizeAndPositionOptions(elements[index - 1].options.left + elements[index - 1].options.width + distributeHor);
+                  el.designTarget.css("left", el.options.displayLeft());
+                }
+              })
+              break;
+            case "distributeVer": // 纵向分散
+              var sumHeight = [].reduce.call(elements, function (total, el) {
+                return total + el.options.height;
+              }, 0)
+              var distributeVer = ((maxBottom - minTop) - sumHeight) / (elements.length - 1);
+              elements.sort(function (prev, curr) {
+                return prev.options.top - curr.options.top;
+              })
+              elements.forEach(function (el, index) {
+                if (![0, elements.length - 1].includes(index)) {
+                  el.updateSizeAndPositionOptions(undefined, elements[index - 1].options.top + elements[index - 1].options.height + distributeVer);
+                  el.designTarget.css("top", el.options.displayTop());
+                }
+              })
+              break;
           }
         }
       }, t.prototype.setElsSpace = function (dis, isHor) {
@@ -9694,20 +9809,20 @@ var hiprint = function (t) {
         o.a.event.on("hiprintTemplateDataShortcutKey_" + this.id, function (key) {
           if (!t.history) return;
           switch (key) {
-          case "undo":
-            if (t.historyPos > 0) {
-              t.historyPos -= 1;
-              var cur = t.historyList[t.historyPos];
-              t.update(cur.json, cur.type);
-            }
-            break;
-          case "redo":
-            if (t.historyPos < t.historyList.length - 1) {
-              t.historyPos += 1;
-              var cur = t.historyList[t.historyPos];
-              t.update(cur.json, cur.type);
-            }
-            break;
+            case "undo":
+              if (t.historyPos > 0) {
+                t.historyPos -= 1;
+                var cur = t.historyList[t.historyPos];
+                t.update(cur.json, cur.type);
+              }
+              break;
+            case "redo":
+              if (t.historyPos < t.historyList.length - 1) {
+                t.historyPos += 1;
+                var cur = t.historyList[t.historyPos];
+                t.update(cur.json, cur.type);
+              }
+              break;
           }
         });
         o.a.event.on("hiprintTemplateDataChanged_" + this.id, function (type) {
@@ -9717,7 +9832,7 @@ var hiprint = function (t) {
             if (t.historyPos < t.historyList.length - 1) {
               t.historyList = t.historyList.slice(0, t.historyPos + 1);
             }
-            t.historyList.push({id: s.a.instance.guid(), type: type, json: j});
+            t.historyList.push({ id: s.a.instance.guid(), type: type, json: j });
             if (t.historyList.length > 50) {
               t.historyList = t.historyList.slice(0, 1).concat(t.historyList.slice(1, 50));
             } else {
@@ -9729,17 +9844,17 @@ var hiprint = function (t) {
       }, t;
     }();
 
-  function ht(t) {
+  function ht (t) {
     this.getHtml(t).hiwprint();
   }
 
-  function ft(t, e, n) {
+  function ft (t, e, n) {
     $.extend({}, t || {}).imgToBase64 = !0;
     var i = new ct({});
     i.on("printSuccess", e), i.on("printError", n), i.printByHtml2(this.getHtml(t), t.options);
   }
 
-  function gt(t) {
+  function gt (t) {
     var e = void 0;
     return t && t.templates.forEach(function (n, i) {
       var o = $.extend({}, n.options || {});
@@ -9747,13 +9862,13 @@ var hiprint = function (t) {
     }), e;
   }
 
-  function mt(t) {
+  function mt (t) {
     p.a.instance.init(t), p.a.instance.providers.forEach(function (t) {
       t.addElementTypes(a.instance);
     });
   }
 
-  function cig(t) {
+  function cig (t) {
     if (t) {
       t && Object.keys(t).forEach(function (i) {
         if (i == "optionItems" && t.optionItems && t.optionItems.length) {
@@ -9813,23 +9928,23 @@ var hiprint = function (t) {
     }
   }
 
-  function uep(t, c) {
+  function uep (t, c) {
     return a.instance.updateElementType(t, c);
   }
 
-  function rpl(c) {
+  function rpl (c) {
     p.a.instance.clear("printerList");
     p.a.instance.on("printerList", c);
     hiwebSocket.refreshPrinterList();
   }
 
-  function getAddr(type, c, ...args) {
+  function getAddr (type, c, ...args) {
     p.a.instance.clear("address_" + type);
     p.a.instance.on("address_" + type, c);
     hiwebSocket.getAddress(type, ...args);
   }
 
-  function ippPrint(options, callback, connected) {
+  function ippPrint (options, callback, connected) {
     p.a.instance.clear("ippPrinterCallback");
     p.a.instance.on("ippPrinterCallback", callback);
     p.a.instance.clear("ippPrinterConnected");
@@ -9837,7 +9952,7 @@ var hiprint = function (t) {
     hiwebSocket.ippPrint(options);
   }
 
-  function ippRequest(options, callback) {
+  function ippRequest (options, callback) {
     p.a.instance.clear("ippRequestCallback");
     p.a.instance.on("ippRequestCallback", callback);
     hiwebSocket.ippRequest(options);
