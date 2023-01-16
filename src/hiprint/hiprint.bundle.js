@@ -1135,7 +1135,9 @@ var hiprint = function (t) {
     }, t.prototype.setWidth = function (t) {
       null != t && (this.width = t);
     }, t.prototype.getValueFromOptionsOrDefault = function (t) {
-      return null == this[t] ? this.defaultOptions[t] : this[t];
+      // 除了宽高，其他暂时先不取默认值
+      const defKeys = ['width', 'height']
+      return null == this[t] && defKeys.includes(t) ? this.defaultOptions[t] : this[t];
     }, t.prototype.getPrintElementOptionEntity = function () {
       var t = new i(),
         e = this;
@@ -1373,12 +1375,9 @@ var hiprint = function (t) {
 
         // 文字选择字段时，隐藏标题，同时设置测试数据
         if (t.printElementType.type == "text" && t.options.field) {
-          const fieldStrs = t.options.field.split("#");
-          if (fieldStrs.length > 1) {
-            t.options.testData = fieldStrs[1];
-            t.options.hideTitle = true;
-            t.designTarget.click()
-          }
+          t.options.testData = t.options.field;
+          t.options.hideTitle = true;
+          t.designTarget.click()
         }
 
         this.updateDesignViewFromOptions(), _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_4__.a.event.trigger("hiprintTemplateDataChanged_" + this.templateId, "元素修改");
@@ -8891,6 +8890,13 @@ var hiprint = function (t) {
               top = (r.top - o.a.px.toPt(e.target.children(".hiprint-printPaper").offset().top)) / ptr;
             a.updateSizeAndPositionOptions(e.mathroundToporleft(left), e.mathroundToporleft(top));
             a.setTemplateId(e.templateId), a.setPanel(e), e.appendDesignPrintElement(e.designPaper, a, !0);
+
+            // 初始化默认 options
+            if (a.options.defaultOptions) {
+              $.extend(a.options, a.options.defaultOptions)
+              a.updateDesignViewFromOptions()
+            }
+
             e.printElements.push(a), a.design(void 0, t);
             o.a.event.trigger("hiprintTemplateDataChanged_" + e.templateId, "新增");
           }
