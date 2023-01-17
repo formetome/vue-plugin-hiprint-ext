@@ -1374,9 +1374,11 @@ var hiprint = function (t) {
         }
 
         // 文字选择字段时，隐藏标题，同时设置测试数据
-        if (t.printElementType.type == "text" && t.options.field && !t.options.testData) {
+        if (t.printElementType.type == "text" && t.options.field && t.options.field != t.options.testData) {
           t.options.testData = t.options.field;
-          t.options.hideTitle = true;
+          if (!t.options.testData) {
+            t.options.hideTitle = true;
+          }
           t.designTarget.click()
         }
 
