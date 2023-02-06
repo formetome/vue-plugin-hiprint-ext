@@ -3368,10 +3368,16 @@ var hiprint = function (t) {
       return t.prototype.createTarget = function (t) {
         this.el = t;
         var e = void 0, i = this;
-        this.target = $(' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        图片地址\n        </div>\n        <div class="hiprint-option-item-field" style="display: flex;align-items: baseline;">\n        <input type="text" placeholder="请输入图片地址" class="auto-submit" style="width:70%">\n    <button class="hiprint-option-item-settingBtn" style="padding:0 10px;margin:0 0 0 5px" type="button">选择</button>        </div>\n    </div>');
+        this.target = $(` <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        图片地址\n        </div>\n        <div class="hiprint-option-item-field" style="display: flex;align-items: baseline;">\n        <input type="text" placeholder="请输入图片地址" class="auto-submit" style="width:70%">\n 
+        <div style="position:relative">
+        <input class="upload-img" type="file" style="position:absolute;left:0;top:0;opacity:0;z-index:2;width:100%;height:100%;" />
+        <button class="hiprint-option-item-settingBtn" style="padding:0 10px;margin:0 0 0 5px" type="button">选择</button></div>        </div>\n    </div>`);
         if (t && (e = t.getOnImageChooseClick()), e) {
           this.target.find('button').click(function () {
             e && e(i);
+          })
+          this.target.find('.upload-img').change(function () {
+            e && e(i, this);
           })
         }
         return this.target;
@@ -9495,18 +9501,22 @@ var hiprint = function (t) {
           if (e.styleHandler) {
             css += e.styleHandler()
           }
-          r.each(function (a, p) {
-            var s = new XMLHttpRequest();
-            s.open("GET", $(p).attr("href")), s.onreadystatechange = function () {
-              if (4 === s.readyState && 200 === s.status && (o[a + ""] = '<style rel="stylesheet" type="text/css">' + s.responseText + "</style>", ++i == r.length)) {
-                for (var p = "", l = 0; l < r.length; l++) {
-                  p += o[l + ""];
+          if (r.length) {
+            r.each(function (a, p) {
+              var s = new XMLHttpRequest();
+              s.open("GET", $(p).attr("href")), s.onreadystatechange = function () {
+                if (4 === s.readyState && 200 === s.status && (o[a + ""] = '<style rel="stylesheet" type="text/css">' + s.responseText + "</style>", ++i == r.length)) {
+                  for (var p = "", l = 0; l < r.length; l++) {
+                    p += o[l + ""];
+                  }
+                  if (css) p = css + p;
+                  n.sentToClient(p, t, e);
                 }
-                if (css) p = css + p;
-                n.sentToClient(p, t, e);
-              }
-            }, s.send();
-          });
+              }, s.send();
+            });
+          } else {
+            n.sentToClient(css, t, e);
+          }
         } else alert("连接客户端失败");
       }, t.prototype.imageToBase64 = function (t) {
         var e = $(t).attr("src");
