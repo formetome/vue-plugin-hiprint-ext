@@ -42,6 +42,8 @@ import "@claviska/jquery-minicolors/jquery.minicolors.min";
 import JsBarcode from "jsbarcode";
 // 二维码
 import "./plugins/qrcode.js";
+// DM码
+import DATAMatrix from './plugins/datamatrix.min.js'
 // 直接打印需要
 import { io } from "socket.io-client";
 //引入标尺
@@ -1407,7 +1409,7 @@ var hiprint = function (t) {
           console.log('updateOption error', e)
         }
       }, BasePrintElement.prototype.getReizeableShowPoints = function () {
-        return ['barcode', 'qrcode'].includes(this.options.textType) ? ["se", "r"] : ["s", "e", "r"];
+        return ['barcode', 'qrcode', 'dmcode'].includes(this.options.textType) ? ["se", "r"] : ["s", "e", "r"];
       }, BasePrintElement.prototype.setResizePanel = function () {
         var n = this, e = this.designPaper;
         this.designTarget.hireizeable({
@@ -2429,6 +2431,30 @@ var hiprint = function (t) {
                 }
               } catch (t) {
                 console.log(t), r.html("二维码生成失败");
+              }
+            }
+            if ("dmcode" == t.tableTextType) {
+              r.html("");
+              try {
+                var dmcodebox = $('<div></div>')
+
+                if (p) {
+                  var l = parseInt(t.width || t.targetWidth || 20),
+                    u = parseInt(t.tableColumnHeight || 20);
+                  dmcodebox.css('height', (l > u ? u : l) + 'pt')
+
+                  var svgNode = new DATAMatrix({
+                    msg: p,
+                    dim: 256,
+                    pal: ["#000000", "#ffffff"]
+                  });
+                  dmcodebox.html(svgNode);
+                  $(svgNode).width("100%").height("100%");
+
+                  r.html(dmcodebox)
+                }
+              } catch (t) {
+                console.log(t), r.html("DM码生成失败");
               }
             }
             if ('sequence' === t.tableTextType) {
@@ -4224,7 +4250,7 @@ var hiprint = function (t) {
       }
 
       return t.prototype.createTarget = function () {
-        return this.target = $(' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        打印类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="" >文本</option>\n        <option value="barcode" >条形码</option>\n        <option value="qrcode" >二维码</option>\n        </select>\n        </div>\n    </div>'), this.target;
+        return this.target = $(' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        打印类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="" >文本</option>\n        <option value="barcode" >条形码</option>\n        <option value="qrcode" >QR二维码</option>\n    <option value="dmcode" >DM二维码</option>\n    </select>\n        </div>\n    </div>'), this.target;
       }, t.prototype.getValue = function () {
         var t = this.target.find("select").val();
         if (t) return t;
@@ -4241,7 +4267,7 @@ var hiprint = function (t) {
 
       return t.prototype.createTarget = function () {
         return this.target = $(
-          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="text" >文本</option>\n <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >二维码</option>\n    <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
+          ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="text" >文本</option>\n <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >QR二维码</option>\n    <option value="dmcode" >DM二维码</option>\n    <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
         ), this.target;
       }, t.prototype.getValue = function () {
         var t = this.target.find("select").val();
@@ -8149,10 +8175,44 @@ var hiprint = function (t) {
               console.log(t), a.html("二维码生成失败");
             }
           }
+
+          if ("dmcode" == s) {
+            a.html("");
+
+            try {
+              if (n) {
+                //去除行高对高度的影响
+                t.css('line-height', 0)
+                //默认二维码永远居中
+                a.css('text-align', 'center')
+                // var l = parseInt(o.a.pt.toPx(this.options.getWidth() || 20)),
+                // 	u = parseInt(o.a.pt.toPx(this.options.getHeight() || 20)),
+                var lpt = this.options.getWidth() || 20,
+                  upt = this.options.getHeight() || 20
+                var box = $('<div></div>').css({
+                  "width": (lpt > upt ? upt : lpt) + 'pt',
+                  "height": (lpt > upt ? upt : lpt) + 'pt',
+                  'display': 'inline-block'
+                })
+
+                var svgNode = new DATAMatrix({
+                  msg: n,
+                  dim: "100%",
+                  pal: ["#000000", "#ffffff"]
+                });
+                box.html(svgNode);
+                $(svgNode).width("100%").height("100%");
+
+                a.html(box)
+              }
+            } catch (t) {
+              console.log(t), a.html("二维码生成失败");
+            }
+          }
         }
       }, e.prototype.onResize = function (e, n, i, o, r) {
         t.prototype.onResize.call(this, e, n, i, o, r);
-        "barcode" != this.options.getTextType() && "qrcode" != this.options.getTextType() || this.updateTargetText(this.designTarget, this.getTitle(), this.getData());
+        "barcode" != this.options.getTextType() && "qrcode" != this.options.getTextType() && "dmcode" != this.options.getTextType() || this.updateTargetText(this.designTarget, this.getTitle(), this.getData());
       }, e.prototype.createTarget = function (t, e, n) {
         var i = $('<div tabindex="1" class="hiprint-printElement hiprint-printElement-text" style="position: absolute;"><div class="hiprint-printElement-text-content hiprint-printElement-content" style="height:100%;width:100%"></div></div>');
         return this.updateTargetText(i, t, e, n), i;
