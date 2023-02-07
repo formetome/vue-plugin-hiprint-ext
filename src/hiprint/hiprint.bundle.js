@@ -3368,7 +3368,7 @@ var hiprint = function (t) {
       return t.prototype.createTarget = function (t) {
         this.el = t;
         var e = void 0, i = this;
-        this.target = $(` <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        图片地址\n        </div>\n        <div class="hiprint-option-item-field" style="display: flex;align-items: baseline;">\n        <input type="text" placeholder="请输入图片地址" class="auto-submit" style="width:70%">\n 
+        this.target = $(` <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        图片地址\n        </div>\n        <div class="hiprint-option-item-field" style="display: flex;align-items: baseline;">\n        <input type="text" placeholder="请输入图片地址" class="opt-img-url auto-submit" style="width:70%">\n 
         <div style="position:relative">
         <input class="upload-img" type="file" style="position:absolute;left:0;top:0;opacity:0;z-index:2;width:100%;height:100%;" />
         <button class="hiprint-option-item-settingBtn" style="padding:0 10px;margin:0 0 0 5px" type="button">选择</button></div>        </div>\n    </div>`);
@@ -3376,19 +3376,21 @@ var hiprint = function (t) {
           this.target.find('button').click(function () {
             e && e(i);
           })
-          this.target.find('.upload-img').change(function () {
-            e && e(i, this);
+          this.target.find('.upload-img').change(function (evt) {
+            e && e(i, evt);
           })
         }
         return this.target;
+      }, t.prototype.clearFile = function () {
+        this.target.find(".upload-img").val('');
       }, t.prototype.getValue = function () {
-        var t = this.target.find("input").val();
+        var t = this.target.find(".opt-img-url").val();
         if (t) return t.toString();
       }, t.prototype.setValue = function (t) {
-        this.target.find("input").val(t);
+        this.target.find(".opt-img-url").val(t);
       }, t.prototype.refresh = function (t, opt, cb) {
         var that = this;
-        this.setValue(t), this.target.find("input").change();
+        this.setValue(t), this.target.find(".opt-img-url").change();
         if (this.el && opt) {
           var img = new Image();
           img.src = t;
