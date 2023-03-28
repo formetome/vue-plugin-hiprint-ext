@@ -67,6 +67,8 @@ import Canvg from 'canvg'
 // 默认自定义拖拽列表
 import defaultTypeProvider from './etypes/default-etyps-provider'
 
+import { changeDpiDataUrl } from 'changedpi'
+
 window.$ = window.jQuery = $
 window.autoConnect = true
 window.io = io
@@ -1379,7 +1381,10 @@ var hiprint = (function (t) {
                 (e.width = n.width),
                 (e.height = n.height),
                 e.getContext('2d').drawImage(n, 0, 0),
-                t.attr('src', e.toDataURL('image/png'))
+                t.attr(
+                  'src',
+                  changeDpiDataUrl(e.toDataURL('image/png', 1.0), 300)
+                )
             } catch (e) {
               try {
                 this.xhrLoadImage(t)
@@ -3644,7 +3649,7 @@ var hiprint = (function (t) {
                         p
                           ? (JsBarcode(r.find('.hibarcode_imgcode')[0], p, {
                               format: t.tableBarcodeMode,
-                              width: 1,
+                              width: 2,
                               textMargin: -1,
                               lineColor: '#000000',
                               margin: 0,
@@ -13352,7 +13357,7 @@ var hiprint = (function (t) {
                   n
                     ? (JsBarcode(a.find('.hibarcode_imgcode')[0], n, {
                         format: this.options.getbarcodeMode(),
-                        width: 1,
+                        width: 2,
                         textMargin: -1,
                         lineColor: this.options.color || '#000000',
                         margin: 0,
@@ -15833,7 +15838,11 @@ var hiprint = (function (t) {
                     (n.width = i.width),
                     (n.height = i.height),
                     n.getContext('2d').drawImage(i, 0, 0),
-                    e && (this.tempimageBase64[e] = n.toDataURL('image/png'))
+                    e &&
+                      (this.tempimageBase64[e] = changeDpiDataUrl(
+                        n.toDataURL('image/png', 1.0),
+                        300
+                      ))
                 }
 
                 t.attr('src', this.tempimageBase64[e])
@@ -15917,7 +15926,7 @@ var hiprint = (function (t) {
                 a = o.a.mm.toPt(this.printPanels[0].height),
                 p = $.extend(
                   {
-                    scale: 2,
+                    scale: 4,
                     width: o.a.pt.toPx(r),
                     x: 0,
                     y: 0,
@@ -15949,7 +15958,15 @@ var hiprint = (function (t) {
                     (n.msImageSmoothingEnabled = !1),
                     (n.imageSmoothingEnabled = !1)
 
-                  for (var o = t.toDataURL('image/jpeg'), p = 0; p < d; p++) {
+                  for (
+                    var o = changeDpiDataUrl(
+                        t.toDataURL('image/jpeg', 1.0),
+                        300
+                      ),
+                      p = 0;
+                    p < d;
+                    p++
+                  ) {
                     s.addImage(o, 'JPEG', 0, 0 - p * a, r, d * a),
                       p < d - 1 && s.addPage()
                   }
@@ -15985,10 +16002,11 @@ var hiprint = (function (t) {
               var n = e.parentNode,
                 p = that.parentWidthHeight(n),
                 i = document.createElement('canvas')
-              ;(i.width = p.width), (i.height = p.height)
+              ;(i.width = p.width * 4), (i.height = p.height * 4)
               var ctx = i.getContext('2d'),
                 str = new XMLSerializer().serializeToString(e)
               Canvg.fromString(ctx, str).render(),
+                $(i).css({ width: p.width + 'px', height: p.height + 'px' }),
                 $(e).before(i),
                 n.removeChild(e)
             })

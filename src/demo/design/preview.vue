@@ -1,13 +1,13 @@
 <template>
-  <a-modal :visible="visible" :maskClosable="false"
-           @cancel="hideModal" :width="width+'mm'">
+  <a-modal :visible="visible" :maskClosable="false" @cancel="hideModal" :width="width+'mm'">
     <a-spin :spinning="spinning" style="min-height: 100px">
       <div id="preview_content_design"></div>
     </a-spin>
     <template slot="title">
       <a-space>
         <div style="margin-right: 20px">打印预览</div>
-        <a-button :loading="waitShowPrinter" type="primary" icon="printer" @click.stop="print">打印</a-button>
+        <a-button :loading="waitShowPrinter" type="primary" icon="printer" @click.stop="print">打印
+        </a-button>
         <a-button type="primary" icon="printer" @click.stop="toPdf">pdf</a-button>
       </a-space>
     </template>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: "printPreview",
+  name: 'printPreview',
   props: {},
   data() {
     return {
@@ -33,15 +33,13 @@ export default {
       // 模板
       hiprintTemplate: {},
       // 数据
-      printData: {}
+      printData: {},
     }
   },
   computed: {},
   watch: {},
-  created() {
-  },
-  mounted() {
-  },
+  created() {},
+  mounted() {},
   methods: {
     hideModal() {
       this.visible = false
@@ -60,19 +58,27 @@ export default {
     },
     print() {
       this.waitShowPrinter = true
-      this.hiprintTemplate.print(this.printData, {}, {
-        callback: () => {
-          console.log('callback')
-          this.waitShowPrinter = false
+      this.hiprintTemplate.print(
+        this.printData,
+        {},
+        {
+          callback: () => {
+            console.log('callback')
+            this.waitShowPrinter = false
+          },
         }
-      })
+      )
     },
     toPdf() {
-      this.hiprintTemplate.toPdf({}, '打印预览');
+      this.hiprintTemplate
+        .toPdf({}, '打印预览', { isDownload: false })
+        .then((res) => {
+          let url = window.URL.createObjectURL(res)
+          window.open(url)
+        })
     },
-  }
+  },
 }
-
 </script>
 <style lang="less" scoped>
 /deep/ .ant-modal-body {
