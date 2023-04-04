@@ -1924,11 +1924,15 @@ var hiprint = (function (t) {
                 ).toFixed(2)
                 t.designTarget
                   .find('.hiprint-printElement-text-content')
+                  .css('font-size', '9pt')
                   .css('transform', `scale(${fx})`)
+                  .css('transform-origin', '0 0')
               } else {
                 t.designTarget
                   .find('.hiprint-printElement-text-content')
+                  .css('font-size', '')
                   .css('transform', '')
+                  .css('transform-origin', '')
               }
 
               if (t.options.field) {
@@ -13370,9 +13374,13 @@ var hiprint = (function (t) {
                   ((window.hinnn.pt.toPx(this.options.fontSize) * 1.0) / 12) *
                   1.0
                 ).toFixed(2)
-                a.css('transform', `scale(${fx})`)
+                a.css('font-size', '9pt')
+                  .css('transform', `scale(${fx})`)
+                  .css('transform-origin', '0 0')
               } else {
-                a.css('transform', '')
+                a.css('font-size', '')
+                  .css('transform', '')
+                  .css('transform-origin', '')
               }
             } else {
               if ('barcode' == s) {
