@@ -1,9 +1,3 @@
-<!--
- * @Author: 54xavier
- * @LastEditors: 54xavier
- * @Date: 2022-06-07 10:08:14
- * @LastEditTime: 2022-06-07 10:08:55
--->
 <template>
   <div id="app">
     <a-space class="logos" style="float: left;">
@@ -19,9 +13,15 @@
           </a-button>
         </template>
       </a-button-group>
+      <div style="margin-left: 20px"/>
+      <a-button style="width:30vw;font-size: 16px;" :type="'templates' === curDemo ? 'primary' : 'info'"
+                icon="file-search"
+                @click="curDemo = 'templates'">
+        模 板 中 心
+      </a-button>
     </a-row>
     <!-- 动态渲染组件，懒得去弄路由了 -->
-    <keep-alive :include='keepInclude' :max="10">
+    <keep-alive>
       <component :is="curDemo"/>
     </keep-alive>
   </div>
@@ -32,18 +32,20 @@
 import printDesign from '@/demo/design/index'
 import printCustom from '@/demo/custom/index'
 import printTasks from '@/demo/tasks/index'
+import printPanels from '@/demo/panels/index'
+import templates from '@/demo/templates/index'
 
 export default {
   name: 'App',
-  components: {printDesign, printCustom, printTasks},
+  components: {printDesign, printCustom, printTasks, printPanels, templates},
   data() {
     return {
       curDemo: 'printDesign',
-      keepInclude: 'printDesign,printCustom,printTasks',
       demoList: [
         {name: 'printDesign', title: '默认拖拽设计'},
         {name: 'printCustom', title: '自定义设计'},
-        {name: 'printTasks', title: '队列/批量打印'}
+        {name: 'printTasks', title: '队列/批量打印'},
+        {name: 'printPanels', title: '多面板设计'}
       ]
     }
   },
@@ -73,6 +75,7 @@ export default {
     content: url("~@/assets/logo.png");
   }
 }
+
 // 修改 页眉/页脚线 样式
 .hiprint-headerLine, .hiprint-footerLine {
   border-color: red !important;

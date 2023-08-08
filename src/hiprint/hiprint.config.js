@@ -7,6 +7,10 @@
     positionLineMode: false, //坐标显示在线上的
     positionUnit: true, //显示坐标单位
     showSizeBox: true, //显示宽高box
+    adsorbMin: 3, //吸附最小距离pt
+    showAdsorbLine: true, //显示吸附线
+    adsorbLineMin: 6, //吸附线显示最小距离pt
+    paperNumberContinue: true, //连续打印页码
     panel: {
       supportOptions: [
         {
@@ -54,7 +58,15 @@
           hidden: false,
         },
         {
+          name: 'paperNumberContinue',
+          hidden: false,
+        },
+        {
           name: 'paperNumberFormat',
+          hidden: false,
+        },
+        {
+          name: 'watermarkOptions',
           hidden: false,
         },
       ],
@@ -140,6 +152,10 @@
             },
             {
               name: 'textContentVerticalAlign',
+              hidden: false,
+            },
+            {
+              name: 'textContentWrap',
               hidden: false,
             },
             {
@@ -313,6 +329,10 @@
           hidden: false,
         },
         {
+          name: 'textContentWrap',
+          hidden: false,
+        },
+        {
           name: 'lineHeight',
           hidden: false,
         },
@@ -452,6 +472,10 @@
               hidden: false,
             },
             {
+              name: 'unShowInPage',
+              hidden: false,
+            },
+            {
               name: 'fixed',
               hidden: false,
             },
@@ -515,6 +539,10 @@
         },
         {
           name: 'showInPage',
+          hidden: false,
+        },
+        {
+          name: 'unShowInPage',
           hidden: false,
         },
         {
@@ -851,6 +879,10 @@
               hidden: false,
             },
             {
+              name: 'maxRows',
+              hidden: false,
+            },
+            {
               name: 'columns',
               hidden: false,
             },
@@ -966,6 +998,22 @@
               hidden: false,
             },
             {
+              name: 'rowsColumnsMergeClean',
+              hidden: false,
+            },
+            {
+              name: 'groupFieldsFormatter',
+              hidden: false,
+            },
+            {
+              name: 'groupFormatter',
+              hidden: false,
+            },
+            {
+              name: 'groupFooterFormatter',
+              hidden: false,
+            },
+            {
               name: 'gridColumnsFooterFormatter',
               hidden: false,
             },
@@ -1074,6 +1122,10 @@
           hidden: false,
         },
         {
+          name: 'maxRows',
+          hidden: false,
+        },
+        {
           name: 'columns',
           hidden: false,
         },
@@ -1095,6 +1147,18 @@
         },
         {
           name: 'rowsColumnsMerge',
+          hidden: false,
+        },
+        {
+          name: 'groupFieldsFormatter',
+          hidden: false,
+        },
+        {
+          name: 'groupFormatter',
+          hidden: false,
+        },
+        {
+          name: 'groupFooterFormatter',
           hidden: false,
         },
         {
@@ -1730,6 +1794,10 @@
           hidden: false,
         },
         {
+          name: 'tableSummaryColspan',
+          hidden: false,
+        },
+        {
           name: 'tableSummary',
           hidden: false,
         },
@@ -1755,6 +1823,10 @@
         },
         {
           name: 'styler2',
+          hidden: false,
+        },
+        {
+          name: 'stylerHeader',
           hidden: false,
         },
       ],

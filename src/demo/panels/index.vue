@@ -11,72 +11,77 @@
         </a-select>
       </a-col>
       <a-col :span="20">
-        <a-space>
-          <!-- 纸张设置 -->
-          <a-button-group>
-            <template v-for="(value,type) in paperTypes">
-              <a-button :type="curPaperType === type ? 'primary' : 'info'" @click="setPaper(type,value)" :key="type">
-                {{ type }}
+        <a-row>
+          <a-space>
+            <!-- 纸张设置 -->
+            <a-button-group>
+              <template v-for="(value,type) in paperTypes">
+                <a-button :type="curPaperType === type ? 'primary' : 'info'" @click="setPaper(type,value)" :key="type">
+                  {{ type }}
+                </a-button>
+              </template>
+              <a-popover v-model="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
+                <div slot="content">
+                  <a-input-group compact style="margin: 10px 10px">
+                    <a-input type="number" v-model="paperWidth" style=" width: 100px; text-align: center"
+                             placeholder="宽(mm)"/>
+                    <a-input style=" width: 30px; border-left: 0; pointer-events: none; backgroundColor: #fff"
+                             placeholder="~" disabled
+                    />
+                    <a-input type="number" v-model="paperHeight"
+                             style="width: 100px; text-align: center; border-left: 0"
+                             placeholder="高(mm)"/>
+                  </a-input-group>
+                  <a-button type="primary" style="width: 100%" @click="otherPaper">确定</a-button>
+                </div>
+                <a-button :type="'other'==curPaperType?'primary':''">自定义纸张</a-button>
+              </a-popover>
+            </a-button-group>
+            <a-button type="text" icon="zoom-out" @click="changeScale(false)"></a-button>
+            <a-input-number
+              :value="scaleValue"
+              :min="scaleMin"
+              :max="scaleMax"
+              :step="0.1"
+              disabled
+              style="width: 70px;"
+              :formatter="value => `${(value * 100).toFixed(0)}%`"
+              :parser="value => value.replace('%', '')"
+            />
+            <a-button type="text" icon="zoom-in" @click="changeScale(true)"></a-button>
+            <!-- 预览/打印 -->
+            <a-button-group>
+              <a-button type="primary" icon="eye" @click="preView">
+                预览
               </a-button>
-            </template>
-            <a-popover v-model="paperPopVisible" title="设置纸张宽高(mm)" trigger="click">
-              <div slot="content">
-                <a-input-group compact style="margin: 10px 10px">
-                  <a-input type="number" v-model="paperWidth" style=" width: 100px; text-align: center"
-                           placeholder="宽(mm)"/>
-                  <a-input style=" width: 30px; border-left: 0; pointer-events: none; backgroundColor: #fff"
-                           placeholder="~" disabled
-                  />
-                  <a-input type="number" v-model="paperHeight" style="width: 100px; text-align: center; border-left: 0"
-                           placeholder="高(mm)"/>
-                </a-input-group>
-                <a-button type="primary" style="width: 100%" @click="otherPaper">确定</a-button>
-              </div>
-              <a-button :type="'other'==curPaperType?'primary':''">自定义纸张</a-button>
-            </a-popover>
-          </a-button-group>
-          <a-button type="text" icon="zoom-out" @click="changeScale(false)"></a-button>
-          <a-input-number
-            :value="scaleValue"
-            :min="scaleMin"
-            :max="scaleMax"
-            :step="0.1"
-            disabled
-            style="width: 70px;"
-            :formatter="value => `${(value * 100).toFixed(0)}%`"
-            :parser="value => value.replace('%', '')"
-          />
-          <a-button type="text" icon="zoom-in" @click="changeScale(true)"></a-button>
-          <!-- 预览/打印 -->
-          <a-button-group>
-            <a-button type="primary" icon="eye" @click="preView">
-              预览
-            </a-button>
-            <a-button type="primary" @click="print">
-              直接打印
-              <a-icon type="printer"/>
-            </a-button>
-          </a-button-group>
-          <!-- 保存/清空 -->
-          <a-button-group>
-            <a-button type="primary" icon="save" @click="save">
-              保存
-            </a-button>
-            <a-popconfirm
-              title="是否确认清空?"
-              okType="danger"
-              okText="确定清空"
-              @confirm="clearPaper"
-            >
-              <a-icon slot="icon" type="question-circle-o" style="color: red"/>
-              <a-button type="danger">
-                清空
-                <a-icon type="close"/>
+              <a-button type="primary" @click="print">
+                直接打印
+                <a-icon type="printer"/>
               </a-button>
-            </a-popconfirm>
-          </a-button-group>
-          <json-view :template="template"/>
-        </a-space>
+            </a-button-group>
+            <!-- 保存/清空 -->
+            <a-button-group>
+              <a-button type="primary" icon="save" @click="save">
+                保存
+              </a-button>
+              <a-popconfirm
+                title="是否确认清空?"
+                okType="danger"
+                okText="确定清空"
+                @confirm="clearPaper"
+              >
+                <a-icon slot="icon" type="question-circle-o" style="color: red"/>
+                <a-button type="danger">
+                  清空
+                  <a-icon type="close"/>
+                </a-button>
+              </a-popconfirm>
+            </a-button-group>
+            <json-view :template="template"/>
+          </a-space>
+          <!-- 多面板的容器 -->
+          <div class="hiprint-printPagination" style="margin-top: 14px;"></div>
+        </a-row>
       </a-col>
     </a-row>
     <a-row :gutter="[8,0]">
@@ -112,12 +117,12 @@ import printPreview from './preview'
 import jsonView from '../json-view.vue'
 
 import {hiprint} from '../../index'
-import providers from './providers'
+import {providers, providerList} from './providers'
 import printData from './print-data'
 
 let hiprintTemplate;
 export default {
-  name: "printCustom",
+  name: "printPanels",
   components: {printPreview, jsonView},
   data() {
     return {
@@ -188,37 +193,41 @@ export default {
   },
   methods: {
     init() {
-      this.modeList = providers.map((e) => {
-        return {type: e.type, name: e.name, value: e.value}
-      })
+      this.modeList = providerList
       this.changeMode()
+      this.buildTemplate()
     },
     changeMode() {
       let {mode} = this
-      let provider = providers[mode]
+      let provider = providerList[mode]
       hiprint.init({
-        providers: [provider.f]
+        providers: [...providers]
       });
       $('.hiprintEpContainer').empty()
       hiprint.PrintElementTypeManager.build('.hiprintEpContainer', provider.value);
+
+    },
+    buildTemplate() {
       $('#hiprint-printTemplate').empty()
-      let templates = this.$ls.get('KEY_TEMPLATES', {})
-      let template = templates[provider.value] ? templates[provider.value] : {}
+      let templates = this.$ls.get('KEY_TEMPLATES_PANELS', {})
+      let that = this;
       this.template = hiprintTemplate = new hiprint.PrintTemplate({
-        template: template,
-        dataMode: 1, // 1:getJson 其他：getJsonTid 默认1
-        history: false, // 是否需要 撤销重做功能
-        onDataChanged: (type, json) => {
-          console.log(type); // 新增、移动、删除、修改(参数调整)、大小、旋转
-          console.log(json); // 返回 template
-          // 更新模板
-          // hiprintTemplate.update(json)
-          // console.log(hiprintTemplate.historyList)
-        },
+        template: templates,
         settingContainer: '#PrintElementOptionSetting',
-        paginationContainer: '.hiprint-printPagination'
+        paginationContainer: '.hiprint-printPagination',
+        defaultPanelName: '默认面板名称',
+        onPanelAddClick: (panel, createPanel) => {
+          panel.name = '新面板' + (panel.index + 1);
+          that.$message.success('弹出个东西,让你们知道,在这里可以自定义面板名称');
+          that.$notification.success({
+            placement: 'topRight',
+            message: '弹出个东西,让你们知道,在这里可以自定义面板名称',
+            description: '自定义面板名称',
+          });
+          createPanel(panel);
+        },
       });
-      hiprintTemplate.design('#hiprint-printTemplate');
+      hiprintTemplate.design('#hiprint-printTemplate', {grid: true});
       // 获取当前放大比例, 当zoom时传true 才会有
       this.scaleValue = hiprintTemplate.editingPanel.scale || 1;
     },
@@ -276,18 +285,9 @@ export default {
       this.$message.error('客户端未连接,无法直接打印')
     },
     save() {
-      let {mode} = this
-      let provider = providers[mode]
-      this.setTemplate({
-        name: provider.value,
-        json: hiprintTemplate.getJson()
-      })
-    },
-    setTemplate(payload) {
-      let templates = this.$ls.get('KEY_TEMPLATES', {})
-      console.log(payload.json)
-      templates[payload.name] = payload.json
-      this.$ls.set('KEY_TEMPLATES', templates)
+      let json = hiprintTemplate.getJson();
+      console.log(json);
+      this.$ls.set('KEY_TEMPLATES_PANELS', json)
       this.$message.info('保存成功')
     },
     clearPaper() {

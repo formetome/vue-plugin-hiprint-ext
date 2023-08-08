@@ -61,6 +61,27 @@
             <a-icon type="close"/>
           </a-button>
         </a-popconfirm>
+        <json-view :template="template"/>
+      </a-space>
+      <a-space style="margin-bottom: 10px">
+        <a-button type="primary" @click="exportPdf('')">
+          导出获取pdf(Blob)
+        </a-button>
+        <a-button type="primary" @click="exportPdf('arraybuffer')">
+          导出获取pdf(ArrayBuffer)
+        </a-button>
+        <a-button type="primary" @click="exportPdf('dataurl')">
+          导出获取pdf(DataUrl)
+        </a-button>
+        <a-button type="primary" @click="exportPdf('bloburl')">
+          导出获取pdf(BlobUrl)
+        </a-button>
+        <a-button type="primary" @click="exportPdf('dataurlstring')">
+          导出获取pdf(DataUrlString)
+        </a-button>
+        <a-button type="primary" @click="exportPdf('pdfobjectnewwindow')">
+          导出查看pdf(PdfObjectNewWindow)
+        </a-button>
       </a-space>
       <a-space style="margin-bottom: 10px">
         <a-button type="primary" @click="ippPrintAttr">
@@ -77,7 +98,8 @@
         </a-button>
       </a-space>
       <a-space style="margin-bottom: 10px">
-        <a-textarea style="width:30vw" v-model:value="jsonIn" @pressEnter="updateJson" placeholder="复制json模板到此后 点击右侧更新"
+        <a-textarea style="width:30vw" v-model:value="jsonIn" @pressEnter="updateJson"
+                    placeholder="复制json模板到此后 点击右侧更新"
                     allow-clear/>
         <a-button type="primary" @click="updateJson">
           更新json模板
@@ -144,7 +166,7 @@
                     </a>
                   </div>
                 </a-col>
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.image" style>
                       <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>
@@ -154,7 +176,7 @@
                 </a-col>
               </a-row>
               <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.longText">
                       <span class="glyphicon glyphicon-subscript" aria-hidden="true"></span>
@@ -162,7 +184,7 @@
                     </a>
                   </div>
                 </a-col>
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.table" style>
                       <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
@@ -172,7 +194,17 @@
                 </a-col>
               </a-row>
               <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
+                  <div>
+                    <a class="ep-draggable-item" tid="defaultModule.emptyTable" style>
+                      <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+                      <p class="glyphicon-class">空白表格</p>
+                    </a>
+                  </div>
+                </a-col>
+              </a-row>
+              <a-row style="height: 100px;">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.html" style="">
                       <span class="glyphicon glyphicon-header" aria-hidden="true"></span>
@@ -180,7 +212,7 @@
                     </a>
                   </div>
                 </a-col>
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.customText" style>
                       <span class="glyphicon glyphicon-text-width" aria-hidden="true"></span>
@@ -191,7 +223,7 @@
               </a-row>
               <a-row class="drag_item_title">辅助</a-row>
               <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.hline" style>
                       <span class="glyphicon glyphicon-resize-horizontal" aria-hidden="true"></span>
@@ -199,7 +231,7 @@
                     </a>
                   </div>
                 </a-col>
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.vline" style>
                       <span class="glyphicon glyphicon-resize-vertical" aria-hidden="true"></span>
@@ -209,7 +241,7 @@
                 </a-col>
               </a-row>
               <a-row style="height: 100px;">
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.rect">
                       <span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>
@@ -217,7 +249,7 @@
                     </a>
                   </div>
                 </a-col>
-                <a-col :span="12" class="drag_item_box" tid="defaultModule.text">
+                <a-col :span="12" class="drag_item_box">
                   <div>
                     <a class="ep-draggable-item" tid="defaultModule.oval">
                       <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
@@ -253,16 +285,19 @@ import {defaultElementTypeProvider, hiprint} from '../../index'
 import panel from './panel'
 import printData from './print-data'
 import printPreview from './preview'
+import jsonView from "../json-view.vue";
+import fontSize from "./font-size.js";
+import scale from "./scale.js";
 // disAutoConnect();
 
 let hiprintTemplate;
 
 export default {
   name: "printDesign",
-  components: {printPreview},
+  components: {printPreview, jsonView},
   data() {
     return {
-      deactivated: false,
+      template: null,
       curPaper: {
         type: 'A4',
         width: 210,
@@ -321,15 +356,6 @@ export default {
       return type
     }
   },
-  activated() {
-    if (this.deactivated) {
-      this.init();
-      this.deactivated = false;
-    }
-  },
-  deactivated() {
-    this.deactivated = true;
-  },
   mounted() {
     this.init()
   },
@@ -343,28 +369,8 @@ export default {
       // 替换配置
       hiprint.setConfig({
         optionItems: [
-          function () {
-            function t() {
-              // json模板 options 对应键值
-              this.name = "scale";
-            }
-
-            return t.prototype.css = function (t, e) { // t: 元素对象， e 参数值
-              if (t && t.length) {
-                if (e) return t.css('transform', 'scale(' + e + ')');
-              }
-              return null;
-            }, t.prototype.createTarget = function (t, i, e) { //  t: 元素对象，i: 元素options, e: 元素printElementType
-              return this.target = $('<div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        缩放\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="number" class="auto-submit"/>\n        </div>\n    </div>'), this.target;
-            }, t.prototype.getValue = function () {
-              var t = this.target.find("input").val();
-              if (t) return parseFloat(t.toString());
-            }, t.prototype.setValue = function (t) { //  t: options 对应键的值
-              this.target.find("input").val(t);
-            }, t.prototype.destroy = function () {
-              this.target.remove();
-            }, t;
-          }(),
+          fontSize,
+          scale,
           function () {
             function t() {
               this.name = "zIndex";
@@ -391,18 +397,10 @@ export default {
         text: {
           tabs: [
             // 隐藏部分
-            // {
-            //   name: '测试', options: [
-            //     {
-            //       name: 'title',
-            //       hidden: false
-            //     },
-            //     {
-            //       name: 'field',
-            //       hidden: true
-            //     },
-            //   ]
-            // },
+            {
+              // name: '测试', // tab名称 可忽略
+              options: [] // 必须包含 options
+            },// 当修改第二个 tabs 时,必须把他之前的 tabs 都列举出来.
             {
               name: '样式', options: [
                 {
@@ -456,7 +454,7 @@ export default {
       hiprint.PrintElementTypeManager.buildByHtml($('.ep-draggable-item'));
       $('#hiprint-printTemplate').empty()
       let that = this;
-      hiprintTemplate = new hiprint.PrintTemplate({
+      this.template = hiprintTemplate = new hiprint.PrintTemplate({
         template: panel,
         // 图片选择功能
         onImageChooseClick: (target) => {
@@ -469,7 +467,7 @@ export default {
             //   el.designTarget.css('width', width + "pt");
             //   el.designTarget.children('.resize-panel').trigger($.Event('click'));
             // })
-            target.refresh("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtAAAAIIAQMAAAB99EudAAAABlBMVEUmf8vG2O41LStnAAABD0lEQVR42u3XQQqCQBSAYcWFS4/QUTpaHa2jdISWLUJjjMpclJoPGvq+1WsYfiJCZ4oCAAAAAAAAAAAAAAAAAHin6pL9c6H/fOzHbRrP0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0u/SY9LS0tLS0tLS0tLS0n+edm+UlpaWlpaWlpaWlpaW/tl0Ndyzbno7/+tPTJdd1wal69dNa6abx+Lq6TSeYtK7BX/Diek0XULSZZrakPRtV0i6Hu/KIt30q4fM0pvBqvR9mvsQkZaW9gyJT+f5lsnzjR54xAk8mAUeJyMPwYFH98ALx5Jr0kRLLndT7b64UX9QR/0eAAAAAAAAAAAAAAAAAAD/4gpryzr/bja4QgAAAABJRU5ErkJggg==",{
+            target.refresh("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAtAAAAIIAQMAAAB99EudAAAABlBMVEUmf8vG2O41LStnAAABD0lEQVR42u3XQQqCQBSAYcWFS4/QUTpaHa2jdISWLUJjjMpclJoPGvq+1WsYfiJCZ4oCAAAAAAAAAAAAAAAAAHin6pL9c6H/fOzHbRrP0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0u/SY9LS0tLS0tLS0tLS0n+edm+UlpaWlpaWlpaWlpaW/tl0Ndyzbno7/+tPTJdd1wal69dNa6abx+Lq6TSeYtK7BX/Diek0XULSZZrakPRtV0i6Hu/KIt30q4fM0pvBqvR9mvsQkZaW9gyJT+f5lsnzjR54xAk8mAUeJyMPwYFH98ALx5Jr0kRLLndT7b64UX9QR/0eAAAAAAAAAAAAAAAAAAD/4gpryzr/bja4QgAAAABJRU5ErkJggg==", {
               // auto: true, // 根据图片宽高自动等比(宽>高?width:height)
               // width: true, // 按宽调整高
               // height: true, // 按高调整宽
@@ -503,7 +501,7 @@ export default {
         settingContainer: '#PrintElementOptionSetting',
         paginationContainer: '.hiprint-printPagination'
       });
-      hiprintTemplate.design('#hiprint-printTemplate');
+      hiprintTemplate.design('#hiprint-printTemplate', {grid: true});
       console.log(hiprintTemplate);
       // 获取当前放大比例, 当zoom时传true 才会有
       this.scaleValue = hiprintTemplate.editingPanel.scale || 1;
@@ -644,6 +642,12 @@ export default {
       } catch (error) {
         this.$message.error(`操作失败: ${error}`);
       }
+    },
+    exportPdf(type) {
+      hiprintTemplate.toPdf(printData, '测试导出pdf', {isDownload: false, type: type}).then((res) => {
+        console.log('type:', type);
+        console.log(res);
+      });
     },
     ippPrintAttr() {
       // 不知道打印机 ipp 情况， 可通过 '客户端' 获取一下

@@ -51,6 +51,8 @@ import '@claviska/jquery-minicolors/jquery.minicolors.min'
 import JsBarcode from 'jsbarcode'
 // 二维码
 import './plugins/qrcode.js'
+// 水印
+import watermark from './plugins/watermark.js'
 // DM码
 import DATAMatrix from './plugins/datamatrix.min.js'
 // 直接打印需要
@@ -483,741 +485,7 @@ var hiprint = (function (t) {
     var i = n(9),
       o = (function () {
         function t() {
-          ;(this.providers = []),
-            (this.movingDistance = 1.5),
-            (this.paperHeightTrim = 1),
-            (this.text = {
-              supportOptions: [
-                {
-                  name: 'title',
-                  hidden: !1,
-                  title: '',
-                },
-                {
-                  name: 'field',
-                  hidden: !1,
-                },
-                {
-                  name: 'subField',
-                  hidden: !1,
-                },
-                {
-                  name: 'testData',
-                  hidden: !1,
-                },
-                {
-                  name: 'coordinate',
-                  hidden: !1,
-                },
-                {
-                  name: 'dataType',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontFamily',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontSize',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontWeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'letterSpacing',
-                  hidden: !1,
-                },
-                {
-                  name: 'color',
-                  hidden: !1,
-                },
-                {
-                  name: 'textDecoration',
-                  hidden: !1,
-                },
-                {
-                  name: 'textAlign',
-                  hidden: !1,
-                },
-                {
-                  name: 'textContentVerticalAlign',
-                  hidden: !1,
-                },
-                {
-                  name: 'lineHeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'textType',
-                  hidden: !1,
-                },
-                {
-                  name: 'barcodeMode',
-                  hidden: !1,
-                },
-                {
-                  name: 'qrCodeLevel',
-                  hidden: !1,
-                },
-                {
-                  name: 'hideTitle',
-                  hidden: !1,
-                },
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'unShowInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'transform',
-                  hidden: !1,
-                },
-                {
-                  name: 'optionsGroup',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderLeft',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderTop',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderRight',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderBottom',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderWidth',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingLeft',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingTop',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingRight',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingBottom',
-                  hidden: !1,
-                },
-                {
-                  name: 'backgroundColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'formatter',
-                  hidden: !1,
-                },
-                {
-                  name: 'styler',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                fontFamily: void 0,
-                fontSize: void 0,
-                fontWeight: '',
-                letterSpacing: void 0,
-                textAlign: void 0,
-                textType: 'text',
-                hideTitle: !1,
-                height: 9.75,
-                lineHeight: void 0,
-                width: 120,
-              },
-            }),
-            (this.image = {
-              supportOptions: [
-                {
-                  name: 'field',
-                  hidden: !1,
-                },
-                {
-                  name: 'src',
-                  hidden: !1,
-                },
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'transform',
-                  hidden: !1,
-                },
-                {
-                  name: 'formatter',
-                  hidden: !1,
-                },
-                {
-                  name: 'styler',
-                  hidden: !1,
-                },
-              ],
-              default: {},
-            }),
-            (this.longText = {
-              supportOptions: [
-                {
-                  name: 'title',
-                  hidden: !1,
-                },
-                {
-                  name: 'field',
-                  hidden: !1,
-                },
-                {
-                  name: 'testData',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontFamily',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontSize',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontWeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'letterSpacing',
-                  hidden: !1,
-                },
-                {
-                  name: 'textAlign',
-                  hidden: !1,
-                },
-                {
-                  name: 'lineHeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'color',
-                  hidden: !1,
-                },
-                {
-                  name: 'hideTitle',
-                  hidden: !1,
-                },
-                {
-                  name: 'longTextIndent',
-                  hidden: !1,
-                },
-                {
-                  name: 'leftSpaceRemoved',
-                  hidden: !1,
-                },
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'unShowInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'lHeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'transform',
-                  hidden: !1,
-                },
-                {
-                  name: 'optionsGroup',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderLeft',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderTop',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderRight',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderBottom',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderWidth',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingLeft',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingTop',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingRight',
-                  hidden: !1,
-                },
-                {
-                  name: 'contentPaddingBottom',
-                  hidden: !1,
-                },
-                {
-                  name: 'backgroundColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'formatter',
-                  hidden: !1,
-                },
-                {
-                  name: 'styler',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                fontFamily: void 0,
-                fontSize: void 0,
-                fontWeight: '',
-                letterSpacing: void 0,
-                textAlign: void 0,
-                hideTitle: !1,
-                height: 42,
-                lineHeight: void 0,
-                width: 550,
-              },
-            }),
-            (this.table = {
-              supportOptions: [
-                {
-                  name: 'field',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontFamily',
-                  hidden: !1,
-                },
-                {
-                  name: 'fontSize',
-                  hidden: !1,
-                },
-                {
-                  name: 'lineHeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'textAlign',
-                  hidden: !1,
-                },
-                {
-                  name: 'gridColumns',
-                  hidden: !1,
-                },
-                {
-                  name: 'gridColumnsGutter',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableHeaderRepeat',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableBorder',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableHeaderBorder',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableHeaderCellBorder',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableHeaderRowHeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableHeaderBackground',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableHeaderFontSize',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableHeaderFontWeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableBodyRowHeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableBodyRowBorder',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableBodyCellBorder',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableFooterBorder',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableFooterCellBorder',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'lHeight',
-                  hidden: !1,
-                },
-                {
-                  name: 'autoCompletion',
-                  hidden: !1,
-                },
-                {
-                  name: 'columns',
-                  hidden: !1,
-                },
-                {
-                  name: 'styler',
-                  hidden: !1,
-                },
-                {
-                  name: 'rowStyler',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableFooterRepeat',
-                  hidden: !1,
-                },
-                {
-                  name: 'footerFormatter',
-                  hidden: !1,
-                },
-                {
-                  name: 'rowsColumnsMerge',
-                  hidden: !1,
-                },
-                {
-                  name: 'gridColumnsFooterFormatter',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                fontFamily: void 0,
-                fontSize: void 0,
-                fontWeight: '',
-                textAlign: void 0,
-                tableBorder: void 0,
-                tableHeaderBorder: void 0,
-                tableHeaderCellBorder: void 0,
-                tableHeaderBackground: void 0,
-                tableHeaderRowHeight: void 0,
-                tableHeaderFontWeight: void 0,
-                tableBodyCellBorder: void 0,
-                tableFooterBorder: void 0,
-                tableFooterCellBorder: void 0,
-                tableBodyRowHeight: void 0,
-                letterSpacing: '',
-                lineHeight: void 0,
-                width: 550,
-              },
-            }),
-            (this.hline = {
-              supportOptions: [
-                {
-                  name: 'borderColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderWidth',
-                  hidden: !1,
-                },
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'transform',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderStyle',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                borderWidth: 0.75,
-                height: 9,
-                width: 90,
-              },
-            }),
-            (this.vline = {
-              supportOptions: [
-                {
-                  name: 'borderColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderWidth',
-                  hidden: !1,
-                },
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'transform',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderStyle',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                borderWidth: void 0,
-                height: 90,
-                width: 9,
-              },
-            }),
-            (this.rect = {
-              supportOptions: [
-                {
-                  name: 'borderColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderWidth',
-                  hidden: !1,
-                },
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'transform',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderStyle',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                borderWidth: void 0,
-                height: 90,
-                width: 90,
-              },
-            }),
-            (this.oval = {
-              supportOptions: [
-                {
-                  name: 'borderColor',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderWidth',
-                  hidden: !1,
-                },
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'transform',
-                  hidden: !1,
-                },
-                {
-                  name: 'borderStyle',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                borderWidth: void 0,
-                height: 90,
-                width: 90,
-              },
-            }),
-            (this.html = {
-              supportOptions: [
-                {
-                  name: 'showInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'unShowInPage',
-                  hidden: !1,
-                },
-                {
-                  name: 'fixed',
-                  hidden: !1,
-                },
-                {
-                  name: 'axis',
-                  hidden: !1,
-                },
-                {
-                  name: 'formatter',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                height: 90,
-                width: 90,
-              },
-            }),
-            (this.tableColumn = {
-              supportOptions: [
-                {
-                  name: 'title',
-                  hidden: !1,
-                },
-                {
-                  name: 'align',
-                  hidden: !1,
-                },
-                {
-                  name: 'halign',
-                  hidden: !1,
-                },
-                {
-                  name: 'vAlign',
-                  hidden: !1,
-                },
-                {
-                  name: 'paddingLeft',
-                  hidden: !1,
-                },
-                {
-                  name: 'paddingRight',
-                  hidden: !1,
-                },
-                {
-                  name: 'formatter2',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableSummary',
-                  hidden: !1,
-                },
-                {
-                  name: 'styler2',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableTextType',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableBarcodeMode',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableQRCodeLevel',
-                  hidden: !1,
-                },
-                {
-                  name: 'tableColumnHeight',
-                  hidden: !1,
-                },
-              ],
-              default: {
-                height: 90,
-                width: 90,
-              },
-            })
+          // see hiprint.config.js
         }
 
         return (
@@ -1710,6 +978,7 @@ var hiprint = (function (t) {
                     e._editing = true
                     e.designTarget.hidraggable('update', { draggable: false })
                     c.css('cursor', 'text'), c.addClass('editing')
+                    e.designTarget.addClass('editing')
                     c.click(function (ev) {
                       if (e._editing) {
                         ev.stopPropagation()
@@ -1749,6 +1018,7 @@ var hiprint = (function (t) {
                 c.css('cursor', '') &&
                 c.removeClass('editing') &&
                 c.removeAttr('contenteditable')
+              e.designTarget.removeClass('editing')
               var t = c.text(),
                 title = e.options.title + '：'
               if (t.startsWith(title) && e.options.field) {
@@ -1797,10 +1067,15 @@ var hiprint = (function (t) {
                   return (
                     'block' ==
                       t.designTarget.children().last().css('display') &&
+                    t.designTarget.children().last().hasClass('selected') &&
                     !t.printElementType.type.includes('table')
                   )
                 })
                 var isMultiple = els.length > 1
+                var notSelected = !n.designTarget
+                  .children()
+                  .last()
+                  .hasClass('selected')
                 if (isMultiple) {
                   var left = i - n.options.left,
                     top = o - n.options.top
@@ -1813,6 +1088,10 @@ var hiprint = (function (t) {
                       t.designTarget.css('top', t.options.displayTop())
                     t.createLineOfPosition(e)
                   })
+                  if (notSelected) {
+                    n.updateSizeAndPositionOptions(i, o),
+                      n.createLineOfPosition(e)
+                  }
                 } else {
                   n.updateSizeAndPositionOptions(i, o),
                     n.createLineOfPosition(e)
@@ -2012,6 +1291,7 @@ var hiprint = (function (t) {
               e = this.designPaper
             this.designTarget.hireizeable({
               showPoints: n.getReizeableShowPoints(),
+              draggable: n.options.draggable, // 元素是否可拖拽、删除
               // 是否显示宽高box
               showSizeBox:
                 _HiPrintConfig__WEBPACK_IMPORTED_MODULE_1__.a.instance
@@ -2219,10 +1499,9 @@ var hiprint = (function (t) {
           (BasePrintElement.prototype.getBeginPrintTopInPaperByReferenceElement =
             function (t) {
               var e = this.options.getTop()
-              var h = this.options.getHeight()
               return this.isHeaderOrFooter() || this.isFixed()
                 ? e
-                : t.referenceElement.isPositionLeftOrRight(e, h)
+                : t.referenceElement.isPositionLeftOrRight(e)
                 ? t.referenceElement.printTopInPaper +
                   (e - t.referenceElement.top)
                 : t.referenceElement.bottomInLastPaper +
@@ -3116,6 +2395,11 @@ var hiprint = (function (t) {
                 }
                 t.id && t.target.attr('id', t.id),
                   t.columnId && t.target.attr('column-id', t.columnId)
+                hinnn.event.trigger(
+                  'hiprintTemplateDataChanged_' +
+                    this.tableOptions.options.templateId,
+                  '调整表格列字段'
+                )
               } else t.title = this.title = e
             } else
               this.tableOptions.options.isEnableEditField
@@ -3140,13 +2424,16 @@ var hiprint = (function (t) {
             (this.columnId = t.columnId),
             (this.tableSummaryTitle = t.tableSummaryTitle),
             (this.tableSummaryText = t.tableSummaryText),
+            (this.tableSummaryColspan = t.tableSummaryColspan),
             (this.tableSummary = t.tableSummary),
             (this.tableSummaryAlign = t.tableSummaryAlign),
             (this.tableSummaryNumFormat = t.tableSummaryNumFormat),
             (this.upperCase = t.upperCase),
-            (this.renderFormatter = t.renderFormatter),
-            (this.formatter2 = t.formatter2),
-            (this.styler2 = t.styler2),
+            (this.renderFormatter =
+              t.renderFormatter && t.renderFormatter.toString()),
+            (this.formatter2 = t.formatter2 && t.formatter2.toString()),
+            (this.styler2 = t.styler2 && t.styler2.toString()),
+            (this.stylerHeader = t.stylerHeader && t.stylerHeader.toString()),
             (this.tableColumnHeight = t.tableColumnHeight),
             (this.tableTextType = t.tableTextType),
             (this.tableBarcodeMode = t.tableBarcodeMode),
@@ -3333,15 +2620,17 @@ var hiprint = (function (t) {
             (n.renderFormatter = e.renderFormatter),
             (n.formatter2 = e.formatter2),
             (n.styler2 = e.styler2),
+            (n.stylerHeader = e.stylerHeader),
             (n.checkbox = e.checkbox),
             (n.checked = 0 != e.checked),
             (n.columnId = e.columnId || e.field),
             (n.tableColumnHeight = e.tableColumnHeight || 30),
             (n.tableTextType = e.tableTextType || 'text'),
-            (n.tableBarcodeMode = e.tableBarcodeMode || 'CODE128A'),
+            (n.tableBarcodeMode = e.tableBarcodeMode || 'CODE128'),
             (n.tableQRCodeLevel = e.tableQRCodeLevel),
             (n.tableSummaryTitle = e.tableSummaryTitle),
             (n.tableSummaryText = e.tableSummaryText),
+            (n.tableSummaryColspan = e.tableSummaryColspan),
             (n.tableSummary = e.tableSummary),
             (n.tableSummaryAlign = e.tableSummaryAlign),
             (n.tableSummaryNumFormat = e.tableSummaryNumFormat),
@@ -3409,8 +2698,16 @@ var hiprint = (function (t) {
                             (t.targetWidth = o[t.id]),
                             n.attr('haswidth', 'haswidth'),
                             n.css('width', o[t.id] + 'pt'))
-                          : (t.hasWidth = !1),
-                        e.append(n)
+                          : (t.hasWidth = !1)
+                      var s = TableExcelHelper.getHeaderStyler(t)
+                      if (s) {
+                        var l = s(t)
+                        if (l)
+                          Object.keys(l).forEach(function (t) {
+                            n.css(t, l[t])
+                          })
+                      }
+                      e.append(n)
                     }),
                     i.append(e)
                 },
@@ -3445,7 +2742,7 @@ var hiprint = (function (t) {
                 .forEach(function (column) {
                   var fieldData = tSumData
                     .filter(function (row) {
-                      return row[column.field]
+                      return row && row[column.field]
                     })
                     .map(function (row) {
                       return new RegExp('^-?(0|[1-9]\\d*)(\\.\\d+)?').test(
@@ -3456,6 +2753,13 @@ var hiprint = (function (t) {
                     })
                   var text = column.tableSummaryText
                   var numF = column.tableSummaryNumFormat || 2
+                  var style = `text-align: ${
+                    column.tableSummaryAlign || 'center'
+                  }`
+                  var colspan =
+                    column.tableSummaryColspan == void 0
+                      ? 1
+                      : column.tableSummaryColspan
                   var upperCaseType = column.upperCase
                   let { toUpperCase, numFormat } =
                     _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a
@@ -3467,9 +2771,7 @@ var hiprint = (function (t) {
                         tSumData.length || 0
                       )
                       tableFooter.append(
-                        `<td style="text-align: ${
-                          column.tableSummaryAlign || 'center'
-                        }">${title}${count}</td>`
+                        `<td style="${style}" colspan="${colspan}">${title}${count}</td>`
                       )
                       break
                     case 'sum':
@@ -3483,9 +2785,7 @@ var hiprint = (function (t) {
                       sum = toUpperCase(upperCaseType, numFormat(sum, numF))
                       var title = tst(column, text || '合计:', o)
                       tableFooter.append(
-                        `<td style="text-align: ${
-                          column.tableSummaryAlign || 'center'
-                        }">${title}${sum}</td>`
+                        `<td style="${style}" colspan="${colspan}">${title}${sum}</td>`
                       )
                       break
                     case 'avg':
@@ -3502,40 +2802,46 @@ var hiprint = (function (t) {
                       avg = toUpperCase(upperCaseType, numFormat(avg, numF))
                       var title = tst(column, text || '平均值:', o)
                       tableFooter.append(
-                        `<td style="text-align: ${
-                          column.tableSummaryAlign || 'center'
-                        }">${title}${avg}</td>`
+                        `<td style="${style}" colspan="${colspan}">${title}${avg}</td>`
                       )
                       break
                     case 'min':
-                      var min = Math.min(...fieldData)
+                      var min = Math.min(...fieldData) || 0
+                      min == Infinity && (min = 0)
                       min = toUpperCase(upperCaseType, numFormat(min, numF))
                       var title = tst(column, text || '最小值:', o)
                       tableFooter.append(
-                        `<td style="text-align: ${
-                          column.tableSummaryAlign || 'center'
-                        }">${title}${min || 0}</td>`
+                        `<td style="${style}" colspan="${colspan}">${title}${
+                          min || 0
+                        }</td>`
                       )
                       break
                     case 'max':
                       var max = Math.max(...fieldData)
+                      max == -Infinity && (max = 0)
                       max = toUpperCase(upperCaseType, numFormat(max, numF))
                       var title = tst(column, text || '最大值:', o)
                       tableFooter.append(
-                        `<td style="text-align: ${
-                          column.tableSummaryAlign || 'center'
-                        }">${title}${max || 0}</td>`
+                        `<td style="${style}" colspan="${colspan}">${title}${
+                          max || 0
+                        }</td>`
                       )
                       break
                     case 'text':
                       tableFooter.append(
-                        `<td style="text-align: ${
-                          column.tableSummaryAlign || 'center'
-                        }">${text || ''}</td>`
+                        `<td style="${style}" colspan="${colspan}">${
+                          text || ''
+                        }</td>`
                       )
                       break
                     default:
-                      tableFooter.append('<td></td>')
+                      if (colspan >= 1) {
+                        tableFooter.append(
+                          `<td style="${style}" colspan="${colspan}">${
+                            text || ''
+                          }</td>`
+                        )
+                      }
                       break
                   }
                 })
@@ -3556,51 +2862,78 @@ var hiprint = (function (t) {
               ? ``
               : `<span style="color:firebrick">${title}</span>`
           }),
-          (TableExcelHelper.createTableRow = function (t, e, n, i) {
+          (TableExcelHelper.createTableRow = function (t, e, printData, n, i) {
+            var h = this
             var o = TableExcelHelper.reconsitutionTableColumnTree(t),
               r = $('<tbody></tbody>')
-            ;(e || (e = []), i.groupFields.length)
+            var gff = h.getGroupFieldsFormatter(n, i)
+            var groupFields = gff
+              ? (n.groupFields = gff(i, n, e))
+              : i.groupFields
+              ? i.groupFields
+              : []
+            ;(e || (e = []), groupFields.length)
               ? _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_1__.a
-                  .groupBy(e, i.groupFields, function (t) {
+                  .groupBy(e, groupFields, function (t) {
                     var e = {}
                     return (
-                      i.groupFields.forEach(function (n) {
+                      groupFields.forEach(function (n) {
                         return (e[n] = t[n])
                       }),
                       e
                     )
                   })
                   .forEach(function (t) {
-                    if (i.groupFormatter) {
+                    var groupFormatter = h.getGroupFormatter(n, i)
+                    if (groupFormatter) {
                       var e = $('<tr><td colspan=' + o.colspan + '></td></tr>')
-                      e.find('td').append(i.groupFormatter(t, n)), r.append(e)
+                      e.find('td').append(groupFormatter(t, n)), r.append(e)
                     }
-
+                    var groupFooterFormatter = h.getGroupFooterFormatter(n, i)
+                    var groupData = t
                     if (
-                      (t.rows.forEach(function (t, rowIndex) {
+                      (groupData.rows.forEach(function (t, rowIndex) {
                         var e = TableExcelHelper.createRowTarget(
                           o,
                           t,
                           n,
                           i,
-                          rowIndex
+                          rowIndex,
+                          groupData.rows,
+                          printData
                         )
                         r.append(e)
                       }),
-                      i.groupFooterFormatter)
+                      groupFooterFormatter)
                     ) {
                       var a = $('<tr><td colspan=' + o.colspan + '></td></tr>')
-                      a.find('td').append(i.groupFooterFormatter(t, n)),
+                      a.find('td').append(groupFooterFormatter(t, n)),
                         r.append(a)
                     }
                   })
               : e.forEach(function (t, rowIndex) {
-                  var e = TableExcelHelper.createRowTarget(o, t, n, i, rowIndex)
-                  r.append(e)
+                  var row = TableExcelHelper.createRowTarget(
+                    o,
+                    t,
+                    n,
+                    i,
+                    rowIndex,
+                    e,
+                    printData
+                  )
+                  r.append(row)
                 })
             return r
           }),
-          (TableExcelHelper.createRowTarget = function (t, e, n, i, rowIndex) {
+          (TableExcelHelper.createRowTarget = function (
+            t,
+            e,
+            n,
+            i,
+            rowIndex,
+            tableData,
+            printData
+          ) {
             var o = $('<tr></tr>')
             var columns = t.rowColumns.filter(function (t) {
               return t.checked
@@ -3615,7 +2948,14 @@ var hiprint = (function (t) {
                   var rowsColumnsMerge = ''
                   if (n.rowsColumnsMerge) {
                     eval('rowsColumnsMerge=' + n.rowsColumnsMerge)
-                    var rowsColumnsArr = rowsColumnsMerge(e, t, i) || [1, 1]
+                    var rowsColumnsArr = rowsColumnsMerge(
+                      e,
+                      t,
+                      i,
+                      rowIndex,
+                      tableData,
+                      printData
+                    ) || [1, 1]
                     var r = $(
                       `<td style = 'display:${
                         !(rowsColumnsArr[0] && rowsColumnsArr[1]) ? 'none' : ''
@@ -3659,7 +2999,11 @@ var hiprint = (function (t) {
                   if (rf) {
                     r.html(rf(e[t.field], e, i, n))
                     //表格内容插入二维码等
-                  } else if ('text' == t.tableTextType) r.html(p)
+                  } else if (
+                    'text' == t.tableTextType ||
+                    t.tableTextType == void 0
+                  )
+                    r.html(p)
                   else {
                     if ('barcode' == t.tableTextType) {
                       r.html(
@@ -3716,7 +3060,7 @@ var hiprint = (function (t) {
                             height: l > u ? u : l,
                             colorDark: '#000000',
                             useSVG: !0,
-                            correctLevel: t.tableQRCodeLevel,
+                            correctLevel: t.tableQRCodeLevel || 0,
                           }).makeCode(p)
                           r.html(qrcodebox)
                         }
@@ -3828,27 +3172,31 @@ var hiprint = (function (t) {
             })
           }),
           (TableExcelHelper.allAutoWidth = function (t) {
-            var e = 0
+            var e = 0,
+              n = {}
             return (
               t.rowColumns
                 .filter(function (t) {
                   return t.checked
                 })
                 .forEach(function (t) {
-                  e += t.fixed ? 0 : t.width
+                  n[t.id] ? (n[t.id] = 0) : (n[t.id] = t.width)
+                  e += t.fixed ? 0 : n[t.id]
                 }),
               e
             )
           }),
           (TableExcelHelper.allFixedWidth = function (t) {
-            var e = 0
+            var e = 0,
+              n = {}
             return (
               t.rowColumns
                 .filter(function (t) {
                   return t.checked
                 })
                 .forEach(function (t) {
-                  e += t.fixed ? t.width : 0
+                  n[t.id] ? (n[t.id] = 0) : (n[t.id] = t.width)
+                  e += t.fixed ? n[t.id] : 0
                 }),
               e
             )
@@ -3883,6 +3231,73 @@ var hiprint = (function (t) {
                 t.hasWidth && (t.width = t.targetWidth)
               })
             })
+          }),
+          (TableExcelHelper.getGroupFieldsFormatter = function (
+            options,
+            tablePrintElementType
+          ) {
+            var groupFieldsFormatter = void 0
+            if (
+              tablePrintElementType.groupFields &&
+              tablePrintElementType.groupFields.length
+            ) {
+              var arr =
+                typeof tablePrintElementType.groupFields == 'string'
+                  ? tablePrintElementType.groupFields
+                  : JSON.stringify(tablePrintElementType.groupFields)
+              options.groupFieldsFormatter =
+                'function(type,options,data){ return ' + arr + ' }'
+            }
+            if (
+              (tablePrintElementType.groupFieldsFormatter &&
+                (groupFieldsFormatter =
+                  tablePrintElementType.groupFieldsFormatter),
+              options.groupFieldsFormatter)
+            )
+              try {
+                var s = 'groupFieldsFormatter=' + options.groupFieldsFormatter
+                eval(s)
+              } catch (t) {
+                console.log(t)
+              }
+            return groupFieldsFormatter
+          }),
+          (TableExcelHelper.getGroupFormatter = function (
+            options,
+            tablePrintElementType
+          ) {
+            var groupFormatter = void 0
+            if (
+              (tablePrintElementType.groupFormatter &&
+                (groupFormatter = tablePrintElementType.groupFormatter),
+              options.groupFormatter)
+            )
+              try {
+                var s = 'groupFormatter=' + options.groupFormatter
+                eval(s)
+              } catch (t) {
+                console.log(t)
+              }
+            return groupFormatter
+          }),
+          (TableExcelHelper.getGroupFooterFormatter = function (
+            options,
+            tablePrintElementType
+          ) {
+            var groupFooterFormatter = void 0
+            if (
+              (tablePrintElementType.groupFooterFormatter &&
+                (groupFooterFormatter =
+                  tablePrintElementType.groupFooterFormatter),
+              options.groupFooterFormatter)
+            )
+              try {
+                var s = 'groupFooterFormatter=' + options.groupFooterFormatter
+                eval(s)
+              } catch (t) {
+                console.log(t)
+              }
+            return groupFooterFormatter
           }),
           (TableExcelHelper.getFooterFormatter = function (
             options,
@@ -3930,6 +3345,20 @@ var hiprint = (function (t) {
                 console.log(t)
               }
             return styler
+          }),
+          (TableExcelHelper.getHeaderStyler = function (column) {
+            var stylerHeader = void 0
+            if (
+              (column.stylerHeader && (stylerHeader = column.stylerHeader),
+              column.stylerHeader)
+            )
+              try {
+                var s = 'stylerHeader=' + column.stylerHeader
+                eval(s)
+              } catch (t) {
+                console.log(t)
+              }
+            return stylerHeader
           }),
           (TableExcelHelper.getColumnRenderFormatter = function (column) {
             var renderFormatter = void 0
@@ -3983,6 +3412,25 @@ var hiprint = (function (t) {
                 }
               })
             }
+            // 把上层/其他层的 field 赋值给最下层
+            let lastColumns = []
+            for (let i = 0; i < t.totalLayer; i++) {
+              if (i >= t.totalLayer - 1) {
+                newColumns[i].forEach((column, columnIdx) => {
+                  if (!column.field) {
+                    column.field = lastColumns[columnIdx]
+                  }
+                })
+              } else {
+                newColumns[i].forEach((column, columnIdx) => {
+                  if (i == 0) {
+                    lastColumns.push(column.field || '')
+                  } else {
+                    column.field && (lastColumns[columnIdx] = column.field)
+                  }
+                })
+              }
+            }
             console.log('原始数据')
             console.log(t)
             console.log('数据源')
@@ -4014,12 +3462,8 @@ var hiprint = (function (t) {
       }
 
       return (
-        (t.prototype.isPositionLeftOrRight = function (t, h) {
-          return (
-            this.top <= t &&
-            this.top > t &&
-            this.beginPrintPaperIndex == this.endPrintPaperIndex
-          )
+        (t.prototype.isPositionLeftOrRight = function (t) {
+          return this.top <= t && this.top + this.height > t
         }),
         t
       )
@@ -4368,25 +3812,38 @@ var hiprint = (function (t) {
           (t.prototype.css = function (t, e) {
             if (t.find('thead tr').length) {
               if ('border' == e || void 0 == e)
-                return (
-                  t.find('thead tr').css('border', '1px solid'),
-                  'border:1pt solid'
-                )
+                return t
+                  .find('thead tr')
+                  .addClass('hiprint-printElement-tableTarget-border-all')
               'noBorder' == e
-                ? t.find('thead tr').css('border', '0px solid')
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-none')
+                : 'leftBorder' == e
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-left')
+                : 'rightBorder' == e
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-right')
+                : 'leftRightBorder' == e
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-lr')
                 : 'topBorder' == e
-                ? (t.find('thead tr').css('border', '0px solid'),
-                  t.find('thead tr').css('border-top', '1px solid'))
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-top')
                 : 'bottomBorder' == e
-                ? (t.find('thead tr').css('border', '0px solid'),
-                  t.find('thead tr').css('border-bottom', '1px solid'))
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-bottom')
                 : 'topBottomBorder' == e
-                ? (t.find('thead tr').css('border', '0px solid'),
-                  t.find('thead tr').css('border-top', '1px solid'),
-                  t.find('thead tr').css('border-bottom', '1px solid'))
-                : t.find('thead tr').map(function (t, e) {
-                    e.style.border = ''
-                  })
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-tb')
+                : t.find('thead tr').removeClass()
             }
 
             return null
@@ -4394,7 +3851,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        表头边框\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>    \n        <option value="border" >有边框</option>\n        <option value="noBorder" >无边框</option>\n        <option value="topBorder" >上边框</option>\n        <option value="bottomBorder" >下边框</option>\n        <option value="topBottomBorder" >上下边框</option>\n        </select>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        表头边框\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>    \n        <option value="border" >有边框</option>\n        <option value="noBorder" >无边框</option>\n        <option value="leftBorder" >左边框</option>\n        <option value="rightBorder" >右边框</option>\n        <option value="leftRightBorder" >左右边框</option>\n        <option value="topBorder" >上边框</option>\n        <option value="bottomBorder" >下边框</option>\n        <option value="topBottomBorder" >上下边框</option>\n        </select>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -4419,17 +3876,16 @@ var hiprint = (function (t) {
 
         return (
           (t.prototype.css = function (t, e) {
-            if (t.find('thead tr td').length) {
+            if (t.find('thead tr').length) {
               if ('border' == e || void 0 == e)
-                return (
-                  t.find('thead tr td').css('border', '1px solid'),
-                  'border:1px solid'
-                )
+                return t
+                  .find('thead tr')
+                  .addClass('hiprint-printElement-tableTarget-border-td-all')
               'noBorder' == e
-                ? t.find('thead tr td').css('border', '0px solid')
-                : t.find('thead tr td').map(function (t, e) {
-                    e.style.border = ''
-                  })
+                ? t
+                    .find('thead tr')
+                    .addClass('hiprint-printElement-tableTarget-border-td-none')
+                : t.find('thead tr').removeClass()
             }
 
             return null
@@ -4464,25 +3920,38 @@ var hiprint = (function (t) {
           (t.prototype.css = function (t, e) {
             if (t.find('tfoot tr').length) {
               if ('border' == e || void 0 == e)
-                return (
-                  t.find('tfoot tr').css('border', '1px solid'),
-                  'border:1pt solid'
-                )
+                return t
+                  .find('tfoot tr')
+                  .addClass('hiprint-printElement-tableTarget-border-all')
               'noBorder' == e
-                ? t.find('tfoot tr').css('border', '0px solid')
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-none')
+                : 'leftBorder' == e
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-left')
+                : 'rightBorder' == e
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-right')
+                : 'leftRightBorder' == e
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-lr')
                 : 'topBorder' == e
-                ? (t.find('tfoot tr').css('border', '0px solid'),
-                  t.find('tfoot tr').css('border-top', '1px solid'))
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-top')
                 : 'bottomBorder' == e
-                ? (t.find('tfoot tr').css('border', '0px solid'),
-                  t.find('tfoot tr').css('border-bottom', '1px solid'))
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-bottom')
                 : 'topBottomBorder' == e
-                ? (t.find('tfoot tr').css('border', '0px solid'),
-                  t.find('tfoot tr').css('border-top', '1px solid'),
-                  t.find('tfoot tr').css('border-bottom', '1px solid'))
-                : t.find('tfoot tr').map(function (t, e) {
-                    e.style.border = ''
-                  })
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-tb')
+                : t.find('tfoot tr').removeClass()
             }
 
             return null
@@ -4490,7 +3959,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        表尾边框\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>    \n        <option value="border" >有边框</option>\n        <option value="noBorder" >无边框</option>\n        <option value="topBorder" >上边框</option>\n        <option value="bottomBorder" >下边框</option>\n        <option value="topBottomBorder" >上下边框</option>\n        </select>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        表尾边框\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>    \n        <option value="border" >有边框</option>\n        <option value="noBorder" >无边框</option>\n        <option value="leftBorder" >左边框</option>\n        <option value="rightBorder" >右边框</option>\n        <option value="leftRightBorder" >左右边框</option>\n        <option value="topBorder" >上边框</option>\n        <option value="bottomBorder" >下边框</option>\n        <option value="topBottomBorder" >上下边框</option>\n        </select>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -4515,17 +3984,16 @@ var hiprint = (function (t) {
 
         return (
           (t.prototype.css = function (t, e) {
-            if (t.find('tfoot tr td').length) {
+            if (t.find('tfoot tr').length) {
               if ('border' == e || void 0 == e)
-                return (
-                  t.find('tfoot tr td').css('border', '1px solid'),
-                  'border:1px solid'
-                )
+                return t
+                  .find('tfoot tr')
+                  .addClass('hiprint-printElement-tableTarget-border-td-all')
               'noBorder' == e
-                ? t.find('tfoot tr td').css('border', '0px solid')
-                : t.find('tfoot tr td').map(function (t, e) {
-                    e.style.border = ''
-                  })
+                ? t
+                    .find('tfoot tr')
+                    .addClass('hiprint-printElement-tableTarget-border-td-none')
+                : t.find('tfoot tr').removeClass()
             }
 
             return null
@@ -4696,17 +4164,16 @@ var hiprint = (function (t) {
 
         return (
           (t.prototype.css = function (t, e) {
-            if (t.find('tbody tr td').length) {
+            if (t.find('tbody tr').length) {
               if ('border' == e || void 0 == e)
-                return (
-                  t.find('tbody tr td').css('border', '1px solid'),
-                  'border:1px solid'
-                )
+                return t
+                  .find('tbody tr')
+                  .addClass('hiprint-printElement-tableTarget-border-td-all')
               'noBorder' == e
-                ? t.find('tbody tr td').css('border', '0px solid')
-                : t.find('tbody tr td').map(function (t, e) {
-                    e.style.border = ''
-                  })
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-td-none')
+                : t.find('tbody tr').removeClass()
             }
 
             return null
@@ -4742,7 +4209,7 @@ var hiprint = (function (t) {
             if (t.find('tbody tr td').length) {
               if (e)
                 return (
-                  t.find('tbody tr td:not([rowspan])').css('height', e + 'pt'),
+                  t.find('tbody tr td').css('height', e + 'pt'),
                   'height:' + e + 'pt'
                 )
               t.find('tbody tr td').map(function (t, e) {
@@ -5071,7 +4538,7 @@ var hiprint = (function (t) {
             )
 
             var n =
-              ' <div class="hiprint-option-item hiprint-option-item-row">\n            <div class="hiprint-option-item-label">\n            子字段名\n            </div>\n            <div class="hiprint-option-item-field">\n            <select style="height:120px !important;" class="auto-submit" multiple="multiple">\n                 '
+              ' <div class="hiprint-option-item hiprint-option-item-row">\n            <div class="hiprint-option-item-label">\n            字段属性\n            </div>\n            <div class="hiprint-option-item-field">\n            <select style="height:120px !important;" class="auto-submit" multiple="multiple">\n                 '
             subFields.forEach(function (t, e) {
               n +=
                 ' <option value="' +
@@ -5499,6 +4966,112 @@ var hiprint = (function (t) {
           t
         )
       })(),
+      watermarkOptions = (function () {
+        function t() {
+          this.name = 'watermarkOptions'
+        }
+        return (
+          (t.prototype.createTarget = function () {
+            this.target = $(
+              ' <div class="hiprint-option-item hiprint-option-item-row"><div class="hiprint-option-item-label">水印功能</div></div>'
+            )
+            this.content = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: baseline;"><div style="width:25%">水印内容:</div><input style="width:75%" type="text" placeholder="水印内容" class="auto-submit"></div>'
+            )
+            this.fillStyle = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: center;margin-top: 4px"><div style="width:25%">字体颜色:</div><input style="width:110%" data-format="rgb" data-opacity="0.3" type="text" placeholder="字体颜色" class="auto-submit"></div>'
+            )
+            this.fontSize = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: center;"><div style="width:25%">字体大小:</div><input style="width:75%" type="range" min="10" max="80" placeholder="字体大小" class="auto-submit"></div>'
+            )
+            this.rotate = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: center;"><div style="width:25%">旋转角度:</div><input style="width:75%" type="range" min="0" max="180" placeholder="旋转角度" class="auto-submit"></div>'
+            )
+            this.width = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: center;"><div style="width:25%">水平密度:</div><input style="width:75%" type="range" min="100" max="800" placeholder="水平密度" class="auto-submit"></div>'
+            )
+            this.height = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: center;"><div style="width:25%">垂直密度:</div><input style="width:75%" type="range" min="100" max="800" placeholder="垂直密度" class="auto-submit"></div>'
+            )
+            this.timestamp = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: center;"><div style="width:25%">水印时间:</div><input style="width:18px;height:18px;margin:0 0 4px 0;" type="checkbox" placeholder="水印时间" class="auto-submit"></div>'
+            )
+            let formatlist = [
+              'YYYY-MM-DD HH:mm:ss',
+              'YYYY-MM-DD HH:mm',
+              'YYYY-MM-DD HH',
+              'YYYY-MM-DD',
+              'YYYY-MMMM',
+              'YYYY-MM',
+              'YYYY',
+            ]
+            let timeFormatList =
+              '\n            <option value="" >默认(YYYY-MM-DD HH:mm)</option>'
+            formatlist.forEach(function (e) {
+              timeFormatList +=
+                '\n            <option value="' + e + '">' + e + '</option>'
+            })
+            this.format = $(
+              '<div class="hiprint-option-item-field" style="display: flex;align-items: baseline;"><div style="width:25%">时间格式:</div><select style="width:75%" class="auto-submit"></select></div>'
+            )
+            this.format.find('.auto-submit').append($(timeFormatList))
+            this.target.append(this.content)
+            this.target.append(this.fillStyle)
+            this.target.append(this.fontSize)
+            this.target.append(this.rotate)
+            this.target.append(this.width)
+            this.target.append(this.height)
+            this.target.append(this.timestamp)
+            this.target.append(this.format)
+            return this.target
+          }),
+          (t.prototype.getValue = function () {
+            let opt = {
+              content: this.content.find('input').val(),
+              fillStyle:
+                this.fillStyle.find('input').val() ||
+                'rgba(184, 184, 184, 0.3)',
+              fontSize:
+                parseInt(this.fontSize.find('input').val() || '14') + 'px',
+              rotate: parseInt(this.rotate.find('input').val() || '25'),
+              width: parseInt(this.width.find('input').val() || '200'),
+              height: parseInt(this.height.find('input').val() || '200'),
+              timestamp: this.timestamp.find('input').is(':checked'),
+              format:
+                this.format.find('select').val() == ''
+                  ? 'YYYY-MM-DD HH:mm'
+                  : this.format.find('select').val(),
+            }
+            let options = Object.assign({}, this.options, opt)
+            return options
+          }),
+          (t.prototype.setValue = function (t) {
+            this.options = t
+            this.content.find('input').val(t.content || '')
+            this.fillStyle
+              .find('input')
+              .val(t.fillStyle || 'rgba(184, 184, 184, 0.3)')
+            this.fillStyle.find('input').minicolors({
+              format: 'rgb',
+              opacity: true,
+              theme: 'bootstrap',
+            })
+            const fontSize = parseInt(t.fontSize || '14')
+            this.fontSize.find('input').val(fontSize)
+            this.rotate.find('input').val(t.rotate || 25)
+            this.width.find('input').val(t.width || 200)
+            this.height.find('input').val(t.height || 200)
+            this.timestamp
+              .find('input')
+              .attr('checked', t.timestamp == void 0 ? false : t.timestamp)
+            this.format.find('select').val(t.format || 'YYYY-MM-DD HH:mm')
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
       H = (function () {
         function t() {
           this.name = 'paperNumberFormat'
@@ -5545,6 +5118,34 @@ var hiprint = (function (t) {
           }),
           (t.prototype.setValue = function (t) {
             this.target.find('select').val((null == t ? '' : t).toString())
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
+      paperNumberContinue = (function () {
+        function t() {
+          this.name = 'paperNumberContinue'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        页码续排\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="true" >续排</option>\n        <option value="reset" >重排</option>\n        </select>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            return 'true' == this.target.find('select').val()
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target
+              .find('select')
+              .val((t == void 0 || t ? 'true' : 'reset').toString())
           }),
           (t.prototype.destroy = function () {
             this.target.remove()
@@ -5985,25 +5586,38 @@ var hiprint = (function (t) {
           (t.prototype.css = function (t, e) {
             if (t.find('tbody tr').length) {
               if ('border' == e || void 0 == e)
-                return (
-                  t.find('tbody tr').css('border', '1px solid'),
-                  'border:1pt solid'
-                )
+                return t
+                  .find('tbody tr')
+                  .addClass('hiprint-printElement-tableTarget-border-all')
               'noBorder' == e
-                ? t.find('tbody tr').css('border', '0px solid')
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-none')
+                : 'leftBorder' == e
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-left')
+                : 'rightBorder' == e
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-right')
+                : 'leftRightBorder' == e
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-lr')
                 : 'topBorder' == e
-                ? (t.find('tbody tr').css('border', '0px solid'),
-                  t.find('tbody tr').css('border-top', '1px solid'))
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-top')
                 : 'bottomBorder' == e
-                ? (t.find('tbody tr').css('border', '0px solid'),
-                  t.find('tbody tr').css('border-bottom', '1px solid'))
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-bottom')
                 : 'topBottomBorder' == e
-                ? (t.find('tbody tr').css('border', '0px solid'),
-                  t.find('tbody tr').css('border-top', '1px solid'),
-                  t.find('tbody tr').css('border-bottom', '1px solid'))
-                : t.find('tbody tr').map(function (t, e) {
-                    e.style.border = ''
-                  })
+                ? t
+                    .find('tbody tr')
+                    .addClass('hiprint-printElement-tableTarget-border-tb')
+                : t.find('tbody tr').removeClass()
             }
 
             return null
@@ -6011,7 +5625,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        表体行边框\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>    \n        <option value="border" >有边框</option>\n        <option value="noBorder" >无边框</option>\n        <option value="topBorder" >上边框</option>\n        <option value="bottomBorder" >下边框</option>\n        <option value="topBottomBorder" >上下边框</option>\n        </select>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        表体行边框\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>    \n        <option value="border" >有边框</option>\n        <option value="noBorder" >无边框</option>\n        <option value="leftBorder" >左边框</option>\n        <option value="rightBorder" >右边框</option>\n        <option value="leftRightBorder" >左右边框</option>\n        <option value="topBorder" >上边框</option>\n        <option value="bottomBorder" >下边框</option>\n        <option value="topBottomBorder" >上下边框</option>\n        </select>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -6040,10 +5654,7 @@ var hiprint = (function (t) {
               var n = t
                 .find('.hiprint-printElement-content')
                 .parent('.hiprint-printElement')
-              if (!n.length && t.hasClass('hiprint-printElement-hline')) {
-                n = t
-              }
-              if (!n.length && t.hasClass('hiprint-printElement-image')) {
+              if (!n.length) {
                 n = t
               }
               if (e)
@@ -6063,7 +5674,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                '<div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        旋转角度\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="text" class="auto-submit"/>\n        </div>\n    </div>'
+                '<div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        旋转角度\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="number" class="auto-submit"/>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -6602,6 +6213,57 @@ var hiprint = (function (t) {
           t
         )
       })(),
+      textWrap = (function () {
+        function t() {
+          this.name = 'textContentWrap'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        文本换行\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="nowrap" >不换行</option>\n        <option value="clip" >不换行&隐藏</option>\n        <option value="ellipsis" >不换行&省略</option>\n       </select>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.css = function (t, e) {
+            if (t && t.length) {
+              t.removeClass('hiprint-text-content-wrap')
+              t.find('.hiprint-printElement-text-content').removeClass(
+                'hiprint-text-content-wrap-nowrap'
+              )
+              t.find('.hiprint-printElement-text-content').removeClass(
+                'hiprint-text-content-wrap-clip'
+              )
+              t.find('.hiprint-printElement-text-content').removeClass(
+                'hiprint-text-content-wrap-ellipsis'
+              )
+              if (e)
+                return (
+                  t.addClass('hiprint-text-content-wrap'),
+                  t
+                    .find('.hiprint-printElement-text-content')
+                    .addClass('hiprint-text-content-wrap-' + e),
+                  ''
+                )
+            }
+
+            return null
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('select').val()
+            if (t) return t.toString()
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('select').val(t)
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
       rt = n(5),
       at = (function () {
         function t() {
@@ -6755,7 +6417,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="text" >文本</option>\n <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >QR二维码</option>\n    <option value="dmcode" >DM二维码</option>\n    <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        字段类型\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认(文本)</option>\n  <option value="text" >文本</option>\n <option value="sequence" >序号</option>\n       <option value="barcode" >条形码</option>\n        <option value="qrcode" >QR二维码</option>\n    <option value="dmcode" >DM二维码</option>\n    <option value="image" >图片</option>\n        </select>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -6890,6 +6552,33 @@ var hiprint = (function (t) {
             return (
               (this.target = $(
                 ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        底部聚合文本\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="text" placeholder="聚合类型:" class="auto-submit" >\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('input').val()
+            if (t) return t.toString()
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('input').val(t)
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
+      tableSummaryColspan = (function () {
+        function t() {
+          this.name = 'tableSummaryColspan'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        底部聚合合并列数\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="number" min="0" step="1" placeholder="合并列数" class="auto-submit" >\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -7369,7 +7058,7 @@ var hiprint = (function (t) {
         return (
           (t.prototype.createTarget = function () {
             var t =
-              ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        格式化函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(value, options,templateData){}" class="auto-submit"></textarea>\n        </div>\n    </div>'
+              ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        格式化函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(title,value,options,templateData,target){}" class="auto-submit"></textarea>\n        </div>\n    </div>'
             return (this.target = $(t)), this.target
           }),
           (t.prototype.getValue = function () {
@@ -7421,7 +7110,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        行/列合并函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(options,rows,data){ return [1,1] }; }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        行/列合并函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(data, col, colIndex, rowIndex, tableData, printData){ return [1,1] }" class="auto-submit"></textarea>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -7439,6 +7128,32 @@ var hiprint = (function (t) {
           t
         )
       })(),
+      rowsColumnsMergeClean = (function () {
+        function t() {
+          this.name = 'rowsColumnsMergeClean'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        跨页合并是否清除\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="true" >是</option>\n        <option value="false" >否</option>\n        </select>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            if ('true' == this.target.find('select').val()) return !0
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('select').val((null == t ? '' : t).toString())
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
       mt = (function () {
         function t() {
           this.name = 'footerFormatter'
@@ -7448,7 +7163,88 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        表格脚函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(options,rows,data){ return \'<tr></tr>\' }; }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        表格脚函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(options,rows,data,pageData){ return \'<tr></tr>\' }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('textarea').val()
+            if (t) return t
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('textarea').val(t ? t.toString() : null)
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
+      groupFieldsFormatter = (function () {
+        function t() {
+          this.name = 'groupFieldsFormatter'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        分组字段函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(type,options,data){ return [] }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('textarea').val()
+            if (t) return t
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('textarea').val(t ? t.toString() : null)
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
+      groupFormatter = (function () {
+        function t() {
+          this.name = 'groupFormatter'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        分组头格式化函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(groupData,options){ return \'分组头信息(html)\' }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('textarea').val()
+            if (t) return t
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('textarea').val(t ? t.toString() : null)
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
+      groupFooterFormatter = (function () {
+        function t() {
+          this.name = 'groupFooterFormatter'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        分组脚格式化函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(groupData,options){ return \'分组脚信息(html)\' }" class="auto-submit"></textarea>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -7475,7 +7271,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        多组表格脚函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(options,rows,data){ return \'\' }; }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        多组表格脚函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(options,rows,data,pageData){ return \'\' }" class="auto-submit"></textarea>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -7502,7 +7298,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        行样式函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(value,options){ return \'\' }; }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        行样式函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(value,options){ return \'\' }" class="auto-submit"></textarea>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -7628,6 +7424,33 @@ var hiprint = (function (t) {
           t
         )
       })(),
+      stylerHeader = (function () {
+        function t() {
+          this.name = 'stylerHeader'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item hiprint-option-item-row">\n        <div class="hiprint-option-item-label">\n        表格头样式函数\n        </div>\n        <div class="hiprint-option-item-field">\n        <textarea style="height:80px;" placeholder="function(options){ return {color:\'red\' }; }" class="auto-submit"></textarea>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('textarea').val()
+            if (t) return t
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('textarea').val(t ? t.toString() : null)
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
       _t = (function () {
         function t() {
           this.name = 'formatter2'
@@ -7701,6 +7524,33 @@ var hiprint = (function (t) {
           }),
           (t.prototype.setValue = function (t) {
             this.target.find('select').val((null == t ? '' : t).toString())
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
+      maxRows = (function () {
+        function t() {
+          this.name = 'maxRows'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                '<div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        每页最大行数\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="number" value="1" step="1" min="1" class="auto-submit"/>\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('input').val()
+            if (t) return parseInt(t.toString())
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('input').val(t)
           }),
           (t.prototype.destroy = function () {
             this.target.remove()
@@ -7793,6 +7643,8 @@ var hiprint = (function (t) {
           new O(),
           new H(),
           new D(),
+          new paperNumberContinue(),
+          new watermarkOptions(),
           new I(),
           new R(),
           new pageBreak(),
@@ -7825,6 +7677,7 @@ var hiprint = (function (t) {
           new nt(),
           new it(),
           new ot(),
+          new textWrap(),
           new at(),
           new lt(),
           new ut(),
@@ -7836,15 +7689,21 @@ var hiprint = (function (t) {
           new gt(),
           new mt(),
           new rowcolumns(),
+          new rowsColumnsMergeClean(),
+          new groupFieldsFormatter(),
+          new groupFormatter(),
+          new groupFooterFormatter(),
           new vt(),
           new yt(),
           new bt(),
           new Tt(),
           new Et(),
           new Pt(),
+          new stylerHeader(),
           new renderFormatter(),
           new _t(),
           new wt(),
+          new maxRows(),
           new xt(),
           new tableColumnH(),
           new tableE(),
@@ -7852,6 +7711,7 @@ var hiprint = (function (t) {
           new tablept(),
           new tableSummaryTitle(),
           new tableSummaryText(),
+          new tableSummaryColspan(),
           new tableSummary(),
           new tableSummaryAlign(),
           new tableSummaryNumFormat(),
@@ -8412,6 +8272,7 @@ var hiprint = (function (t) {
                 _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createTableRow(
                   this.getColumns(),
                   t,
+                  e,
                   this.options,
                   this.printElementType
                 )
@@ -8586,6 +8447,22 @@ var hiprint = (function (t) {
               }
             }
             var noPaging = 'none' == this.panel.panelPageRule
+            // 不分页, 且不是设计时, 移除 thead
+            var headTr
+            if (t && noPaging) {
+              var headStyle = n
+                .find('.hiprint-printElement-tableTarget thead')
+                .attr('style')
+              headTr = n
+                .find('.hiprint-printElement-tableTarget thead tr')
+                .clone()
+              if (headStyle) {
+                headTr.attr('style', headStyle)
+              } else {
+                headTr.css({ background: '#e8e8e8' })
+              }
+              n.find('.hiprint-printElement-tableTarget thead').remove()
+            }
             var s = n.outerHeight()
             if (!noPaging && s > p)
               return {
@@ -8621,6 +8498,9 @@ var hiprint = (function (t) {
                         (this.autoCompletion(p, d, tfh), (s = n.outerHeight()))
                   else {
                     var f = a.find('tr:lt(1)')
+                    if (h.length == 0 && headTr) {
+                      d.find('tbody').append(headTr)
+                    }
                     d.find('tbody').append(f)
                     var g = f.data('rowData')
                     l.push(g), h.push(g), (s = n.outerHeight())
@@ -8652,11 +8532,20 @@ var hiprint = (function (t) {
                           (s = d.outerHeight()))
                     else {
                       var f = a.find('tr:lt(1)')
+                      if (
+                        that.options.rowsColumnsMerge &&
+                        (o > 0 || u > 0) &&
+                        h.length == 0
+                      ) {
+                        f = that.fixMergeSpan(f, a)
+                      }
                       d.find('tbody').append(f)
                       var g = f.data('rowData')
                       l.push(g),
                         h.push(g),
-                        ((s = d.outerHeight()), (s += tfh)) > p &&
+                        (((s = d.outerHeight()), (s += tfh)) > p ||
+                          (this.options.maxRows &&
+                            h.length > +this.options.maxRows)) &&
                           (a.prepend(f),
                           l.pop(),
                           h.pop(),
@@ -8676,16 +8565,31 @@ var hiprint = (function (t) {
                   if ('last' == this.options.tableFooterRepeat && !c.isEnd)
                     break
                   if ('no' !== this.options.tableFooterRepeat) {
-                    _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a
-                      .createTableFooter(
-                        this.printElementType.columns,
-                        this.getData(t),
-                        this.options,
-                        this.printElementType,
-                        t,
-                        h
+                    if (noPaging) {
+                      d.find('tbody').append(
+                        _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a
+                          .createTableFooter(
+                            this.printElementType.columns,
+                            this.getData(t),
+                            this.options,
+                            this.printElementType,
+                            t,
+                            h
+                          )
+                          .children()
                       )
-                      .insertBefore(d.find('tbody'))
+                    } else {
+                      _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a
+                        .createTableFooter(
+                          this.printElementType.columns,
+                          this.getData(t),
+                          this.options,
+                          this.printElementType,
+                          t,
+                          h
+                        )
+                        .insertBefore(d.find('tbody'))
+                    }
                     that.css(d, t)
                   }
                   break
@@ -8700,6 +8604,28 @@ var hiprint = (function (t) {
                 .find(this.gridColumnsFooterCss)
                 .html(v(this.options, this.getData(t), t, l))
             s = n.outerHeight()
+            // 当每一页数据,都无法容纳表格行内容时:
+            let curRow = a.find('tr:lt(1)')
+            if (m == 0 && curRow.length && g == curRow.data('rowData')) {
+              d.find('tbody').append(curRow)
+              let height = d.find('tbody tr').outerHeight()
+              a.prepend(curRow)
+              return {
+                target: $(
+                  '<div style="position:absolute;background: red;color: white;padding: 0px 4px;">没有足够空间,显示下方内容, 可分页高度: ' +
+                    p +
+                    'px < 当前需要高度: ' +
+                    height +
+                    'px</div>'
+                ).append(curRow.css('background', 'blue')),
+                length: m,
+                height:
+                  _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_3__.a.px.toPt(
+                    s
+                  ),
+                isEnd: !1,
+              }
+            }
             // 方便调试看 值...
             var zz =
               0 == a.find('tr').length
@@ -8730,7 +8656,51 @@ var hiprint = (function (t) {
                   }
             return zz
           }),
+          (TablePrintElement.prototype.fixMergeSpan = function (tr, tbody) {
+            var e = this
+            let nextRow = 1,
+              rowEnd = false
+            // 未验证列合并是否存在问题
+            let nextCol = 1,
+              colEnd = false
+            tr.nextAll().each(function (index) {
+              if (
+                $(this).children().filter('td[rowspan=0]').length > 0 &&
+                !rowEnd
+              ) {
+                nextRow += 1
+              } else {
+                rowEnd = true
+              }
+              if (
+                $(this).children().filter('td[colspan=0]').length > 0 &&
+                !colEnd
+              ) {
+                nextCol += 1
+              } else {
+                colEnd = true
+              }
+            })
+            tr.children().each(function (i, td) {
+              if ($(td).attr('rowspan') < 1) {
+                $(td).attr('rowspan', nextRow)
+                $(td).css('display', '')
+                if (e.options.rowsColumnsMergeClean) {
+                  $(td).text('')
+                }
+              }
+              if ($(td).attr('colspan') < 1) {
+                $(td).attr('colspan', nextCol)
+                $(td).css('display', '')
+                if (e.options.rowsColumnsMergeClean) {
+                  $(td).text('')
+                }
+              }
+            })
+            return tr
+          }),
           (TablePrintElement.prototype.autoCompletion = function (t, e, tfh) {
+            var that = this
             for (
               var n, i = this.getEmptyRowTarget(), o = e.outerHeight() + tfh;
               t > o;
@@ -8739,6 +8709,12 @@ var hiprint = (function (t) {
               ;(n = i.clone()),
                 e.find('tbody').append(n),
                 (o = e.outerHeight() + tfh)
+              if (
+                that.options.maxRows &&
+                e.find('tbody').children().length > that.options.maxRows
+              ) {
+                break
+              }
             }
 
             n && n.remove()
@@ -8843,6 +8819,7 @@ var hiprint = (function (t) {
             var t = this
             ;(this.hitable = new _hitable_HiTale__WEBPACK_IMPORTED_MODULE_7__.a(
               {
+                templateId: t.templateId,
                 table: this.designTarget.find(
                   '.hiprint-printElement-tableTarget:eq(0)'
                 ),
@@ -8913,6 +8890,10 @@ var hiprint = (function (t) {
                 'updateTable' + this.hitable.id,
                 function () {
                   t.updateDesignViewFromOptions()
+                  _assets_plugins_hinnn__WEBPACK_IMPORTED_MODULE_3__.a.event.trigger(
+                    'hiprintTemplateDataChanged_' + t.templateId,
+                    '调整表头'
+                  )
                 }
               )
           }),
@@ -8942,6 +8923,7 @@ var hiprint = (function (t) {
                               var e = t.getValue()
                               if (
                                 'title' == t.name &&
+                                e &&
                                 !e.trim().endsWith('#') &&
                                 !e.trim().startsWith('#')
                               ) {
@@ -9023,6 +9005,7 @@ var hiprint = (function (t) {
     var i = (function () {
         return function (t) {
           ;(this.table = t.table),
+            (this.templateId = t.templateId),
             (this.fields = t.fields),
             (this.isEnableEdit = t.isEnableEdit),
             (this.trs = t.trs),
@@ -9949,12 +9932,14 @@ var hiprint = (function (t) {
               (this.renderFormatter = t.renderFormatter),
               (this.formatter2 = t.formatter2),
               (this.styler2 = t.styler2),
-              (this.tableColumnHeight = t.tableColumnHeight || 30),
-              (this.tableTextType = t.tableTextType || 'text'),
-              (this.tableBarcodeMode = t.tableBarcodeMode || 'CODE128A'),
-              (this.tableQRCodeLevel = t.tableQRCodeLevel || 0),
+              (this.stylerHeader = t.stylerHeader),
+              (this.tableColumnHeight = t.tableColumnHeight),
+              (this.tableTextType = t.tableTextType),
+              (this.tableBarcodeMode = t.tableBarcodeMode),
+              (this.tableQRCodeLevel = t.tableQRCodeLevel),
               (this.tableSummaryTitle = t.tableSummaryTitle),
               (this.tableSummaryText = t.tableSummaryText),
+              (this.tableSummaryColspan = t.tableSummaryColspan),
               (this.tableSummary = t.tableSummary),
               (this.tableSummaryAlign = t.tableSummaryAlign),
               (this.tableSummaryNumFormat = t.tableSummaryNumFormat),
@@ -10185,6 +10170,46 @@ var hiprint = (function (t) {
         )
       }
 
+      function createVerLine(op, cp, t, tt, h, pc) {
+        if (Math.abs(op[t] - cp[tt]) <= HIPRINT_CONFIG.adsorbLineMin) {
+          if (op.v.length) {
+            op.v.css('left', op[t] + 'pt')
+          } else {
+            op.v = $("<div class='verLine id-" + op.id + "'></div>")
+            op.v.css('height', h + 'pt')
+            op.v.css('left', op[t] + 'pt')
+            pc.append(op.v)
+          }
+        } else {
+          op.v && op.v.remove()
+        }
+      }
+
+      function removeVerLine(op) {
+        if (op) op.v && op.v.remove()
+        $('.verLine').remove()
+      }
+
+      function createHorLine(op, cp, t, tt, w, pc) {
+        if (Math.abs(op[t] - cp[tt]) <= HIPRINT_CONFIG.adsorbLineMin) {
+          if (op.h.length) {
+            op.h.css('top', op[t] + 'pt')
+          } else {
+            op.h = $("<div class='horLine id-" + op.id + "'></div>")
+            op.h.css('width', w + 'pt')
+            op.h.css('top', op[t] + 'pt')
+            pc.append(op.h)
+          }
+        } else {
+          op.h && op.h.remove()
+        }
+      }
+
+      function removeHorLine(op) {
+        if (op) op.h && op.h.remove()
+        $('.horLine').remove()
+      }
+
       function o(i) {
         // 移动开始动作
         var o = t.data(i.data.target, 'hidraggable')
@@ -10220,88 +10245,382 @@ var hiprint = (function (t) {
                 .filter((el) => el.id != o.options.designTarget.id)
                 .map((el) => {
                   let { left, top, width, height } = el.options
+                  let right = left + width,
+                    vCenter = left + width / 2,
+                    hCenter = top + height / 2
+                  let cVCenter = cPosition.left + cPosition.width / 2,
+                    cHCenter = cPosition.top + cPosition.height / 2,
+                    cRight = cPosition.left + cPosition.width
+                  let distance, d1, d2, d3
+                  d1 = Math.sqrt(
+                    Math.pow(left - cPosition.left, 2) +
+                      Math.pow(hCenter - cHCenter, 2)
+                  )
+                  d2 = Math.sqrt(
+                    Math.pow(vCenter - cVCenter, 2) +
+                      Math.pow(hCenter - cHCenter, 2)
+                  )
+                  d3 = Math.sqrt(
+                    Math.pow(right - cRight, 2) +
+                      Math.pow(hCenter - cHCenter, 2)
+                  )
+                  distance = Math.min(d1, d2, d3)
                   return {
                     ...el.options,
+                    distance,
+                    h: $('.horLine.id-' + el.id),
+                    v: $('.verLine.id-' + el.id),
                     bottom: top + height,
                     right: left + width,
-                    vCenter: left + width / 2,
-                    hCenter: top + height / 2,
+                    vCenter,
+                    hCenter,
                   }
                 })
-              for (let idx in oPositions) {
+                .sort((a, b) => a.distance - b.distance)
+                .slice(0, 1)
+              let paper = o.options.designTarget.designPaper
+              let paperContent = paper.target.find(
+                '.hiprint-printPaper-content'
+              )
+              let paperW = paper.width,
+                paperH = paper.height
+              let showAline = HIPRINT_CONFIG.showAdsorbLine,
+                aMin = HIPRINT_CONFIG.adsorbMin,
+                aLMin = HIPRINT_CONFIG.adsorbLineMin
+              oPositions.forEach((item, idx) => {
                 // 元素左边线
-                if (Math.abs(oPositions[idx].left - cPosition.left) <= 3) {
+                if (Math.abs(oPositions[idx].left - cPosition.left) <= aMin) {
                   cPosition.left = oPositions[idx].left
+                  removeVerLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].vCenter - cPosition.left) <= 3
+                  Math.abs(oPositions[idx].vCenter - cPosition.left) <= aMin
                 ) {
                   cPosition.left = oPositions[idx].vCenter
+                  removeVerLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].right - cPosition.left) <= 3
+                  Math.abs(oPositions[idx].right - cPosition.left) <= aMin
                 ) {
                   cPosition.left = oPositions[idx].right
+                  removeVerLine(oPositions[idx])
                 }
                 // 元素垂直中线
-                if (Math.abs(oPositions[idx].left - cPosition.vCenter) <= 3) {
+                if (
+                  Math.abs(oPositions[idx].left - cPosition.vCenter) <= aMin
+                ) {
                   cPosition.left = oPositions[idx].left - cPosition.width / 2
+                  removeVerLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].vCenter - cPosition.vCenter) <= 3
+                  Math.abs(oPositions[idx].vCenter - cPosition.vCenter) <= aMin
                 ) {
                   cPosition.left = oPositions[idx].vCenter - cPosition.width / 2
+                  removeVerLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].right - cPosition.vCenter) <= 3
+                  Math.abs(oPositions[idx].right - cPosition.vCenter) <= aMin
                 ) {
                   cPosition.left = oPositions[idx].right - cPosition.width / 2
+                  removeVerLine(oPositions[idx])
                 }
                 // 元素右边线
-                if (Math.abs(oPositions[idx].left - cPosition.right) <= 3) {
+                if (Math.abs(oPositions[idx].left - cPosition.right) <= aMin) {
                   cPosition.left = oPositions[idx].left - cPosition.width
+                  removeVerLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].vCenter - cPosition.right) <= 3
+                  Math.abs(oPositions[idx].vCenter - cPosition.right) <= aMin
                 ) {
                   cPosition.left = oPositions[idx].vCenter - cPosition.width
+                  removeVerLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].right - cPosition.right) <= 3
+                  Math.abs(oPositions[idx].right - cPosition.right) <= aMin
                 ) {
                   cPosition.left = oPositions[idx].right - cPosition.width
+                  removeVerLine(oPositions[idx])
                 }
                 // 元素顶边线
-                if (Math.abs(oPositions[idx].top - cPosition.top) <= 3) {
+                if (Math.abs(oPositions[idx].top - cPosition.top) <= aMin) {
                   cPosition.top = oPositions[idx].top
+                  removeHorLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].hCenter - cPosition.top) <= 3
+                  Math.abs(oPositions[idx].hCenter - cPosition.top) <= aMin
                 ) {
                   cPosition.top = oPositions[idx].hCenter
+                  removeHorLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].bottom - cPosition.top) <= 3
+                  Math.abs(oPositions[idx].bottom - cPosition.top) <= aMin
                 ) {
                   cPosition.top = oPositions[idx].bottom
+                  removeHorLine(oPositions[idx])
                 }
                 // 元素水平中线
-                if (Math.abs(oPositions[idx].top - cPosition.hCenter) <= 3) {
+                if (Math.abs(oPositions[idx].top - cPosition.hCenter) <= aMin) {
                   cPosition.top = oPositions[idx].top - cPosition.height / 2
+                  removeHorLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].hCenter - cPosition.hCenter) <= 3
+                  Math.abs(oPositions[idx].hCenter - cPosition.hCenter) <= aMin
                 ) {
                   cPosition.top = oPositions[idx].hCenter - cPosition.height / 2
+                  removeHorLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].bottom - cPosition.hCenter) <= 3
+                  Math.abs(oPositions[idx].bottom - cPosition.hCenter) <= aMin
                 ) {
                   cPosition.top = oPositions[idx].bottom - cPosition.height / 2
+                  removeHorLine(oPositions[idx])
                 }
                 // 元素底边线
-                if (Math.abs(oPositions[idx].top - cPosition.bottom) <= 3) {
+                if (Math.abs(oPositions[idx].top - cPosition.bottom) <= aMin) {
                   cPosition.top = oPositions[idx].top - cPosition.height
+                  removeHorLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].hCenter - cPosition.bottom) <= 3
+                  Math.abs(oPositions[idx].hCenter - cPosition.bottom) <= aMin
                 ) {
                   cPosition.top = oPositions[idx].hCenter - cPosition.height
+                  removeHorLine(oPositions[idx])
                 } else if (
-                  Math.abs(oPositions[idx].bottom - cPosition.bottom) <= 3
+                  Math.abs(oPositions[idx].bottom - cPosition.bottom) <= aMin
                 ) {
                   cPosition.top = oPositions[idx].bottom - cPosition.height
+                  removeHorLine(oPositions[idx])
                 }
-              }
+
+                if (showAline) {
+                  if (
+                    Math.abs(oPositions[idx].left - cPosition.left) > aMin &&
+                    Math.abs(oPositions[idx].left - cPosition.left) <= aLMin
+                  ) {
+                    // 左
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'left',
+                      'left',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].vCenter - cPosition.left) > aMin &&
+                    Math.abs(oPositions[idx].vCenter - cPosition.left) <= aLMin
+                  ) {
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'vCenter',
+                      'left',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].right - cPosition.left) > aMin &&
+                    Math.abs(oPositions[idx].right - cPosition.left) <= aLMin
+                  ) {
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'right',
+                      'left',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].left - cPosition.vCenter) > aMin &&
+                    Math.abs(oPositions[idx].left - cPosition.vCenter) <= aLMin
+                  ) {
+                    // 中
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'left',
+                      'vCenter',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].vCenter - cPosition.vCenter) >
+                      aMin &&
+                    Math.abs(oPositions[idx].vCenter - cPosition.vCenter) <=
+                      aLMin
+                  ) {
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'vCenter',
+                      'vCenter',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].right - cPosition.vCenter) >
+                      aMin &&
+                    Math.abs(oPositions[idx].right - cPosition.vCenter) <= aLMin
+                  ) {
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'right',
+                      'vCenter',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].left - cPosition.right) > aMin &&
+                    Math.abs(oPositions[idx].left - cPosition.right) <= aLMin
+                  ) {
+                    // 右
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'left',
+                      'right',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].vCenter - cPosition.right) >
+                      aMin &&
+                    Math.abs(oPositions[idx].vCenter - cPosition.right) <= aLMin
+                  ) {
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'vCenter',
+                      'right',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].right - cPosition.right) > aMin &&
+                    Math.abs(oPositions[idx].right - cPosition.right) <= aLMin
+                  ) {
+                    createVerLine(
+                      oPositions[idx],
+                      cPosition,
+                      'right',
+                      'right',
+                      paperH,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].top - cPosition.top) > aMin &&
+                    Math.abs(oPositions[idx].top - cPosition.top) <= aLMin
+                  ) {
+                    // 上
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'top',
+                      'top',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].hCenter - cPosition.top) > aMin &&
+                    Math.abs(oPositions[idx].hCenter - cPosition.top) <= aLMin
+                  ) {
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'hCenter',
+                      'top',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].bottom - cPosition.top) > aMin &&
+                    Math.abs(oPositions[idx].bottom - cPosition.top) <= aLMin
+                  ) {
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'bottom',
+                      'top',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].top - cPosition.hCenter) > aMin &&
+                    Math.abs(oPositions[idx].top - cPosition.hCenter) <= aLMin
+                  ) {
+                    // 中
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'top',
+                      'hCenter',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].hCenter - cPosition.hCenter) >
+                      aMin &&
+                    Math.abs(oPositions[idx].hCenter - cPosition.hCenter) <=
+                      aLMin
+                  ) {
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'hCenter',
+                      'hCenter',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].bottom - cPosition.hCenter) >
+                      aMin &&
+                    Math.abs(oPositions[idx].bottom - cPosition.hCenter) <=
+                      aLMin
+                  ) {
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'bottom',
+                      'hCenter',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].top - cPosition.bottom) > aMin &&
+                    Math.abs(oPositions[idx].top - cPosition.bottom) <= aLMin
+                  ) {
+                    // 下
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'top',
+                      'bottom',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].hCenter - cPosition.bottom) >
+                      aMin &&
+                    Math.abs(oPositions[idx].hCenter - cPosition.bottom) <=
+                      aLMin
+                  ) {
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'hCenter',
+                      'bottom',
+                      paperW,
+                      paperContent
+                    )
+                  } else if (
+                    Math.abs(oPositions[idx].bottom - cPosition.bottom) >
+                      aMin &&
+                    Math.abs(oPositions[idx].bottom - cPosition.bottom) <= aLMin
+                  ) {
+                    createHorLine(
+                      oPositions[idx],
+                      cPosition,
+                      'bottom',
+                      'bottom',
+                      paperW,
+                      paperContent
+                    )
+                  } else {
+                    removeVerLine(oPositions[idx])
+                    removeHorLine(oPositions[idx])
+                  }
+                }
+              })
             })()
             i.data.left = window.hinnn.pt.toPx(cPosition.left)
             i.data.top = window.hinnn.pt.toPx(cPosition.top)
@@ -10371,6 +10690,7 @@ var hiprint = (function (t) {
       function r(e) {
         // 这里原 mouseup时, 回调了 o(e) ==> onDrag
         t.fn.hidraggable.isDragging = !1
+        removeVerLine(), removeHorLine()
         var n,
           i,
           r = t.data(e.data.target, 'hidraggable'),
@@ -10566,6 +10886,22 @@ var hiprint = (function (t) {
                                 target: e.data.target,
                                 parent: t(e.data.target).parent()[0],
                               }
+                            var ops = t.data(e.data.target, 'hidraggable')
+                            // item禁止移动
+                            if (ops.options.draggable === false) {
+                              return
+                            }
+                            // 旋转时不允许移动
+                            if ('r resizebtn' == e.target.className) {
+                              return
+                            }
+                            var ptr = ops.options.getScale()
+                            if (ptr) {
+                              ;(p.left /= ptr),
+                                (p.top /= ptr),
+                                (p.startLeft /= ptr),
+                                (p.startTop /= ptr)
+                            }
                             var tr =
                               p.target.style.transform &&
                               parseInt(p.target.style.transform.slice(7, -1))
@@ -10587,23 +10923,7 @@ var hiprint = (function (t) {
                                 (p.startLeft += diffW),
                                 (p.startTop += diffH)
                             }
-                            var ops = t.data(e.data.target, 'hidraggable')
-                            var ptr = ops.options.getScale()
-                            if (ptr) {
-                              ;(p.left /= ptr),
-                                (p.top /= ptr),
-                                (p.startLeft /= ptr),
-                                (p.startTop /= ptr)
-                            }
                             t.extend(e.data, p)
-                            // item禁止移动
-                            if (ops.options.draggable === false) {
-                              return
-                            }
-                            // 旋转时不允许移动
-                            if ('r resizebtn' == e.target.className) {
-                              return
-                            }
                             0 !=
                               t
                                 .data(e.data.target, 'hidraggable')
@@ -10930,6 +11250,7 @@ var hiprint = (function (t) {
               sizeBox = n(
                 '<div class="size-box" style="position: absolute;left:-2px;"></div>'
               ),
+              deleteBtn = n('<div class="del-btn">✕</div>'),
               h = function h() {
                 var t = [],
                   i = e.options.showPoints
@@ -10941,6 +11262,17 @@ var hiprint = (function (t) {
                 )
               }
             e.refreshSizeBox(void 0, sizeBox, o)
+            // draggable 为 false 时不显示 resizebox 右上角删除按钮
+            if (e.options.draggable != false) {
+              o.append(deleteBtn)
+              o.on('mousedown', '.del-btn', () => {
+                var keyboardEvent = new KeyboardEvent('keydown', {
+                  bubbles: true,
+                  keyCode: 46,
+                })
+                t.dispatchEvent(keyboardEvent)
+              })
+            }
             e.addHandlerCss(h()),
               e.appendHandler(h(), o),
               e.bindResizeEvent(o, n(this))
@@ -10976,24 +11308,37 @@ var hiprint = (function (t) {
           if (!this.options.showSizeBox) return
           if (box) {
             o.append(box)
-          } else {
-            if (t && t.length) {
-              var style = t[0].style
-              var sizeBox = t.children('div[panelindex]').find('.size-box')
-              if (sizeBox) {
-                sizeBox.text(style.width + ' x ' + style.height)
-                sizeBox.css('top', -sizeBox.outerHeight())
-              }
+          }
+          var style, sizeBox
+          if (t && t.length) {
+            style = t[0].style
+            sizeBox = t.children('div[panelindex]').find('.size-box')
+          } else if (o && o.parent()) {
+            var t = o.parent()
+            if (t.hasClass('hiprint-printPaper-content')) return
+            style = t[0].style
+            if (!style.width) {
+              style.width = hinnn.px.toPt(t[0].offsetWidth) + 'pt'
             }
+            if (!style.height) {
+              style.height = hinnn.px.toPt(t[0].offsetHeight) + 'pt'
+            }
+            sizeBox = t.children('div[panelindex]').find('.size-box')
+          }
+          if (sizeBox) {
+            sizeBox.text(style.width + ' x ' + style.height)
+            sizeBox.css('top', -(sizeBox.outerHeight() || 20))
           }
         },
         triggerResize: function triggerResize(t, n) {
           // 处理按住 ctrl / command 点击元素 多选
           if (!(n.ctrlKey || n.metaKey)) {
+            t.siblings().children('div[panelindex]').removeClass('selected')
             t.siblings().children('div[panelindex]').css({
               display: 'none',
             })
           }
+          t.children('div[panelindex]').addClass('selected')
           t.children('div[panelindex]').css({
             display: 'block',
           })
@@ -11325,6 +11670,7 @@ var hiprint = (function (t) {
                   n('div[panelindex]').css({
                     display: 'none',
                   })
+                n('div[panelindex]').removeClass('selected')
               }
             })
           }
@@ -11418,10 +11764,10 @@ var hiprint = (function (t) {
             console.log('ippRequest error:' + JSON.stringify(e))
           }
         },
-        setHost: function (host) {
+        setHost: function (host, cb) {
           this.host = host
           this.stop()
-          this.start()
+          this.start(cb)
         },
         start: function start(cb) {
           var _this = this
@@ -12050,7 +12396,7 @@ var hiprint = (function (t) {
             if (c) {
               var newType = c(type)
               var idx = this.allElementTypes.findIndex(function (e) {
-                return (e.tid = t)
+                return e.tid == t
               })
               if (idx >= 0) {
                 this.allElementTypes.splice(idx, 1, newType)
@@ -12160,6 +12506,7 @@ var hiprint = (function (t) {
             (this.groupFooterFormatter = t.groupFooterFormatter),
             (this.footerFormatter = t.footerFormatter),
             (this.rowsColumnsMerge = t.rowsColumnsMerge),
+            (this.rowsColumnsMergeClean = t.rowsColumnsMergeClean),
             (this.gridColumnsFooterFormatter = t.gridColumnsFooterFormatter),
             (this.isEnableEditField =
               t.isEnableEditField != void 0 ? t.isEnableEditField : !0),
@@ -12418,12 +12765,31 @@ var hiprint = (function (t) {
       })(g.a),
       E = n(8),
       T = (function () {
-        function t(t, pr, scl, e, n, i, r, a, p, s, l, u, d) {
+        function t(
+          t,
+          idx,
+          watermarkOptions,
+          pr,
+          scl,
+          e,
+          n,
+          i,
+          r,
+          a,
+          p,
+          s,
+          s1,
+          l,
+          u,
+          d
+        ) {
           ;(this.panelPageRule = pr),
             (this.scale = scl),
+            (this.watermarkOptions = watermarkOptions),
             (this.defaultPaperNumberFormat = '${paperNo}-${paperCount}'),
             (this.printLine = 0),
             (this.templateId = t),
+            (this.panelIdx = idx),
             (this.width = o.a.mm.toPt(e)),
             (this.height = o.a.mm.toPt(n)),
             (this.mmwidth = e),
@@ -12438,6 +12804,7 @@ var hiprint = (function (t) {
             (this.paperNumberTop =
               p || parseInt((this.height - 22).toString())),
             (this.paperNumberDisabled = s),
+            (this.paperNumberContinue = s1),
             (this.paperNumberFormat = l),
             (this.referenceElement = d
               ? $.extend({}, d)
@@ -12467,6 +12834,7 @@ var hiprint = (function (t) {
                 paperNumberLeft: this.paperNumberLeft,
                 paperNumberTop: this.paperNumberTop,
                 paperNumberDisabled: this.paperNumberDisabled,
+                paperNumberContinue: this.paperNumberContinue,
                 paperNumberFormat: this.paperNumberFormat,
               })
             o.a.event.trigger(
@@ -12597,11 +12965,13 @@ var hiprint = (function (t) {
             this.createHeaderLine(),
               this.createFooterLine(),
               this.target.addClass('design'),
+              t && t.grid && this.target.addClass('grid'),
               (this.paperNumberTarget = this.createPaperNumber(
                 this.formatPaperNumber(1, 1),
                 true
               )),
               this.createRuler(),
+              this.createWaterMark(true, this.panelIdx, this.watermarkOptions),
               this.resetPaperNumber(this.paperNumberTarget),
               $(this.paperNumberTarget).bind('dblclick.hiprint', function () {
                 null == e.paperNumberDisabled && (e.paperNumberDisabled = !1),
@@ -12616,10 +12986,12 @@ var hiprint = (function (t) {
                     options: {
                       paperNumberFormat: e.paperNumberFormat,
                       paperNumberDisabled: e.paperNumberDisabled,
+                      paperNumberContinue: e.paperNumberContinue,
                     },
                     callback: function callback(t) {
                       ;(e.paperNumberDisabled =
                         !!t.paperNumberDisabled || void 0),
+                        (e.paperNumberContinue = t.paperNumberContinue),
                         (e.paperNumberFormat = t.paperNumberFormat
                           ? t.paperNumberFormat
                           : void 0),
@@ -12646,6 +13018,7 @@ var hiprint = (function (t) {
                 i.css('right', this.paperNumberLeft + 'pt'))
           }),
           (t.prototype.formatPaperNumber = function (t, e) {
+            this.createWaterMark(false, t, this.watermarkOptions)
             return eval(
               '`' +
                 (this.paperNumberFormat
@@ -12682,6 +13055,8 @@ var hiprint = (function (t) {
             })
           }),
           (t.prototype.resize = function (t, e) {
+            // 获取页脚高度比例
+            var parperFooterRatio = this.paperFooter / this.height
             ;(this.width = o.a.mm.toPt(t)),
               (this.height = o.a.mm.toPt(e)),
               (this.mmwidth = t),
@@ -12692,9 +13067,8 @@ var hiprint = (function (t) {
                 e - p.a.instance.paperHeightTrim + 'mm'
               ),
               this.target.attr('original-height', this.mmheight)
-            // 设置纸张后, 页脚线重置问题
-            var paperFooter =
-              this.paperFooter > this.height ? this.height : this.paperFooter
+            // 按比例计算页脚高度
+            var paperFooter = this.height * parperFooterRatio
             ;(this.paperFooter = paperFooter || this.height),
               this.footerLinetarget.css('top', paperFooter + 'pt'),
               (this.contentHeight = this.paperFooter - this.paperHeader),
@@ -12754,6 +13128,29 @@ var hiprint = (function (t) {
                 vImg +
                 '" />\n                    </div>'
             )
+          }),
+          (t.prototype.createWaterMark = function (watch, idx, opts) {
+            var e = this
+            var options = Object.assign({}, opts || {}, {
+              id: `${e.templateId}_${e.panelIdx}_${idx || 1}_${
+                watch ? 'design' : e.index
+              }`,
+              watch: watch,
+              container: e.target[0],
+            })
+            if (!options.container) return
+            if (options.content) {
+              if (watch) {
+                watermark.destroyWatermark(
+                  Object.assign({}, options, {
+                    id: `${e.templateId}_${e.panelIdx}_${idx || 1}_${e.index}`,
+                  })
+                )
+              }
+              watermark.createWatermark(options)
+            } else {
+              watermark.destroyWatermark(options)
+            }
           }),
           (t.prototype.displayHeight = function () {
             return this.mmheight - p.a.instance.paperHeightTrim + 'mm'
@@ -12900,6 +13297,7 @@ var hiprint = (function (t) {
                 25e3,
                 0,
                 0,
+                !0,
                 !0,
                 void 0,
                 0,
@@ -14184,14 +14582,24 @@ var hiprint = (function (t) {
               minMove: 4,
               onBeforeDrag: function onBeforeDrag(e) {
                 s.a.instance.draging = !0
-                var n = t.getElementType(
-                  $(e.data.target).attr('tid'),
-                  $(e.data.target).attr('ptype')
-                )
-                return (
-                  s.a.instance.setDragingPrintElement(n.createPrintElement()),
-                  !0
-                )
+                var tid = $(e.data.target).attr('tid')
+                var n = t.getElementType(tid, $(e.data.target).attr('ptype'))
+                if (!n) {
+                  throw new Error(
+                    `请检查 hiprint.init 的 provider 是否配置了 [${tid}]`
+                  )
+                  return !1
+                }
+                var ele = n.createPrintElement()
+                if (!ele) {
+                  if (n.type == 'tableCustom') {
+                    throw new Error(
+                      `已移除"tableCustom",请替换使用"table".详情见更新记录`
+                    )
+                    return !1
+                  }
+                }
+                return s.a.instance.setDragingPrintElement(ele), !0
               },
               onDrag: function onDrag(t, e, n) {
                 s.a.instance.getDragingPrintElement().updatePosition(e, n)
@@ -14221,6 +14629,7 @@ var hiprint = (function (t) {
         return function (t) {
           if (
             ((this.index = t.index),
+            (this.name = t.name),
             (this.paperType = t.paperType),
             this.paperType)
           ) {
@@ -14235,6 +14644,7 @@ var hiprint = (function (t) {
             (this.paperNumberLeft = t.paperNumberLeft),
             (this.paperNumberTop = t.paperNumberTop),
             (this.paperNumberDisabled = t.paperNumberDisabled),
+            (this.paperNumberContinue = t.paperNumberContinue),
             (this.paperNumberFormat = t.paperNumberFormat),
             (this.panelPaperRule = t.panelPaperRule),
             (this.panelPageRule = t.panelPageRule),
@@ -14247,7 +14657,8 @@ var hiprint = (function (t) {
             (this.fontFamily = t.fontFamily),
             (this.leftOffset = t.leftOffset),
             (this.orient = t.orient),
-            (this.scale = t.scale)
+            (this.scale = t.scale),
+            (this.watermarkOptions = t.watermarkOptions)
         }
       })(),
       at = (function () {
@@ -14288,6 +14699,7 @@ var hiprint = (function (t) {
         function t(t, e) {
           ;(this.templateId = e),
             (this.index = t.index),
+            (this.name = t.name),
             (this.width = t.width),
             (this.height = t.height),
             (this.paperType = t.paperType),
@@ -14297,6 +14709,8 @@ var hiprint = (function (t) {
             (this.paperNumberLeft = t.paperNumberLeft),
             (this.paperNumberTop = t.paperNumberTop),
             (this.paperNumberDisabled = t.paperNumberDisabled),
+            (this.paperNumberContinue =
+              t.paperNumberContinue == void 0 ? true : t.paperNumberContinue),
             (this.paperNumberFormat = t.paperNumberFormat),
             (this.panelPaperRule = t.panelPaperRule),
             (this.panelPageRule = t.panelPageRule),
@@ -14310,7 +14724,8 @@ var hiprint = (function (t) {
             (this.orient = t.orient),
             (this.target = this.createTarget()),
             (this.rotate = t.rotate),
-            (this.scale = t.scale)
+            (this.scale = t.scale),
+            (this.watermarkOptions = t.watermarkOptions || {})
         }
 
         return (
@@ -14335,24 +14750,37 @@ var hiprint = (function (t) {
                   n.design(t, e.designPaper)
               }),
               this.target.bind('click.hiprint', function (t) {
+                let panelOptions = {
+                  panelPaperRule: e.panelPaperRule,
+                  panelPageRule: e.panelPageRule,
+                  firstPaperFooter: e.firstPaperFooter,
+                  evenPaperFooter: e.evenPaperFooter,
+                  oddPaperFooter: e.oddPaperFooter,
+                  lastPaperFooter: e.lastPaperFooter,
+                  leftOffset: e.leftOffset,
+                  topOffset: e.topOffset,
+                  fontFamily: e.fontFamily,
+                  orient: e.orient,
+                  paperNumberDisabled: e.paperNumberDisabled,
+                  paperNumberContinue: e.paperNumberContinue,
+                  paperNumberFormat: e.paperNumberFormat,
+                  watermarkOptions: e.watermarkOptions || {},
+                }
+                if (!p.a.instance.paperNumberContinue) {
+                  delete panelOptions['paperNumberContinue']
+                }
                 o.a.event.trigger(
                   'BuildCustomOptionSettingEventKey_' + e.templateId,
                   {
-                    options: {
-                      panelPaperRule: e.panelPaperRule,
-                      panelPageRule: e.panelPageRule,
-                      firstPaperFooter: e.firstPaperFooter,
-                      evenPaperFooter: e.evenPaperFooter,
-                      oddPaperFooter: e.oddPaperFooter,
-                      lastPaperFooter: e.lastPaperFooter,
-                      leftOffset: e.leftOffset,
-                      topOffset: e.topOffset,
-                      fontFamily: e.fontFamily,
-                      orient: e.orient,
-                      paperNumberDisabled: e.paperNumberDisabled,
-                      paperNumberFormat: e.paperNumberFormat,
-                    },
+                    options: panelOptions,
                     callback: function callback(t) {
+                      ;(e.watermarkOptions = t.watermarkOptions || void 0),
+                        t.watermarkOptions &&
+                          e.designPaper.createWaterMark(
+                            true,
+                            1,
+                            t.watermarkOptions
+                          )
                       ;(e.panelPaperRule = t.panelPaperRule),
                         (e.panelPageRule = t.panelPageRule),
                         (e.firstPaperFooter = t.firstPaperFooter),
@@ -14366,6 +14794,9 @@ var hiprint = (function (t) {
                         (e.paperNumberDisabled =
                           e.designPaper.paperNumberDisabled =
                             !!t.paperNumberDisabled || void 0),
+                        (e.paperNumberContinue =
+                          e.designPaper.paperNumberContinue =
+                            t.paperNumberContinue),
                         (e.paperNumberFormat = t.paperNumberFormat),
                         (e.designPaper.paperNumberFormat = t.paperNumberFormat),
                         t.paperNumberFormat &&
@@ -14396,6 +14827,7 @@ var hiprint = (function (t) {
               console.log('start', start)
               var e = this
               ;(this.index = t.index),
+                (this.name = t.name),
                 (this.width = t.width),
                 (this.height = t.height),
                 (this.paperType = t.paperType),
@@ -14427,15 +14859,20 @@ var hiprint = (function (t) {
                     'top',
                     t.height - p.a.instance.paperHeightTrim + 'mm'
                   )
+              // 水印参数
+              this.watermarkOptions = t.watermarkOptions || {}
               // 页码
               ;(this.paperNumberLeft = t.paperNumberLeft),
                 (this.paperNumberTop = t.paperNumberTop),
                 (this.paperNumberDisabled = t.paperNumberDisabled),
+                (this.paperNumberContinue = t.paperNumberContinue),
                 (this.paperNumberFormat = t.paperNumberFormat)
               ;(this.designPaper.paperNumberLeft = this.paperNumberLeft),
                 (this.designPaper.paperNumberTop = this.paperNumberTop),
                 (this.designPaper.paperNumberDisabled =
                   this.paperNumberDisabled),
+                (this.designPaper.paperNumberContinue =
+                  this.paperNumberContinue),
                 (this.designPaper.paperNumberFormat = this.paperNumberFormat)
               this.designPaper.paperNumberTarget
                 .css('top', this.paperNumberTop + 'pt')
@@ -14450,7 +14887,7 @@ var hiprint = (function (t) {
                 (this.scale = t.scale)
               ;(this.designPaper.fontFamily = this.fontFamily),
                 (this.designPaper.orient = this.orient),
-                (this.designPaper.scale = this.scale)
+                (this.designPaper.scale = e.designPaper.scale || this.scale)
               // 面板参数
               ;(this.panelPaperRule = t.panelPaperRule),
                 (this.panelPageRule = t.panelPageRule),
@@ -14573,9 +15010,13 @@ var hiprint = (function (t) {
             if (this.fontFamily) t.css('fontFamily', this.fontFamily)
             else t[0].style.fontFamily = ''
           }),
+          (t.prototype.getConfig = function () {
+            return p.a.instance
+          }),
           (t.prototype.getHtml = function (t, e, n, i, o) {
             var r = this
             this.orderPrintElements()
+            let config = r.getConfig()
             var a,
               p = n || [],
               s = i || this,
@@ -14610,10 +15051,7 @@ var hiprint = (function (t) {
                 var n = [],
                   i = p[p.length - 1]
                 if (
-                  i.referenceElement.isPositionLeftOrRight(
-                    e.options.getTop(),
-                    e.options.getHeight()
-                  )
+                  i.referenceElement.isPositionLeftOrRight(e.options.getTop())
                 ) {
                   l = p[i.referenceElement.beginPrintPaperIndex]
                 } else {
@@ -14651,6 +15089,15 @@ var hiprint = (function (t) {
                   t.getHtml(i, o, n, r)
                 })
               })
+            // config 是否开启页码续排
+            if (config.paperNumberContinue) {
+              // 面板是否页码续排
+              if (r.paperNumberContinue) {
+                hinnn._paperList = [...(hinnn._paperList || []), ...p]
+              } else {
+                hinnn._paperList = [...p]
+              }
+            }
             if (!i) {
               if (this.lastPaperFooter)
                 p[p.length - 1].printLine > this.lastPaperFooter &&
@@ -14681,6 +15128,12 @@ var hiprint = (function (t) {
                     null != e.topOffset && n.setTopOffset(e.topOffset))
               })
               a.prepend(this.getPrintStyle())
+              // config 是否开启页码续排
+              if (config.paperNumberContinue) {
+                hinnn._paperList.forEach(function (n, index) {
+                  n.updatePaperNumber(index + 1, hinnn._paperList.length)
+                })
+              }
             }
 
             return a
@@ -14722,12 +15175,17 @@ var hiprint = (function (t) {
               }),
               new rt({
                 index: this.index,
+                name: this.name || this.index + 1,
                 width: this.width,
                 height: this.height,
                 paperType: this.paperType,
                 paperHeader: this.paperHeader,
                 paperFooter: this.paperFooter,
                 paperNumberDisabled: !!this.paperNumberDisabled || void 0,
+                paperNumberContinue:
+                  this.paperNumberContinue == void 0
+                    ? !0
+                    : this.paperNumberContinue,
                 paperNumberFormat: this.paperNumberFormat
                   ? this.paperNumberFormat
                   : void 0,
@@ -14747,6 +15205,9 @@ var hiprint = (function (t) {
                 fontFamily: this.fontFamily,
                 orient: this.orient,
                 scale: this.scale,
+                watermarkOptions: this.watermarkOptions
+                  ? this.watermarkOptions
+                  : void 0,
                 leftOffset: this.leftOffset,
               })
             )
@@ -14832,6 +15293,8 @@ var hiprint = (function (t) {
           (t.prototype.createNewPage = function (t, e) {
             var n = new T(
               this.templateId,
+              this.index,
+              this.watermarkOptions,
               this.panelPageRule,
               this.scale,
               this.width,
@@ -14841,6 +15304,7 @@ var hiprint = (function (t) {
               this.paperNumberLeft,
               this.paperNumberTop,
               this.paperNumberDisabled,
+              this.paperNumberContinue,
               this.paperNumberFormat,
               t,
               e
@@ -15030,6 +15494,22 @@ var hiprint = (function (t) {
               t
             )
           }),
+          (t.prototype.getTestData = function () {
+            var t = {}
+            return (
+              this.printElements.forEach(function (e) {
+                if ('table' != e.printElementType.type) {
+                  e.options && e.options.field
+                    ? (t[e.options.field] = e.options.testData)
+                    : e.printElementType.field
+                    ? (t[e.printElementType.field] =
+                        e.printElementType.data || e.options.testData)
+                    : void 0
+                }
+              }),
+              t
+            )
+          }),
           (t.prototype.bindBatchMoveElement = function () {
             var t = this
             this.designPaper
@@ -15038,8 +15518,7 @@ var hiprint = (function (t) {
                 if (
                   e.target.className &&
                   _typeof(e.target.className) == 'string' &&
-                  (e.target.className.includes('resize-panel') ||
-                    e.target.className.includes('editing'))
+                  e.target.className.includes('editing')
                 ) {
                   return
                 }
@@ -15062,8 +15541,7 @@ var hiprint = (function (t) {
                 if (
                   e.target.className &&
                   _typeof(e.target.className) == 'string' &&
-                  (e.target.className.includes('resize-panel') ||
-                    e.target.className.includes('editing'))
+                  e.target.className.includes('editing')
                 ) {
                   return
                 }
@@ -15072,8 +15550,10 @@ var hiprint = (function (t) {
                     t.mouseRect.target &&
                     t.mouseRect.target.remove(),
                   1 === e.buttons &&
-                    e.target.className ==
-                      'hiprint-printPaper hidroppable design' &&
+                    _typeof(e.target.className) == 'string' &&
+                    e.target.className.includes(
+                      'hiprint-printPaper hidroppable design'
+                    ) &&
                     (t.mouseRect = new at(
                       e.pageX,
                       e.pageY,
@@ -15118,12 +15598,9 @@ var hiprint = (function (t) {
               this.bingKeyboardMoveEvent(this.mouseRect.target),
               this.mouseRect.target.hidraggable({
                 onDrag: function onDrag(t, n, i) {
-                  e.mouseRect.target.css({
-                    transform: 'unset',
-                  }),
-                    (e.mouseRect.lastLeft = e.mouseRect.lastLeft
-                      ? o.a.px.toPt(e.mouseRect.target[0].offsetLeft)
-                      : n / ptr),
+                  ;(e.mouseRect.lastLeft = e.mouseRect.lastLeft
+                    ? o.a.px.toPt(e.mouseRect.target[0].offsetLeft)
+                    : n / ptr),
                     (e.mouseRect.lastTop = e.mouseRect.lastTop
                       ? o.a.px.toPt(e.mouseRect.target[0].offsetTop)
                       : i / ptr),
@@ -15147,6 +15624,9 @@ var hiprint = (function (t) {
                     e.mouseRect.mouseRectSelectedElement ||
                       (e.mouseRect.mouseRectSelectedElement =
                         e.getElementInRect(e.mouseRect))
+                  e.mouseRect.target.css({
+                    transform: 'unset',
+                  })
                 },
                 getScale: function getScale() {
                   return e.designPaper.scale || 1
@@ -15384,12 +15864,21 @@ var hiprint = (function (t) {
                       )
                     }
                   }
+                  n.find('textarea').bind(
+                    'dblclick.textarea',
+                    function (event) {
+                      if (!$(this).val()) {
+                        var placeholder = event.target.placeholder || ''
+                        $(this).val(placeholder)
+                      }
+                    }
+                  )
                 })
                 if (tab.list.length == 0 && o && o.length) {
                   o.forEach(function (t) {
                     var n2 = t.callback
                     t.callback = function (t) {
-                      n2 && (n2(t), i.submitOption())
+                      n2 && n2(t)
                     }
                     var tableColumn = t.optionItems
                     t.title &&
@@ -15418,6 +15907,14 @@ var hiprint = (function (t) {
                       .bind('keydown.submitOption', function (e) {
                         13 === e.keyCode &&
                           t.callback(n.getValueByOptionItems(tableColumn))
+                      })
+                    options
+                      .find('textarea')
+                      .bind('dblclick.textarea', function (event) {
+                        if (!$(this).val()) {
+                          var placeholder = event.target.placeholder || ''
+                          $(this).val(placeholder)
+                        }
                       })
                   })
                 }
@@ -15452,7 +15949,8 @@ var hiprint = (function (t) {
               p = $(
                 '<button  class="hiprint-option-item-settingBtn hiprint-option-item-deleteBtn"\n        type="button">删除</button>'
               )
-            r.append(a), r.append(p)
+            r.append(a)
+            i.options.draggable != false && r.append(p) // draggable 为 false 时不显示参数面板 删除 按钮
             if (tabs.length) {
               r.on('click', '.prop-tab-item', function () {
                 var $li = $(this)
@@ -15581,14 +16079,15 @@ var hiprint = (function (t) {
               var i = $('<ul class="hiprint-pagination"></ul>'),
                 o = function o() {
                   var t = r,
+                    name = n.template.printPanels[t].name || t + 1,
                     e = $(
                       '<li><span>' +
-                        (t + 1) +
+                        name +
                         '</span><a href="javascript:void(0);">x</a></li>'
                     )
                   e.find('span').click(function () {
                     n.template.selectPanel(t),
-                      e.removeClass('selected'),
+                      e.siblings().removeClass('selected'),
                       $(this).parent('li').addClass('selected')
                   }),
                     e.find('a').click(function () {
@@ -15607,8 +16106,37 @@ var hiprint = (function (t) {
             i.append(a),
               this.jqPaginationContainer.append(i),
               a.click(function () {
-                n.template.addPrintPanel(void 0, !0), n.buildPagination()
+                var createPanel = function (t) {
+                  n.template.addPrintPanel(t || void 0, !0), n.buildPagination()
+                  $('.hiprint-pagination li').removeClass('selected')
+                  $('.hiprint-pagination li:nth-last-child(2)').addClass(
+                    'selected'
+                  )
+                }
+                if (n.template.onPanelAddClick) {
+                  var panel = {
+                    index: n.template.printPanels.length,
+                    paperType: 'A4',
+                  }
+                  n.template.onPanelAddClick(panel, createPanel)
+                } else {
+                  createPanel()
+                }
               })
+          }),
+          (t.prototype.selectPanel = function (idx) {
+            var i = idx || this.template.editingPanel.index
+            var li = $('.hiprint-pagination li:nth(' + i + ')')
+            if (li.length) {
+              li.siblings().removeClass('selected')
+              li.addClass('selected')
+            }
+            hinnn.event.trigger(
+              'onSelectPanel',
+              this.template.editingPanel,
+              i,
+              li
+            )
           }),
           t
         )
@@ -15630,6 +16158,8 @@ var hiprint = (function (t) {
             { id: s.a.instance.guid(), type: '初始', json: this.lastJson },
           ]
           this.historyPos = 0
+          this.defaultPanelName = n.defaultPanelName
+          this.designOptions = {}
           var i = new st(n.template || [])
           n.template &&
             i.panels.forEach(function (t) {
@@ -15639,6 +16169,7 @@ var hiprint = (function (t) {
             n.fields && (this.fields = n.fields),
             n.onImageChooseClick &&
               (this.onImageChooseClick = n.onImageChooseClick),
+            n.onPanelAddClick && (this.onPanelAddClick = n.onPanelAddClick),
             n.settingContainer && new ut(this, n.settingContainer),
             n.paginationContainer &&
               ((this.printPaginationCreator = new dt(
@@ -15659,6 +16190,7 @@ var hiprint = (function (t) {
             }
 
             if (!t) throw new Error('options.container can not be empty')
+            n.designOptions = e
             this.createContainer(t),
               this.printPanels.forEach(function (t, i) {
                 n.container.append(t.getTarget()),
@@ -15672,14 +16204,22 @@ var hiprint = (function (t) {
             e || (e = {})
             var i = $('<div class="hiprint-printTemplate"></div>')
             t && t.constructor === Array
-              ? t.forEach(function (t) {
-                  t &&
+              ? t.forEach(function (data, dataIndex) {
+                  data &&
                     n.printPanels.forEach(function (n, o) {
-                      i.append(n.getHtml(t, e))
+                      i.append(n.getHtml(data, e))
+                      // 批量打印 续排页码
+                      if (dataIndex == t.length - 1) {
+                        delete hinnn._paperList
+                      }
                     })
                 })
-              : this.printPanels.forEach(function (n, o) {
-                  i.append(n.getHtml(t, e))
+              : this.printPanels.forEach(function (panel, panelIndex) {
+                  i.append(panel.getHtml(t, e))
+                  // 多面板打印 续排页码
+                  if (panelIndex == n.printPanels.length - 1) {
+                    delete hinnn._paperList
+                  }
                 })
             return e && e.imgToBase64 && this.transformImg(i.find('img')), i
           }),
@@ -15717,7 +16257,9 @@ var hiprint = (function (t) {
             var n = t ? new pt(new rt(t), this.id) : this.createDefaultPanel()
             return (
               t && (t.index = this.printPanels.length),
-              e && (this.container.append(n.getTarget()), n.design()),
+              e &&
+                (this.container.append(n.getTarget()),
+                n.design(this.designOptions)),
               this.printPanels.push(n),
               e && this.selectPanel(n.index),
               n
@@ -15725,8 +16267,14 @@ var hiprint = (function (t) {
           }),
           (t.prototype.selectPanel = function (t) {
             var e = this
+            if (t > e.printPanels.length - 1) t = e.printPanels.length - 1
             this.printPanels.forEach(function (n, i) {
-              t == i ? (n.enable(), (e.editingPanel = n)) : n.disable()
+              t == i
+                ? (n.enable(),
+                  (e.editingPanel = n),
+                  e.printPaginationCreator &&
+                    e.printPaginationCreator.selectPanel(t))
+                : n.disable()
             })
           }),
           (t.prototype.deletePanel = function (t) {
@@ -15741,6 +16289,7 @@ var hiprint = (function (t) {
             return new pt(
               new rt({
                 index: this.printPanels.length,
+                name: this.defaultPanelName,
                 paperType: 'A4',
               }),
               this.id
@@ -15826,40 +16375,39 @@ var hiprint = (function (t) {
               var n = this,
                 i = 0,
                 o = {},
-                r =
-                  $('link[media=print][href*="print-lock.css"]').length > 0
-                    ? $('link[media=print][href*="print-lock.css"]')
-                    : [],
+                r = $('link[media=print][href*="print-lock.css"]'),
                 css = ''
               if (e.styleHandler) {
                 css += e.styleHandler()
               }
-              if (r.length) {
-                r.each(function (a, p) {
-                  var s = new XMLHttpRequest()
-                  s.open('GET', $(p).attr('href')),
-                    (s.onreadystatechange = function () {
-                      if (
-                        4 === s.readyState &&
-                        200 === s.status &&
-                        ((o[a + ''] =
-                          '<style rel="stylesheet" type="text/css">' +
-                          s.responseText +
-                          '</style>'),
-                        ++i == r.length)
-                      ) {
-                        for (var p = '', l = 0; l < r.length; l++) {
-                          p += o[l + '']
-                        }
-                        if (css) p = css + p
-                        n.sentToClient(p, t, e)
-                      }
-                    }),
-                    s.send()
-                })
-              } else {
-                n.sentToClient(css, t, e)
+              if (r.length <= 0) {
+                throw new Error(
+                  '请在 入口文件(index.html) 中引入 print-lock.css. 注意: link[media="print"]'
+                )
+                return
               }
+              r.each(function (a, p) {
+                var s = new XMLHttpRequest()
+                s.open('GET', $(p).attr('href')),
+                  (s.onreadystatechange = function () {
+                    if (
+                      4 === s.readyState &&
+                      200 === s.status &&
+                      ((o[a + ''] =
+                        '<style rel="stylesheet" type="text/css">' +
+                        s.responseText +
+                        '</style>'),
+                      ++i == r.length)
+                    ) {
+                      for (var p = '', l = 0; l < r.length; l++) {
+                        p += o[l + '']
+                      }
+                      if (css) p = css + p
+                      n.sentToClient(p, t, e)
+                    }
+                  }),
+                  s.send()
+              })
             } else alert('连接客户端失败')
           }),
           (t.prototype.imageToBase64 = function (t) {
@@ -15908,10 +16456,13 @@ var hiprint = (function (t) {
               var n = this,
                 i = 0,
                 o = {},
-                r =
-                  $('link[media=print]').length > 0
-                    ? $('link[media=print]')
-                    : $('link')
+                r = $('link[media=print][href*="print-lock.css"]')
+              if (r.length <= 0) {
+                throw new Error(
+                  '请在 入口文件(index.html) 中引入 print-lock.css. 注意: link[media="print"]'
+                )
+                return
+              }
               r.each(function (a, p) {
                 var l = new XMLHttpRequest()
                 l.open('GET', $(p).attr('href')),
@@ -15952,7 +16503,7 @@ var hiprint = (function (t) {
               e.imageToBase64($(n))
             })
           }),
-          (t.prototype.toPdf = function (t, e, n) {
+          (t.prototype.toPdf = function (t, e, options) {
             var i = this
             var dtd = $.Deferred()
             var isDownload = true
@@ -15967,7 +16518,7 @@ var hiprint = (function (t) {
                     y: 0,
                     useCORS: !0,
                   },
-                  n || {}
+                  options || {}
                 ),
                 s = new jsPDF({
                   orientation:
@@ -15977,9 +16528,9 @@ var hiprint = (function (t) {
                     ? this.printPanels[0].paperType.toLocaleLowerCase()
                     : [r, a],
                 }),
-                l = this.getHtml(t, n)
-              if (n && undefined != n.isDownload) {
-                isDownload = n.isDownload
+                l = this.getHtml(t, options)
+              if (options && undefined != options.isDownload) {
+                isDownload = options.isDownload
               }
               this.createTempContainer()
               var u = this.getTempContainer()
@@ -16010,7 +16561,8 @@ var hiprint = (function (t) {
                       e.indexOf('.pdf') > -1 ? s.save(e) : s.save(e + '.pdf')
                   } else {
                     i.removeTempContainer()
-                    var pdfFile = s.output('blob')
+                    let type = options.type || 'blob'
+                    var pdfFile = s.output(type)
                     dtd.resolve(pdfFile)
                   }
                 })
@@ -16133,12 +16685,35 @@ var hiprint = (function (t) {
               t
             )
           }),
-          (t.prototype.update = function (t) {
+          (t.prototype.getTestData = function () {
+            var t = {}
+            return (
+              this.printPanels.forEach(function (e) {
+                t = Object.assign(t, e.getTestData())
+              }),
+              t
+            )
+          }),
+          (t.prototype.update = function (t, idx) {
             var e = this
             try {
-              if (t && 'object' == _typeof(t)) {
-                var temp = new rt(t.panels[0])
-                e.editingPanel.update(temp)
+              if (t && 'object' == _typeof(t) && t.panels.length > 0) {
+                var curLen = e.printPanels.length - 1
+                t.panels.forEach(function (panel, index) {
+                  if (index > curLen) {
+                    e.printPanels.push(new pt(panel, s.a.instance.guid()))
+                    var t = e.printPanels[index]
+                    e.container.append(t.getTarget()),
+                      index > 0 && t.disable(),
+                      t.design(e.designOptions)
+                    e.printPaginationCreator &&
+                      e.printPaginationCreator.buildPagination()
+                  }
+                  var temp = new rt(panel)
+                  e.editingPanel = e.printPanels[index]
+                  e.editingPanel.update(temp)
+                })
+                e.selectPanel(idx || 0)
               }
             } catch (er) {
               console.log(er)
@@ -16358,14 +16933,14 @@ var hiprint = (function (t) {
                     if (t.historyPos > 0) {
                       t.historyPos -= 1
                       var cur = t.historyList[t.historyPos]
-                      t.update(cur.json, cur.type)
+                      t.update(cur.json)
                     }
                     break
                   case 'redo':
                     if (t.historyPos < t.historyList.length - 1) {
                       t.historyPos += 1
                       var cur = t.historyList[t.historyPos]
-                      t.update(cur.json, cur.type)
+                      t.update(cur.json)
                     }
                     break
                 }
@@ -16430,9 +17005,10 @@ var hiprint = (function (t) {
 
     function mt(t) {
       p.a.instance.init(t),
-        p.a.instance.providers.forEach(function (t) {
-          t.addElementTypes(a.instance)
-        })
+        p.a.instance.providers &&
+          p.a.instance.providers.forEach(function (t) {
+            t.addElementTypes(a.instance)
+          })
     }
 
     function cig(t) {
@@ -16441,8 +17017,7 @@ var hiprint = (function (t) {
           Object.keys(t).forEach(function (i) {
             if (i == 'optionItems' && t.optionItems && t.optionItems.length) {
               p.a.instance.registerItems(t.optionItems)
-            }
-            if (t[i].tabs && t[i].tabs.length) {
+            } else if (t[i].tabs && t[i].tabs.length) {
               t[i].tabs.forEach(function (tab, idx) {
                 if (tab.replace) {
                   $.extend(p.a.instance[i].tabs[idx], tab)
@@ -16470,8 +17045,7 @@ var hiprint = (function (t) {
                 }
               })
               delete t[i].tabs
-            }
-            if (t[i].supportOptions) {
+            } else if (t[i].supportOptions) {
               var options = t[i].supportOptions,
                 list = p.a.instance[i].supportOptions
               options.forEach(function (o) {
@@ -16490,8 +17064,11 @@ var hiprint = (function (t) {
               })
               $.extend(p.a.instance[i].supportOptions, list)
               delete t[i].supportOptions
+            } else {
+              var keyMap = {}
+              keyMap[i] = t[i]
+              $.extend(p.a.instance, keyMap)
             }
-            $.extend(p.a.instance[i], t[i])
           })
       } else {
         $.extend(p.a.instance, HIPRINT_CONFIG)

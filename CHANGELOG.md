@@ -1,5 +1,284 @@
 版本及更新记录
 ------------------------------
+### 💐️  GitHub 提交 PR 合并后可自动发布到 npm 仓库;
+### 💐  同时自动更新 GitHub Pages 同步 Gitee;
+### 💐  感谢各位贡献者的支持。 🔥
+
+## 0.0.54 (2023-07-05)
+> 使用此版本 请更新最新的 print-lock.css
+<details>
+  <summary>01. 🌈 新增支持 文本换行参数(不换行、隐藏、省略)</summary>
+</details>
+<details>
+  <summary>02. 🌈 新增支持 多面板/批量打印 页码续排/重排 选项</summary>
+</details>
+<details>
+  <summary>03. 🌈 新增支持 多面板选中回调 onSelectPanel 使用场景：当选择回调的时候刷新相关界面设置。</summary>
+
+```javascript
+hinnn.event.clear("onSelectPanel");
+hinnn.event.on("onSelectPanel", (panel, index, li) => {
+  console.log("onSelectPanel", panel, index, li);
+});
+```
+</details>
+<details>
+  <summary>04. ✨ 调整优化 toPdf 支持导出 指定类型(blob、bloburi、dataurl等)见 demo 示例</summary>
+</details>
+<details>
+  <summary>05. ✨ 调整优化 当表格某一行数据超出最大分页高度时, 无限循环卡死问题(同时给出提示)</summary>
+</details>
+<details>
+  <summary>06. ✨ 调整优化 行/列合并函数 回调新增 tableData, printData</summary>
+</details>
+<details>
+  <summary>07. ✨ 调整优化 表格表头 边框参数</summary>
+</details>
+<details>
+  <summary>08. ✨ 调整优化 旋转角度, input类型为number</summary>
+</details>
+<details>
+  <summary>09. ✨ 调整优化 文本 上下对齐 参数(改用 grid 实现)</summary>
+</details>
+<details>
+  <summary>10. ✨ 调整优化 图片元素 显示 隐藏规则 参数</summary>
+</details>
+<details>
+  <summary>11. 🐛️ fix 缩放后 撤销/重做 再点击元素位置跳动问题</summary>
+</details>
+<details>
+  <summary>12. 🐛️ fix setConfig 参数不生效 bug</summary>
+</details>
+<details>
+  <summary>13. 🐛️ fix 聚合函数 最大/小值 显示 Infinity 问题</summary>
+</details>
+
+## 0.0.52 (2023-05-08)
+<details>
+  <summary>1. 🌈 新增支持 表格设置"每页最大行数"功能</summary>
+</details>
+<details>
+  <summary>2. 🌈 新增支持 双击"格式化函数"等, 填充placeholder</summary>
+</details>
+<details>
+  <summary>3. 🌈 新增支持 "底部聚合合并列数"参数,实现自定义合并列</summary>
+</details>
+<details>
+  <summary>4. ✨ 调整优化 分页规则:不分页时, 移除thead,tfoot. 直接插入到tbody</summary>
+</details>
+<details>
+  <summary>5. ✨ 调整优化 默认provider 新增defaultModule.emptyTable</summary>
+</details>
+<details>
+  <summary>6. 🐛️ fix 框选框 点击时跳位的问题</summary>
+</details>
+<details>
+  <summary>7. 🐛️ fix updateElementType 错误</summary>
+</details>
+<details>
+  <summary>8. 🐛️ fix 设计时 清空水印内容 水印未销毁问题</summary>
+</details>
+<details>
+  <summary>9. 🐛️ fix 行/列合并函数 placeholder 错误</summary>
+</details>
+<details>
+  <summary>10. 🐛️ fix provider 配置表格列,样式函数等参数是函数时,默认getJson未返回其值的问题</summary>
+</details>
+
+## 0.0.50 (2023-03-31)
+<details>
+  <summary>1. 🌈️ 新增支持 水印功能</summary>
+
+```javascript
+let json = {
+    panels:[
+      // 面板设置 水印参数
+      // 更多参数可查看本项目 src/hiprint/plugins/watermark.js
+      "watermarkOptions": {
+        "content": "vue-plugin-hiprint",
+          "rotate": 25,
+          "timestamp": true,
+          "format": "YYYY-MM-DD HH:mm"
+      },
+    ]
+}
+```
+</details>
+<details>
+  <summary>2. ✨ 调整优化 多行表头字段渲染问题</summary>
+</details>
+<details>
+  <summary>3. ✨ 调整优化 表头合并问题</summary>
+</details>
+<details>
+  <summary>4. ✨ 调整优化 表格列 部分参数返回默认值问题(getJson不需要返回的值)</summary>
+</details>
+<details>
+  <summary>5. ✨ 调整优化 支持撤销重做 调整表头/调整列字段 操作</summary>
+</details>
+<details>
+  <summary>6. ✨ 调整优化 "行/列合并函数" 添加"rowIndex" 行下标回调</summary>
+</details>
+<details>
+  <summary>7. 🐛️ fix 当有"行/列合并函数" 设置表体行高无效问题</summary>
+</details>
+<details>
+  <summary>8. 🐛️ fix "行/列合并函数" 分页列缺少/塌陷问题 并支持设置 分页是否清除合并内容</summary>
+</details>
+<details>
+  <summary>9. 🐛️ fix tableColumn 参数多次提交问题</summary>
+</details>
+
+## 0.0.48 (2023-03-09)
+<details>
+  <summary>1. ✨ 调整优化 setHost 支持回调</summary>
+
+```javascript
+hiprint.hiwebSocket.setHost('http://localhost:17521',(connected, e) => {
+  console.log('connected', connected);
+  console.log('e', e);
+})
+```
+</details>
+<details>
+  <summary>2. ✨ 调整优化 参数 draggable:false 时，不显示删除按钮</summary>
+</details>
+<details>
+  <summary>3. ✨ 调整优化 design 网格线支持多面板</summary>
+</details>
+<details>
+  <summary>4. 🐛️ fix 竖线无法旋转 bug</summary>
+</details>
+<details>
+  <summary>5. 🐛️ fix hiprint.init error</summary>
+</details>
+
+## 0.0.46 (2023-02-23)
+<details>
+  <summary>01. 🌈️ 新增支持 多面板名称自定义功能(创建模板添加 "onPanelAddClick" 和 "defaultPanelName" 属性)</summary>
+
+```javascript
+let hiprintTemplate = new hiprint.PrintTemplate({
+  template: {},
+  settingContainer: '#PrintElementOptionSetting',
+  paginationContainer: '.hiprint-printPagination',
+  defaultPanelName: '默认面板名称', // 默认面板名称(当面板没有 name 属性时)
+  onPanelAddClick: (panel, createPanel) => {
+    // 修改名称, 可以弹出输入框, 也可以直接修改
+    panel.name = '新面板' + (panel.index+1);
+    // 记得 调用 createPanel 创建面板
+    createPanel(panel);
+  },
+});
+```
+</details>
+<details>
+  <summary>02. 🌈️ 新增支持 吸附线功能 && 优化调整吸附功能 支持设置 吸附阈值等 adsorbMin、showAdsorbLine、adsorbLineMin</summary>
+
+```javascript
+hiprint.setConfig({
+  adsorbMin: 3, //吸附最小距离pt
+  showAdsorbLine: true, //显示吸附线
+  adsorbLineMin: 6, //吸附线显示最小距离pt
+})
+```
+</details>
+<details>
+  <summary>03. 🌈️ 新增支持 table 分组字段函数 和 分组头/脚格式化函数</summary>
+
+```javascript
+{
+    options: {
+      // 分组统计字段
+      groupFieldsFormatter: function(groupData,options) {
+          return ["name"];
+      }
+      // 分组表头
+      groupFormatter: function(groupData,options) {
+          return '<td></td>';
+      }
+      // 分组表脚
+      groupFooterFormatter: function(groupData,options) {
+          return '<td></td>';
+      }
+    }
+}
+```
+</details>
+<details>
+  <summary>04. 🌈️ 新增支持 design 显示网格 -> design('#id',{ grid: true })</summary>
+
+```javascript
+let hiprintTemplate = new hiprint.PrintTemplate({
+  template: {},
+  settingContainer: '#PrintElementOptionSetting',
+});
+hiprintTemplate.design('#id',{ grid: true });
+```
+</details>
+<details>
+  <summary>05. 🌈️ 新增支持 模板获取测试数据Api getTestData</summary>
+</details>
+<details>
+  <summary>06. 🌈 新增支持 表格列 表格头样式函数 @PromiseAll</summary>
+</details>
+<details>
+  <summary>07. ✨ 调整优化 update功能,支持更新多面板,并选中默认面板 eg: update({},1)</summary>
+</details>
+<details>
+  <summary>08. ✨ 调整优化 更改纸张大小时,按比例设置页脚线高度</summary>
+</details>
+<details>
+  <summary>09. ✨ 调整优化 双击编辑文本时 hover 显示问题</summary>
+</details>
+<details>
+  <summary>10. ✨ 调整优化 多面板 样式美化</summary>
+</details>
+<details>
+  <summary>11. 🐛️ fix 多表格 并排问题</summary>
+</details>
+<details>
+  <summary>12. 🐛️ fix 页眉线/页尾线 宽度问题</summary>
+</details>
+<details>
+  <summary>13. 🐛️ fix 多选元素 拖拽未选中元素 bug</summary>
+</details>
+<details>
+  <summary>14. 🐛️ fix 元素旋转 缩放后 点击跳动问题</summary>
+</details>
+<details>
+  <summary>15. 🐛️ fix 框选时遇hover停滞问题</summary>
+</details>
+<details>
+  <summary>16. 🐛️ fix 其他一些已知小bug</summary>
+</details>
+
+## 0.0.44 (2023-01-18)
+<details>
+  <summary>1. 🌈️  选中元素新增删除按钮</summary>
+</details>
+<details>
+  <summary>2. ✨ 调整优化 页码格式 支持 ${paperNo+1} 增量页码</summary>
+</details>
+<details>
+  <summary>3. ✨ 调整优化 新拖拽元素宽高大小显示</summary>
+</details>
+<details>
+  <summary>4. ✨ 调整优化 hover元素时显示删除按钮及宽高大小</summary>
+</details>
+<details>
+  <summary>5. ✨ 调整优化 当图片元素没设置宽高时,获取宽高大小</summary>
+</details>
+<details>
+  <summary>6. ✨ 调整优化 常见错误 Error 中文提示; 如 tableCustom</summary>
+</details>
+<details>
+  <summary>7. 🐛️ fix 框选后 getSelectEls 无法获取选中元素 bug</summary>
+</details>
+<details>
+  <summary>8. 🐛️ fix table 设置表体行高 自动填充 bug</summary>
+</details>
+
 ## 0.0.40 (2022-12-26)
 <details>
   <summary>1. 🌈️  新增支持 文本、表格聚合添加「转大小写」功能 同时提供 hinnn.toUpperCase 方法</summary>
@@ -640,3 +919,77 @@ text元素修改为barcode/qrcode时调整控制按钮
 从右侧参数栏快速从右往左选择时鼠标移动到design内时框选框的大小问题
 ```
 </details>
+
+## 0.0.23 (2022-06-15) 之前已调整优化部分
+
+- [x] `vue 插件` 发布npm包,方便直接使用
+- [x] `Ant Design Vue demo` 默认拖拽设计、自定义设计、队列打印
+- [x] `优化删除元素功能` 支持 backSpace/delete 按键删除
+- [x] `优化拖动功能` 调整优化 不允许元素拖出窗口 按住ctrl/command允许拖出窗口外
+- [x] `优化框选功能` fix 原只能从上往下框选问题
+- [x] `支持修改默认直接打印主机` window.hiwebSocket.setHost("xxx:17521")
+- [x] `print优化调整` 支持设置callback 见demo的preview.vue
+- [x] `table/tableCustom优化调整` 支持设置options.fields 双击选择字段,
+- [x] `table优化调整` 支持设置isEnableInsertColumn/isEnableDeleteColumn等参数，支持插入/删除列
+- [x] `table/tableCustom优化调整` 支持设置options.tableHeaderRepeat/tableFooterRepeat 表头/表脚显示模式
+- [x] `table优化调整` 支持设置 不显示表头
+- [x] `条形码优化调整` fix 条码格式错误的问题（EAN-13、ITF、UPC等）
+- [x] `字段名优化调整` 元素的字段名(field) 支持嵌套（eg: a.b.c.d）
+- [x] `新增支持不分页(小票打印)` 可设置不分页 table、longText处理
+- [x] `新增支持复制/粘贴` 支持 基本元素的ctrl+c/v(复制/粘贴)
+- [x] `新增支持设置是否自动连接客户端` 支持 不自动连接'直接打印'客户端
+- [x] `新增支持表格设置列显示类型` 支持 设置表格列显示图片、二维码、条形码
+- [x] `调整优化表格列拖拽列宽限制` fix 设置旋转角度后 拖拽、跳动、辅助线相关问题
+- [x] `npm包新增提供Api打印方法` main.js引入时，Vue原型添加print、print2Api，方便直接打印
+- [x] `新增支持多选功能` 按住ctrl/command 多选元素 键盘/鼠标拖动 移动
+- [x] `调整优化元素设置旋转角度问题` fix 设置旋转角度后 拖拽、跳动、辅助线相关问题
+- [x] `新增支持元素拖拽旋转` 基本元素上新增旋转控制点，拖拽旋转、双击还原
+- [x] `调整优化标尺` 使用svg替换原图片标尺，让标尺更清晰
+- [x] `新增支持放大缩小功能` 提供模板新增zoom方法(transform：scale)，放大缩小拖动不乱跳
+- [x] `调整优化以支持Vue3.x` 调整qrcode.js fix vite项目报错问题
+- [x] `元素添加禁止拖拽` panels[n]printElements[m]options.draggable true、false
+- [x] `添加对齐api` hiprintTemplate.setElsAlign
+- [x] `表格字段添加聚合功能` 表格字段配置 options.columns[n]tableSummary
+- [x] `新增支持操作历史记录` 支持ctrl/command+(shift)+z 撤销重做, 并提供hiprintTemplate的undo,redo方法
+- [x] `新增坐标位置参数设置` 参数面板新增坐标位置参数,支持同步设置XY坐标,并提供coordinateSync设置默认同步与否
+- [x] `新增宽高大小参数设置` 参数面板新增宽高大小参数,支持同步设置宽高,并提供widthHeightSync设置默认同步与否
+- [x] `新增显示元素坐标位置` 拖拽时显示XY坐标位置,并支持两种显示默认,设置positionLineMode,坐标显示在辅助线上
+- [x] `新增显示元素宽高大小` 点击元素时显示宽高大小,支持重新样式(.resize-panel .size-box)
+- [x] `新增设置元素距离api` 多选元素后设置每个元素的间隔(垂直/水平) hiprintTemplate.setElsSpace(10,true)
+- [x] `调整优化table表头`  支持动态显示/隐藏表头列, getJson时也返回了所有设置的列
+- [x] `新增支持更新拖拽元素api` 通过tid获取拖拽元素/更新拖拽元素 hiprint.updateElementType(tid,(e)=>e)
+- [x] `新增支持不打印功能`   设置元素 showInPage: 'none' 打印时不打印
+- [x] `新增刷新获取打印机列表api` 连接上客户端时 通过 hiprint.refreshPrinterList 获取最新打印机列表
+- [x] `新增获取IP、IPv6、MAC的api` 连接上客户端时 通过 hiprint.getAddress('mac',(data)=>{}) 获取MAC地址
+- [x] `新增支持设置元素层级` 设置元素 zIndex: 10 调整元素层级
+- [x] `调整优化元素设置fields问题` 设置元素 options.fields: [{"text":'id',"field":'id']; getJson将返回此列表
+- [x] `新增支持图片地址选择按钮` new PrintTemplate时 指定 onImageChooseClick: (target) => {target.refresh('url')} 更新图片地址
+- [x] `新增支持图片元素设置缩放格式fit`  object-fix: fill|contain|cover|none
+- [x] `新增支持text元素修改为barcode/qrcode时调整控制按钮`  右和下控制点 变成 右下控制点(等比缩放)
+- [x] `调整优化控制点等比缩放功能`  右下控制点拖动时等比缩放, 按住shift时可自由缩放
+- [x] `调整优化元素框选功能`  从右侧参数栏快速从右往左选择时鼠标移动到design内时框选框的大小问题
+
+|setElsAlign 参数说明|说明|
+|---|---|
+|left|左对齐|
+|vertical|居中|
+|right|右对齐|
+|top|顶部对齐|
+|horizontal|垂直居中|
+|bottom|底部对齐|
+|distributeHor|横向分散|
+|distributeVer|纵向分散|
+
+|tableSummary 参数说明|说明|
+|---|---|
+|-(缺省或不匹配)|不聚合|
+|count|计数|
+|sum|合计|
+|avg|平均值|
+|min|最小值|
+|max|最大值|
+
+|setElsSpace 使用示例|说明|
+|---|---|
+|.setElsSpace(10)|垂直距离10(pt)|
+|.setElsSpace(10,true)|水平距离10(pt)|
