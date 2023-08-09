@@ -30,10 +30,11 @@ export default function (hiprint) {
               [
                 {
                   title: '行号',
+                  width: 100,
                 },
-                { title: '' },
-                { title: '' },
-                { title: '' },
+                { title: '', width: 100 },
+                { title: '', width: 100 },
+                { title: '', width: 100 },
               ],
             ],
             editable: true,

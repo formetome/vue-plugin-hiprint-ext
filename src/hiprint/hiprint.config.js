@@ -1774,6 +1774,10 @@
           hidden: false,
         },
         {
+          name: 'width',
+          hidden: false,
+        },
+        {
           name: 'tableColumnHeight',
           hidden: false,
         },

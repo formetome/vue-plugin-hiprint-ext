@@ -3022,13 +3022,18 @@ var hiprint = (function (t) {
                             }),
                             r
                               .find('.hibarcode_imgcode')
-                              .attr('height', t.tableColumnHeight + 'pt'),
-                            r
-                              .find('.hibarcode_imgcode')
-                              .css('margin', '5pt 10pt'),
-                            r
-                              .find('.hibarcode_imgcode')
-                              .attr('width', 'calc(100% - 20pt)'))
+                              .attr(
+                                'height',
+                                (t.tableColumnHeight
+                                  ? parseInt(t.tableColumnHeight)
+                                  : 30) + 'pt'
+                              )
+                              .attr(
+                                'width',
+                                (t.width ? parseInt(t.width) : 100) + 'pt'
+                              )
+                              .css('display', 'block'),
+                            r.css('padding', '2pt'))
                           : r.html('')
                         // this.options.hideTitle || r.find(".hibarcode_displayValue").html(n)
                       } catch (t) {
@@ -6489,6 +6494,33 @@ var hiprint = (function (t) {
           t
         )
       })(),
+      tableColumnW = (function () {
+        function t() {
+          this.name = 'width'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item ">\n        <div class="hiprint-option-item-label">\n        列宽度\n        </div>\n        <div class="hiprint-option-item-field">\n        <input type="text" class="auto-submit" >\n        </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('input').val()
+            if (t) return t.toString()
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('input').val(parseFloat(t).toFixed(2))
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
       tableColumnH = (function () {
         function t() {
           this.name = 'tableColumnHeight'
@@ -7352,7 +7384,7 @@ var hiprint = (function (t) {
           (t.prototype.createTarget = function () {
             return (
               (this.target = $(
-                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        单元格上下对齐\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="top" >上</option>\n        <option value="middle" >中</option>\n        <option value="bottom" >居右</option>\n        \n        </select>\n        </div>\n    </div>'
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        单元格上下对齐\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认</option>\n        <option value="top" >上</option>\n        <option value="middle" >中</option>\n        <option value="bottom" >下</option>\n        \n        </select>\n        </div>\n    </div>'
               )),
               this.target
             )
@@ -7705,6 +7737,7 @@ var hiprint = (function (t) {
           new wt(),
           new maxRows(),
           new xt(),
+          new tableColumnW(),
           new tableColumnH(),
           new tableE(),
           new tableQRCodeLevel(),
