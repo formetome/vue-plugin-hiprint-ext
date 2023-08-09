@@ -2434,6 +2434,7 @@ var hiprint = (function (t) {
             (this.formatter2 = t.formatter2 && t.formatter2.toString()),
             (this.styler2 = t.styler2 && t.styler2.toString()),
             (this.stylerHeader = t.stylerHeader && t.stylerHeader.toString()),
+            (this.tableShowBarcodeTitle = t.tableShowBarcodeTitle),
             (this.tableColumnHeight = t.tableColumnHeight),
             (this.tableTextType = t.tableTextType),
             (this.tableBarcodeMode = t.tableBarcodeMode),
@@ -2624,6 +2625,7 @@ var hiprint = (function (t) {
             (n.checkbox = e.checkbox),
             (n.checked = 0 != e.checked),
             (n.columnId = e.columnId || e.field),
+            (n.tableShowBarcodeTitle = e.tableShowBarcodeTitle),
             (n.tableColumnHeight = e.tableColumnHeight || 30),
             (n.tableTextType = e.tableTextType || 'text'),
             (n.tableBarcodeMode = e.tableBarcodeMode || 'CODE128'),
@@ -3035,7 +3037,9 @@ var hiprint = (function (t) {
                               .css('display', 'block'),
                             r.css('padding', '2pt'))
                           : r.html('')
-                        // this.options.hideTitle || r.find(".hibarcode_displayValue").html(n)
+
+                        t.tableShowBarcodeTitle == 'true' &&
+                          r.find('.hibarcode_displayValue').html(p)
                       } catch (t) {
                         console.log(t), r.html('此格式不支持该文本')
                       }
@@ -6467,6 +6471,33 @@ var hiprint = (function (t) {
           t
         )
       })(),
+      tableShowBarcodeTitle = (function () {
+        function t() {
+          this.name = 'tableShowBarcodeTitle'
+        }
+
+        return (
+          (t.prototype.createTarget = function () {
+            return (
+              (this.target = $(
+                ' <div class="hiprint-option-item">\n        <div class="hiprint-option-item-label">\n        条形码值显示\n        </div>\n        <div class="hiprint-option-item-field">\n        <select class="auto-submit">\n        <option value="" >默认（不显示）</option>\n            <option value="true" >显示</option>\n            <option value="false" >隐藏</option>\n        </select>\n         </div>\n    </div>'
+              )),
+              this.target
+            )
+          }),
+          (t.prototype.getValue = function () {
+            var t = this.target.find('select').val()
+            return t || void 0
+          }),
+          (t.prototype.setValue = function (t) {
+            this.target.find('select').val(t)
+          }),
+          (t.prototype.destroy = function () {
+            this.target.remove()
+          }),
+          t
+        )
+      })(),
       tableQRCodeLevel = (function () {
         function t() {
           this.name = 'tableQRCodeLevel'
@@ -7740,6 +7771,7 @@ var hiprint = (function (t) {
           new tableColumnW(),
           new tableColumnH(),
           new tableE(),
+          new tableShowBarcodeTitle(),
           new tableQRCodeLevel(),
           new tablept(),
           new tableSummaryTitle(),
@@ -9966,6 +9998,7 @@ var hiprint = (function (t) {
               (this.formatter2 = t.formatter2),
               (this.styler2 = t.styler2),
               (this.stylerHeader = t.stylerHeader),
+              (this.tableShowBarcodeTitle = t.tableShowBarcodeTitle),
               (this.tableColumnHeight = t.tableColumnHeight),
               (this.tableTextType = t.tableTextType),
               (this.tableBarcodeMode = t.tableBarcodeMode),

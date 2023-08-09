@@ -1766,6 +1766,10 @@
           hidden: false,
         },
         {
+          name: 'tableShowBarcodeTitle',
+          hidden: false,
+        },
+        {
           name: 'tableBarcodeMode',
           hidden: false,
         },
@@ -1774,7 +1778,7 @@
           hidden: false,
         },
         {
-          name: 'width',
+          name: 'width', // tableColumnWidth
           hidden: false,
         },
         {
