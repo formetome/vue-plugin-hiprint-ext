@@ -799,10 +799,9 @@ var hiprint = (function (t) {
         }),
         (t.prototype.getValueFromOptionsOrDefault = function (t) {
           // 除了宽高，其他暂时先不取默认值
-          const defKeys = ['width', 'height']
-          return null == this[t] && defKeys.includes(t)
-            ? this.defaultOptions[t]
-            : this[t]
+          // const defKeys = ['width', 'height']
+          // && defKeys.includes(t)
+          return null == this[t] ? this.defaultOptions[t] : this[t]
         }),
         (t.prototype.getPrintElementOptionEntity = function () {
           var t = new i(),
@@ -16611,11 +16610,7 @@ var hiprint = (function (t) {
                     (n.imageSmoothingEnabled = !1)
 
                   for (
-                    var o = changeDpiDataUrl(
-                        t.toDataURL('image/jpeg', 1.0),
-                        300
-                      ),
-                      p = 0;
+                    var o = t.toDataURL('image/jpeg', 1.0), p = 0;
                     p < d;
                     p++
                   ) {
@@ -17083,13 +17078,41 @@ var hiprint = (function (t) {
           Object.keys(t).forEach(function (i) {
             if (i == 'optionItems' && t.optionItems && t.optionItems.length) {
               p.a.instance.registerItems(t.optionItems)
-            } else if (t[i].tabs && t[i].tabs.length) {
-              t[i].tabs.forEach(function (tab, idx) {
-                if (tab.replace) {
-                  $.extend(p.a.instance[i].tabs[idx], tab)
-                } else {
-                  var options = tab.options,
-                    list = p.a.instance[i].tabs[idx].options
+            } else {
+              if (Object.prototype.toString.call(t[i]) === '[object Object]') {
+                if (t[i].tabs && t[i].tabs.length) {
+                  t[i].tabs.forEach(function (tab, idx) {
+                    if (tab.replace) {
+                      $.extend(p.a.instance[i].tabs[idx], tab)
+                    } else {
+                      var options = tab.options,
+                        list = p.a.instance[i].tabs[idx].options
+                      options.forEach(function (o) {
+                        var idx = list.findIndex(function (e) {
+                          return e.name == o.name
+                        })
+                        if (idx > -1) list[idx].hidden = o.hidden
+                        else {
+                          if (o.after) {
+                            idx = list.findIndex(function (e) {
+                              return e.name == o.after
+                            })
+                            if (idx > -1) list.splice(idx + 1, 0, o)
+                          } else list.push(o)
+                        }
+                      })
+                      $.extend(p.a.instance[i].tabs[idx], {
+                        name: tab.name,
+                        options: list,
+                      })
+                    }
+                  })
+                  delete t[i].tabs
+                }
+
+                if (t[i].supportOptions) {
+                  var options = t[i].supportOptions,
+                    list = p.a.instance[i].supportOptions
                   options.forEach(function (o) {
                     var idx = list.findIndex(function (e) {
                       return e.name == o.name
@@ -17104,36 +17127,18 @@ var hiprint = (function (t) {
                       } else list.push(o)
                     }
                   })
-                  $.extend(p.a.instance[i].tabs[idx], {
-                    name: tab.name,
-                    options: list,
-                  })
+                  $.extend(p.a.instance[i].supportOptions, list)
+                  delete t[i].supportOptions
                 }
-              })
-              delete t[i].tabs
-            } else if (t[i].supportOptions) {
-              var options = t[i].supportOptions,
-                list = p.a.instance[i].supportOptions
-              options.forEach(function (o) {
-                var idx = list.findIndex(function (e) {
-                  return e.name == o.name
-                })
-                if (idx > -1) list[idx].hidden = o.hidden
-                else {
-                  if (o.after) {
-                    idx = list.findIndex(function (e) {
-                      return e.name == o.after
-                    })
-                    if (idx > -1) list.splice(idx + 1, 0, o)
-                  } else list.push(o)
+
+                if (t[i].default) {
+                  $.extend(p.a.instance[i].default, t[i].default)
                 }
-              })
-              $.extend(p.a.instance[i].supportOptions, list)
-              delete t[i].supportOptions
-            } else {
-              var keyMap = {}
-              keyMap[i] = t[i]
-              $.extend(p.a.instance, keyMap)
+              } else {
+                var keyMap = {}
+                keyMap[i] = t[i]
+                $.extend(p.a.instance, keyMap)
+              }
             }
           })
       } else {
