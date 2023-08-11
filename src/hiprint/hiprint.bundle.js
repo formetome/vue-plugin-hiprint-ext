@@ -17080,34 +17080,38 @@ var hiprint = (function (t) {
               p.a.instance.registerItems(t.optionItems)
             } else {
               if (Object.prototype.toString.call(t[i]) === '[object Object]') {
-                if (t[i].tabs && t[i].tabs.length) {
-                  t[i].tabs.forEach(function (tab, idx) {
-                    if (tab.replace) {
-                      $.extend(p.a.instance[i].tabs[idx], tab)
-                    } else {
-                      var options = tab.options,
-                        list = p.a.instance[i].tabs[idx].options
-                      options.forEach(function (o) {
-                        var idx = list.findIndex(function (e) {
-                          return e.name == o.name
+                if (Object.prototype.hasOwnProperty.call(t[i], 'tabs')) {
+                  if (t[i].tabs && t[i].tabs.length) {
+                    t[i].tabs.forEach(function (tab, idx) {
+                      if (tab.replace) {
+                        $.extend(p.a.instance[i].tabs[idx], tab)
+                      } else {
+                        var options = tab.options,
+                          list = p.a.instance[i].tabs[idx].options
+                        options.forEach(function (o) {
+                          var idx = list.findIndex(function (e) {
+                            return e.name == o.name
+                          })
+                          if (idx > -1) list[idx].hidden = o.hidden
+                          else {
+                            if (o.after) {
+                              idx = list.findIndex(function (e) {
+                                return e.name == o.after
+                              })
+                              if (idx > -1) list.splice(idx + 1, 0, o)
+                            } else list.push(o)
+                          }
                         })
-                        if (idx > -1) list[idx].hidden = o.hidden
-                        else {
-                          if (o.after) {
-                            idx = list.findIndex(function (e) {
-                              return e.name == o.after
-                            })
-                            if (idx > -1) list.splice(idx + 1, 0, o)
-                          } else list.push(o)
-                        }
-                      })
-                      $.extend(p.a.instance[i].tabs[idx], {
-                        name: tab.name,
-                        options: list,
-                      })
-                    }
-                  })
-                  delete t[i].tabs
+                        $.extend(p.a.instance[i].tabs[idx], {
+                          name: tab.name,
+                          options: list,
+                        })
+                      }
+                    })
+                    delete t[i].tabs
+                  } else {
+                    delete p.a.instance[i].tabs
+                  }
                 }
 
                 if (t[i].supportOptions) {
