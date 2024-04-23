@@ -52,6 +52,25 @@ export default function (hiprint) {
             isEnableMergeCell: true, //合并单元格
           },
           {
+            tid: 'defaultModule.emptyTable',
+            title: '空白表格',
+            type: 'table',
+            columns: [
+              [
+                {
+                  title: '',
+                  field: '',
+                  width: 100,
+                },
+                {
+                  title: '',
+                  field: '',
+                  width: 100,
+                },
+              ],
+            ],
+          },
+          {
             tid: 'defaultModule.html',
             title: 'html',
             formatter: function (data, options) {
@@ -87,6 +106,16 @@ export default function (hiprint) {
             tid: 'defaultModule.oval',
             title: '椭圆',
             type: 'oval',
+          },
+          {
+            tid: 'defaultModule.barcode',
+            title: '条形码',
+            type: 'barcode',
+          },
+          {
+            tid: 'defaultModule.qrcode',
+            title: '二维码',
+            type: 'qrcode',
           },
         ]),
       ])

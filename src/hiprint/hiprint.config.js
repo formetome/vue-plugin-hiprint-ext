@@ -69,6 +69,10 @@
           name: 'watermarkOptions',
           hidden: false,
         },
+        {
+          name: 'panelLayoutOptions',
+          hidden: false,
+        },
       ],
       default: {},
     },
@@ -233,6 +237,14 @@
               hidden: false,
             },
             {
+              name: 'barWidth',
+              hidden: false,
+            },
+            {
+              name: 'barAutoWidth',
+              hidden: false,
+            },
+            {
               name: 'qrCodeLevel',
               hidden: false,
             },
@@ -342,6 +354,14 @@
         },
         {
           name: 'barcodeMode',
+          hidden: false,
+        },
+        {
+          name: 'barWidth',
+          hidden: false,
+        },
+        {
+          name: 'barAutoWidth',
           hidden: false,
         },
         {
@@ -492,6 +512,10 @@
               name: 'zIndex',
               hidden: false,
             },
+            {
+              name: 'borderRadius',
+              hidden: false,
+            },
           ],
         },
         {
@@ -527,6 +551,10 @@
         },
         {
           name: 'fit',
+          hidden: false,
+        },
+        {
+          name: 'borderRadius',
           hidden: false,
         },
         {
@@ -856,6 +884,10 @@
           options: [
             {
               name: 'field',
+              hidden: false,
+            },
+            {
+              name: 'testData',
               hidden: false,
             },
             {
@@ -1766,10 +1798,6 @@
           hidden: false,
         },
         {
-          name: 'tableShowBarcodeTitle',
-          hidden: false,
-        },
-        {
           name: 'tableBarcodeMode',
           hidden: false,
         },
@@ -1778,11 +1806,12 @@
           hidden: false,
         },
         {
-          name: 'width', // tableColumnWidth
+          name: 'tableColumnHeight',
           hidden: false,
         },
         {
-          name: 'tableColumnHeight',
+          // 表格条码底部是否显示内容
+          name: 'showCodeTitle',
           hidden: false,
         },
         {
@@ -1817,10 +1846,16 @@
           name: 'tableSummaryNumFormat',
           hidden: false,
         },
+
+        {
+          name: 'tableSummaryFormatter',
+          hidden: false,
+        },
         {
           name: 'upperCase',
           hidden: false,
         },
+
         {
           name: 'renderFormatter',
           hidden: false,
@@ -1841,6 +1876,494 @@
       default: {
         height: 90,
         width: 90,
+      },
+    },
+    barcode: {
+      tabs: [
+        {
+          name: '基础',
+          options: [
+            {
+              name: 'title',
+              hidden: false,
+            },
+            {
+              name: 'field',
+              hidden: false,
+            },
+            {
+              name: 'testData',
+              hidden: false,
+            },
+            {
+              name: 'barcodeType',
+              hidden: false,
+            },
+            {
+              name: 'barWidth',
+              hidden: false,
+            },
+            {
+              name: 'coordinate',
+              hidden: false,
+            },
+            {
+              name: 'widthHeight',
+              hidden: false,
+            },
+            {
+              name: 'hideTitle',
+              hidden: false,
+            },
+            {
+              name: 'fixed',
+              hidden: false,
+            },
+          ],
+        },
+        {
+          name: '样式',
+          options: [
+            {
+              name: 'fontFamily',
+              hidden: false,
+            },
+            {
+              name: 'fontSize',
+              hidden: false,
+            },
+            {
+              name: 'fontWeight',
+              hidden: false,
+            },
+            {
+              name: 'letterSpacing',
+              hidden: false,
+            },
+            {
+              name: 'color',
+              hidden: false,
+            },
+            {
+              name: 'backgroundColor',
+              hidden: false,
+            },
+            {
+              name: 'barColor',
+              hidden: false,
+            },
+            {
+              name: 'textAlign',
+              hidden: false,
+            },
+            {
+              name: 'textContentVerticalAlign',
+              hidden: false,
+            },
+            {
+              name: 'lineHeight',
+              hidden: false,
+            },
+            {
+              name: 'transform',
+              hidden: false,
+            },
+            {
+              name: 'zIndex',
+              hidden: false,
+            },
+          ],
+        },
+        {
+          name: '高级',
+          options: [
+            {
+              name: 'pageBreak',
+              hidden: false,
+            },
+            {
+              name: 'showInPage',
+              hidden: false,
+            },
+            {
+              name: 'unShowInPage',
+              hidden: false,
+            },
+            {
+              name: 'axis',
+              hidden: false,
+            },
+            {
+              name: 'formatter',
+              hidden: false,
+            },
+            {
+              name: 'styler',
+              hidden: false,
+            },
+          ],
+        },
+      ],
+      supportOptions: [
+        {
+          name: 'title',
+          hidden: false,
+        },
+        {
+          name: 'field',
+          hidden: false,
+        },
+        {
+          name: 'testData',
+          hidden: false,
+        },
+        {
+          name: 'barcodeType',
+          hidden: false,
+        },
+        {
+          name: 'barWidth',
+          hidden: false,
+        },
+        {
+          name: 'coordinate',
+          hidden: false,
+        },
+        {
+          name: 'widthHeight',
+          hidden: false,
+        },
+        {
+          name: 'hideTitle',
+          hidden: false,
+        },
+        {
+          name: 'fixed',
+          hidden: false,
+        },
+        {
+          name: 'fontFamily',
+          hidden: false,
+        },
+        {
+          name: 'fontSize',
+          hidden: false,
+        },
+        {
+          name: 'fontWeight',
+          hidden: false,
+        },
+        {
+          name: 'letterSpacing',
+          hidden: false,
+        },
+        {
+          name: 'color',
+          hidden: false,
+        },
+        {
+          name: 'backgroundColor',
+          hidden: false,
+        },
+        {
+          name: 'barColor',
+          hidden: false,
+        },
+        {
+          name: 'textAlign',
+          hidden: false,
+        },
+        {
+          name: 'textContentVerticalAlign',
+          hidden: false,
+        },
+        {
+          name: 'lineHeight',
+          hidden: false,
+        },
+        {
+          name: 'transform',
+          hidden: false,
+        },
+        {
+          name: 'zIndex',
+          hidden: false,
+        },
+        {
+          name: 'pageBreak',
+          hidden: false,
+        },
+        {
+          name: 'showInPage',
+          hidden: false,
+        },
+        {
+          name: 'unShowInPage',
+          hidden: false,
+        },
+        {
+          name: 'axis',
+          hidden: false,
+        },
+        {
+          name: 'formatter',
+          hidden: false,
+        },
+        {
+          name: 'styler',
+          hidden: false,
+        },
+      ],
+      default: {
+        width: 160,
+        height: 40,
+        title: '条形码',
+        barcodeType: 'code128',
+        testData: 'barcode',
+      },
+    },
+    qrcode: {
+      tabs: [
+        {
+          name: '基础',
+          options: [
+            {
+              name: 'title',
+              hidden: false,
+            },
+            {
+              name: 'field',
+              hidden: false,
+            },
+            {
+              name: 'testData',
+              hidden: false,
+            },
+            {
+              name: 'qrcodeType',
+              hidden: false,
+            },
+            {
+              name: 'qrCodeLevel',
+              hidden: false,
+            },
+            {
+              name: 'coordinate',
+              hidden: false,
+            },
+            {
+              name: 'widthHeight',
+              hidden: false,
+            },
+            {
+              name: 'hideTitle',
+              hidden: false,
+            },
+            {
+              name: 'fixed',
+              hidden: false,
+            },
+          ],
+        },
+        {
+          name: '样式',
+          options: [
+            {
+              name: 'fontFamily',
+              hidden: false,
+            },
+            {
+              name: 'fontSize',
+              hidden: false,
+            },
+            {
+              name: 'fontWeight',
+              hidden: false,
+            },
+            {
+              name: 'letterSpacing',
+              hidden: false,
+            },
+            {
+              name: 'color',
+              hidden: false,
+            },
+            {
+              name: 'backgroundColor',
+              hidden: false,
+            },
+            {
+              name: 'barColor',
+              hidden: false,
+            },
+            {
+              name: 'textAlign',
+              hidden: false,
+            },
+            {
+              name: 'textContentVerticalAlign',
+              hidden: false,
+            },
+            {
+              name: 'lineHeight',
+              hidden: false,
+            },
+            {
+              name: 'transform',
+              hidden: false,
+            },
+            {
+              name: 'zIndex',
+              hidden: false,
+            },
+          ],
+        },
+        {
+          name: '高级',
+          options: [
+            {
+              name: 'pageBreak',
+              hidden: false,
+            },
+            {
+              name: 'showInPage',
+              hidden: false,
+            },
+            {
+              name: 'unShowInPage',
+              hidden: false,
+            },
+            {
+              name: 'axis',
+              hidden: false,
+            },
+            {
+              name: 'formatter',
+              hidden: false,
+            },
+            {
+              name: 'styler',
+              hidden: false,
+            },
+          ],
+        },
+      ],
+      supportOptions: [
+        {
+          name: 'title',
+          hidden: false,
+        },
+        {
+          name: 'field',
+          hidden: false,
+        },
+        {
+          name: 'testData',
+          hidden: false,
+        },
+        {
+          name: 'qrcodeType',
+          hidden: false,
+        },
+        {
+          name: 'qrCodeLevel',
+          hidden: false,
+        },
+        {
+          name: 'coordinate',
+          hidden: false,
+        },
+        {
+          name: 'widthHeight',
+          hidden: false,
+        },
+        {
+          name: 'hideTitle',
+          hidden: false,
+        },
+        {
+          name: 'fixed',
+          hidden: false,
+        },
+        {
+          name: 'fontFamily',
+          hidden: false,
+        },
+        {
+          name: 'fontSize',
+          hidden: false,
+        },
+        {
+          name: 'fontWeight',
+          hidden: false,
+        },
+        {
+          name: 'letterSpacing',
+          hidden: false,
+        },
+        {
+          name: 'color',
+          hidden: false,
+        },
+        {
+          name: 'backgroundColor',
+          hidden: false,
+        },
+        {
+          name: 'barColor',
+          hidden: false,
+        },
+        {
+          name: 'textAlign',
+          hidden: false,
+        },
+        {
+          name: 'textContentVerticalAlign',
+          hidden: false,
+        },
+        {
+          name: 'lineHeight',
+          hidden: false,
+        },
+        {
+          name: 'transform',
+          hidden: false,
+        },
+        {
+          name: 'zIndex',
+          hidden: false,
+        },
+        {
+          name: 'pageBreak',
+          hidden: false,
+        },
+        {
+          name: 'showInPage',
+          hidden: false,
+        },
+        {
+          name: 'unShowInPage',
+          hidden: false,
+        },
+        {
+          name: 'axis',
+          hidden: false,
+        },
+        {
+          name: 'formatter',
+          hidden: false,
+        },
+        {
+          name: 'styler',
+          hidden: false,
+        },
+      ],
+      default: {
+        width: 80,
+        height: 80,
+        title: '二维码',
+        qrcodeType: 'qrcode',
+        testData: 'qrcode',
       },
     },
   }
