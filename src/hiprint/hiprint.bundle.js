@@ -3235,7 +3235,6 @@ var hiprint = (function (t) {
                   o.css(t, a[t])
                 })
             }
-
             return o
           }),
           (TableExcelHelper.createEmptyRowTarget = function (t, tableElement) {
@@ -9823,7 +9822,6 @@ var hiprint = (function (t) {
             ) {
               o.getByIndex(r).append(this.getTableHtml(e, n))
             }
-
             return (
               i.find('.hiprint-printElement-table-content').append(o.target), i
             )
@@ -9889,13 +9887,13 @@ var hiprint = (function (t) {
             var o = $(
               '<table class="hiprint-printElement-tableTarget" style="border-collapse: collapse;"></table>'
             )
+            let headerList =
+              _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createTableHead(
+                this.getColumns(),
+                this.options.getWidth() / this.options.getGridColumns()
+              )
             return (
-              o.append(
-                _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createTableHead(
-                  this.getColumns(),
-                  this.options.getWidth() / this.options.getGridColumns()
-                )
-              ),
+              this.isNotDesign ? o.append(headerList) : o.append(headerList[0]),
               o.append(
                 _table_TableExcelHelper__WEBPACK_IMPORTED_MODULE_6__.a.createTableRow(
                   this.getColumns(),
@@ -9927,6 +9925,7 @@ var hiprint = (function (t) {
           }),
           (TablePrintElement.prototype.getHtml = function (t, e) {
             this.createTempContainer()
+            this.isNotDesign = e != void 0
             var n = this.getPaperHtmlResult(t, e)
             return this.removeTempContainer(), n
           }),
@@ -15307,10 +15306,11 @@ var hiprint = (function (t) {
             )
           }),
           (e.prototype.getBarAutoWidth = function () {
+            // 该属性 "true" 为 true，其余一概为 false
             return (
               (null == this.barAutoWidth
-                ? this.defaultOptions.barAutoWidth
-                : this.barAutoWidth) ?? true
+                ? this.defaultOptions.barAutoWidth === 'true'
+                : this.barAutoWidth === 'true') ?? true
             )
           }),
           (e.prototype.getQRcodeLevel = function () {
@@ -15379,18 +15379,16 @@ var hiprint = (function (t) {
             return this.updateTargetSize(n), this.css(n, e), n
           }),
           (e.prototype.updateDesignViewFromOptions = function () {
-            var els = this.panel.printElements.filter(function (t) {
-              return (
-                'block' == t.designTarget.children().last().css('display') &&
-                t.designTarget.children().last().hasClass('selected') &&
-                !t.printElementType.type.includes('table')
-              )
-            })
-            els.forEach((ele) => {
-              var t = ele.getData()
-              ele.css(ele.designTarget, t)
-              this.updateTargetText(ele.designTarget, ele.getTitle(), t)
-            })
+            // ! pub-beta 0.0.57-beta22 这里的处理似乎重复了，影响了 updateTargetText 方法执行，故在此处注释掉
+            // var els = this.panel.printElements.filter(function (t) {
+            //   return ('block' == t.designTarget.children().last().css('display')
+            //     && t.designTarget.children().last().hasClass('selected')) && !t.printElementType.type.includes('table');
+            // });
+            // els.forEach(ele => {
+            //   var t = ele.getData()
+            //   ele.css(ele.designTarget, t)
+            //   this.updateTargetText(ele.designTarget, ele.getTitle(), t)
+            // })
             if (this.designTarget) {
               var t = this.getData()
               this.css(this.designTarget, t),
@@ -15488,8 +15486,9 @@ var hiprint = (function (t) {
                   display: 'flex',
                   'flex-direction': 'column',
                 })
+                // pub-beta 0.0.57-beta22 移除插件通过 div 添加的文本元素，默认使用 JsBarcode 生成条形码文本
                 a.html(
-                  '<svg width="100%" display="block" height="100%" class="hibarcode_imgcode" preserveAspectRatio="none slice"></svg ><div class="hibarcode_displayValue" style="white-space:nowrap"></div>'
+                  '<svg width="100%" display="block" height="100%" class="hibarcode_imgcode" preserveAspectRatio="none slice"></svg>'
                 )
                 try {
                   n
@@ -15502,21 +15501,21 @@ var hiprint = (function (t) {
                         height: parseInt(
                           o.a.pt.toPx(this.options.getHeight() || 10).toString()
                         ),
-                        displayValue: !1,
+                        displayValue: !this.options.hideTitle,
                       }),
                       a.find('.hibarcode_imgcode').attr('height', '100%'),
-                      a.find('.hibarcode_imgcode').attr('width', '100%'),
-                      this.options.hideTitle ||
-                        a.find('.hibarcode_displayValue').html(n))
+                      a.find('.hibarcode_imgcode').attr('width', '100%'))
                     : a.html('')
-                  let svgWidth =
-                    a.find('.hibarcode_imgcode rect')[0].attributes.width
-                      .value * 1.2
+                  // pub-beta 0.0.57-beta22 解决条形码自动宽度问题
+                  let svgWidth = a.find('.hibarcode_imgcode rect')[0].attributes
+                    .width.value
+                  svgWidth = Math.ceil(hinnn.px.toPt(svgWidth * 1.05))
                   if (
                     this.options.getBarAutoWidth() &&
-                    svgWidth > hinnn.pt.toPx(this.options.width)
+                    svgWidth > this.options.width
                   ) {
-                    this.options.width = Math.ceil(hinnn.px.toPt(svgWidth))
+                    a.parent().css('width', svgWidth + 'pt')
+                    this.options.width = svgWidth
                   }
                 } catch (t) {
                   console.log(t), a.html(`${i18n.__('此格式不支持该文本')}`)
@@ -16045,6 +16044,13 @@ var hiprint = (function (t) {
           (e.prototype.getConfigOptions = function () {
             return p.a.instance.barcode
           }),
+          (e.prototype.getBarAutoWidth = function () {
+            return (
+              (null == this.options.barAutoWidth
+                ? this.options.defaultOptions.barAutoWidth === 'true'
+                : this.options.barAutoWidth === 'true') ?? true
+            )
+          }),
           (e.prototype.onResize = function (e, n, i, o, r) {
             t.prototype.onResize.call(this, e, n, i, o, r)
             this.initBarcode(this.designTarget, this.getTitle(), this.getData())
@@ -16082,26 +16088,32 @@ var hiprint = (function (t) {
                 bcid: this.options.barcodeType || 'code128',
                 text: text || this.options.testData || this.options.title,
                 scale: this.options.barWidth || 1,
-                width: parseInt(o.a.pt.toMm(this.options.getWidth())),
+                width: !this.getBarAutoWidth()
+                  ? parseInt(o.a.pt.toMm(this.options.getWidth()))
+                  : '',
                 height: parseInt(height),
-                includetext: false,
+                includetext: !this.options.hideTitle,
                 barcolor: this.options.barColor || '#000',
               })
-              content.html($(barcode))
-              if (!this.options.hideTitle) {
-                const titleText = title ? title + (text ? ':' : '') : ''
-                const textAlign = this.options.textAlign || 'center'
-                // 支持type为barcode的textAlign属性
-                const textStyle =
-                  textAlign === 'justify'
-                    ? 'text-align-last: justify;text-justify: distribute-all-lines;'
-                    : `text-align: ${textAlign};`
-                content.append(
-                  $(
-                    `<div class="hiprint-printElement-barcode-content-title" style="${textStyle}">${titleText}${text}</div>`
-                  )
-                )
+              // pub-beta 0.0.57-beta22 优化了条码自动调整宽度的逻辑，title 文本改为使用 bwipjs 文本内部实现
+              barcode = $(barcode)
+              // pub-beta 0.0.57-beta22 svg 元素需要添加 preserveAspectRatio 属性，使其横向可以自适应缩放
+              barcode.attr('preserveAspectRatio', 'none slice')
+              let svgWidth = barcode[0].attributes.viewBox.value.split(' ')[2] // 通过 viewBox 属性获取 bwipjs 内部生成的 svg 宽度
+              svgWidth = Math.ceil(hinnn.px.toPt(svgWidth * 1.05))
+              if (this.getBarAutoWidth() && svgWidth > this.options.width) {
+                content.parent().css('width', svgWidth + 'pt')
+                barcode.css('height', '100%')
+                this.options.width = svgWidth
               }
+              content.html(barcode)
+              // if (!this.options.hideTitle) {
+              //   const titleText = title ? title + ( text ? ':' : '' ) : '';
+              //   const textAlign = this.options.textAlign || 'center';
+              //   // 支持type为barcode的textAlign属性
+              //   const textStyle = textAlign === 'justify' ? 'text-align-last: justify;text-justify: distribute-all-lines;' : `text-align: ${ textAlign };`
+              //   content.append($(`<div class="hiprint-printElement-barcode-content-title" style="${ textStyle }">${ titleText }${ text }</div>`))
+              // }
             } catch (error) {
               console.error(error)
               content.html($(`<div>${i18n.__('条形码生成失败')}</div>`))
@@ -17874,95 +17886,98 @@ var hiprint = (function (t) {
               r = $(
                 '<div class="prop-tabs"><ul class="prop-tab-items"></ul></div>'
               )
-              tabs.forEach(function (tab) {
-                var item = $(
-                  '<li class="prop-tab-item"><span class="tab-title">' +
-                    i18n.__(tab.name) +
-                    '</span></li>'
-                )
-                r.find('.prop-tab-items').append(item)
-                var options = $(
-                  '<div class="hiprint-option-items" data-title="' +
-                    i18n.__(tab.name) +
-                    '"></div>'
-                )
-                tab.list.forEach(function (t) {
-                  t.submit = function (t) {
-                    i.submitOption()
-                  }
-                  var n = t.createTarget(i, i.options, i.printElementType)
-                  ;(e.printElementOptionSettingPanel[t.name] = n),
-                    options.append(n)
-                  // 貌似只有这两个才需要多个参数
-                  if (['columns', 'dataType'].includes(t.name)) {
-                    t.setValue(i.options[t.name], i.options, i.printElementType)
-                  } else {
-                    // 传入所有参数
-                    if (['coordinate', 'widthHeight'].includes(t.name)) {
-                      t.setValue(i.options, i)
-                    } else {
-                      // options 没有就取 printElementType内的 (如 table 的 footerFormatter)
-                      t.setValue(
-                        i.options[t.name] || i.printElementType[t.name]
-                      )
+              tabs
+                .filter((e) => e.list.length > 0)
+                .forEach(function (tab) {
+                  var item = $(
+                    '<li class="prop-tab-item"><span class="tab-title">' +
+                      i18n.__(tab.name) +
+                      '</span></li>'
+                  )
+                  r.find('.prop-tab-items').append(item)
+                  var options = $(
+                    '<div class="hiprint-option-items" data-title="' +
+                      i18n.__(tab.name) +
+                      '"></div>'
+                  )
+                  tab.list.forEach(function (t) {
+                    t.submit = function (t) {
+                      i.submitOption()
                     }
-                  }
-                  n.find('textarea').bind(
-                    'dblclick.textarea',
-                    function (event) {
-                      if (!$(this).val()) {
-                        var placeholder = event.target.placeholder || ''
-                        $(this).val(placeholder)
+                    var n = t.createTarget(i, i.options, i.printElementType)
+                    ;(e.printElementOptionSettingPanel[t.name] = n),
+                      options.append(n)
+                    // 貌似只有这两个才需要多个参数
+                    if (['columns', 'dataType'].includes(t.name)) {
+                      t.setValue(
+                        i.options[t.name],
+                        i.options,
+                        i.printElementType
+                      )
+                    } else {
+                      // 传入所有参数
+                      if (['coordinate', 'widthHeight'].includes(t.name)) {
+                        t.setValue(i.options, i)
+                      } else {
+                        // options 没有就取 printElementType内的 (如 table 的 footerFormatter)
+                        t.setValue(
+                          i.options[t.name] || i.printElementType[t.name]
+                        )
                       }
                     }
-                  )
-                })
-                if (tab.list.length == 0 && o && o.length) {
-                  o.forEach(function (t) {
-                    var n2 = t.callback
-                    t.callback = function (t) {
-                      n2 && n2(t)
-                    }
-                    var tableColumn = t.optionItems
-                    t.title &&
-                      options.append(
-                        '<div class="hiprint-option-item hiprint-option-item-row">\n            <div class="hiprint-option-item-label hiprint-option-title">\n              ' +
-                          t.title +
-                          '\n            </div>\n        </div>'
-                      )
-                    tableColumn.forEach(function (e) {
-                      ;(e.submit = function (e) {
-                        t.callback(n.getValueByOptionItems(tableColumn))
-                      }),
-                        options.append(
-                          e.createTarget(n.printTemplate, t.options, void 0)
-                        ),
-                        e.setValue(t.options[e.name], t.options, void 0)
-                    })
-                    options.bind('click.submitOption', function () {
-                      t.callback(n.getValueByOptionItems(tableColumn))
-                    })
-                    options.find('.auto-submit').change(function () {
-                      t.callback(n.getValueByOptionItems(tableColumn))
-                    })
-                    options
-                      .find('.auto-submit:input')
-                      .bind('keydown.submitOption', function (e) {
-                        13 === e.keyCode &&
-                          t.callback(n.getValueByOptionItems(tableColumn))
-                      })
-                    options
-                      .find('textarea')
-                      .bind('dblclick.textarea', function (event) {
+                    n.find('textarea').bind(
+                      'dblclick.textarea',
+                      function (event) {
                         if (!$(this).val()) {
                           var placeholder = event.target.placeholder || ''
                           $(this).val(placeholder)
                         }
-                      })
+                      }
+                    )
                   })
-                }
-                r.append(options)
-              })
+                  if (tab.list.length == 0 && o && o.length) {
+                    o.forEach(function (t) {
+                      var n2 = t.callback
+                      t.callback = function (t) {
+                        n2 && n2(t)
+                      }
+                      var tableColumn = t.optionItems
+                      t.title &&
+                        options.append(
+                          '<div class="hiprint-option-item hiprint-option-item-row">\n            <div class="hiprint-option-item-label hiprint-option-title">\n              ' +
+                            t.title +
+                            '\n            </div>\n        </div>'
+                        )
+                      tableColumn.forEach(function (e) {
+                        ;(e.submit = function (e) {
+                          t.callback(n.getValueByOptionItems(tableColumn))
+                        }),
+                          options.append(
+                            e.createTarget(n.printTemplate, t.options, void 0)
+                          ),
+                          e.setValue(t.options[e.name], t.options, void 0)
+                      })
+                      options.find('.auto-submit').change(function () {
+                        t.callback(n.getValueByOptionItems(tableColumn))
+                      })
+                      options
+                        .find('.auto-submit:input')
+                        .bind('keydown.submitOption', function (e) {
+                          13 === e.keyCode &&
+                            t.callback(n.getValueByOptionItems(tableColumn))
+                        })
+                      options
+                        .find('textarea')
+                        .bind('dblclick.textarea', function (event) {
+                          if (!$(this).val()) {
+                            var placeholder = event.target.placeholder || ''
+                            $(this).val(placeholder)
+                          }
+                        })
+                    })
+                  }
+                  r.append(options)
+                })
             } else {
               r = $('<div class="hiprint-option-items"></div>')
               i.getPrintElementOptionItems().forEach(function (t) {
@@ -18455,7 +18470,7 @@ var hiprint = (function (t) {
               var n = this,
                 i = 0,
                 o = {},
-                r = $('link[media=print][href*="print-lock.css"]'),
+                r = $('link[media=print][href*="print-lock"]'),
                 css = ''
               if (e.styleHandler) {
                 css += e.styleHandler()
@@ -18532,7 +18547,7 @@ var hiprint = (function (t) {
               var n = this,
                 i = 0,
                 o = {},
-                r = $('link[media=print][href*="print-lock.css"]')
+                r = $('link[media=print][href*="print-lock"]')
               if (r.length <= 0) {
                 throw new Error(
                   '请在 入口文件(index.html) 中引入 print-lock.css. 注意: link[media="print"]'
@@ -18809,6 +18824,24 @@ var hiprint = (function (t) {
               })
             }
             return elements
+          }),
+          (t.prototype.selectElementsByField = function (fieldsArray) {
+            var hiPrintEntity = this
+            var t = $
+            hiPrintEntity.editingPanel.printElements.forEach((e, index) => {
+              if (fieldsArray && fieldsArray.includes(e.options.field)) {
+                let designTarget = e.designTarget
+                designTarget.children('div[panelindex]').addClass('selected')
+                designTarget.children().last().css({
+                  display: 'block',
+                })
+                designTarget = designTarget[0]
+                t.data(
+                  designTarget,
+                  'hidraggable'
+                ).options.onBeforeSelectAllDrag.call(designTarget, {})
+              }
+            })
           }),
           (t.prototype.selectAllElements = function () {
             var hiPrintEntity = this

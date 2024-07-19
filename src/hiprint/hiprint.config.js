@@ -460,6 +460,7 @@
       default: {
         width: 120,
         height: 9.75,
+        // barAutoWidth: 'true' 这里必须使用字符串
       },
     },
     image: {
@@ -1904,6 +1905,10 @@
               hidden: false,
             },
             {
+              name: 'barAutoWidth',
+              hidden: false,
+            },
+            {
               name: 'coordinate',
               hidden: false,
             },
@@ -2026,6 +2031,10 @@
           hidden: false,
         },
         {
+          name: 'barAutoWidth',
+          hidden: false,
+        },
+        {
           name: 'coordinate',
           hidden: false,
         },
@@ -2120,6 +2129,7 @@
         title: '条形码',
         barcodeType: 'code128',
         testData: 'barcode',
+        // barAutoWidth: 'true' 这里必须使用字符串
       },
     },
     qrcode: {

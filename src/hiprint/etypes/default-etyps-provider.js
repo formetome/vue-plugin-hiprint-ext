@@ -24,6 +24,7 @@ export default function (hiprint) {
           },
           {
             tid: 'defaultModule.table',
+            field: '',
             title: '表格',
             type: 'table',
             columns: [
