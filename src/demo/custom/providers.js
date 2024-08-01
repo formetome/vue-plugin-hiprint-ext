@@ -15,6 +15,7 @@ export const aProvider = function (ops) {
               testData: '单据表头',
               height: 17,
               fontSize: 16.5,
+              field: "headera",
               fontWeight: "700",
               textAlign: "center",
               hideTitle: true
@@ -26,6 +27,7 @@ export const aProvider = function (ops) {
               testData: '单据类型',
               height: 16,
               fontSize: 15,
+              field: "textType",
               fontWeight: "700",
               textAlign: "center",
               hideTitle: true
@@ -213,6 +215,16 @@ export const aProvider = function (ops) {
             tid: 'aProviderModule.oval',
             title: '椭圆',
             type: 'oval'
+          },
+          {
+            tid: 'aProviderModule.barcode',
+            title: '条形码',
+            type: 'barcode',
+          },
+          {
+            tid: 'aProviderModule.qrcode',
+            title: '二维码',
+            type: 'qrcode',
           }
         ])
       ]

@@ -3142,6 +3142,9 @@ var hiprint = (function (t) {
                           '<div><img style = "max-width:100%;max-height:100%"/></div>'
                         )
                         imagebox.find('img').attr('src', p)
+                        imagebox
+                          .find('img')
+                          .attr('height', t.tableColumnHeight || 50 + 'pt')
                         console.log(imagebox.find('img').css('width'))
                         r.html(imagebox)
                       }
@@ -3235,6 +3238,7 @@ var hiprint = (function (t) {
                   o.css(t, a[t])
                 })
             }
+
             return o
           }),
           (TableExcelHelper.createEmptyRowTarget = function (t, tableElement) {
@@ -9822,6 +9826,7 @@ var hiprint = (function (t) {
             ) {
               o.getByIndex(r).append(this.getTableHtml(e, n))
             }
+
             return (
               i.find('.hiprint-printElement-table-content').append(o.target), i
             )
@@ -17886,98 +17891,92 @@ var hiprint = (function (t) {
               r = $(
                 '<div class="prop-tabs"><ul class="prop-tab-items"></ul></div>'
               )
-              tabs
-                .filter((e) => e.list.length > 0)
-                .forEach(function (tab) {
-                  var item = $(
-                    '<li class="prop-tab-item"><span class="tab-title">' +
-                      i18n.__(tab.name) +
-                      '</span></li>'
-                  )
-                  r.find('.prop-tab-items').append(item)
-                  var options = $(
-                    '<div class="hiprint-option-items" data-title="' +
-                      i18n.__(tab.name) +
-                      '"></div>'
-                  )
-                  tab.list.forEach(function (t) {
-                    t.submit = function (t) {
-                      i.submitOption()
-                    }
-                    var n = t.createTarget(i, i.options, i.printElementType)
-                    ;(e.printElementOptionSettingPanel[t.name] = n),
-                      options.append(n)
-                    // 貌似只有这两个才需要多个参数
-                    if (['columns', 'dataType'].includes(t.name)) {
-                      t.setValue(
-                        i.options[t.name],
-                        i.options,
-                        i.printElementType
-                      )
+              tabs.forEach(function (tab) {
+                var item = $(
+                  '<li class="prop-tab-item"><span class="tab-title">' +
+                    i18n.__(tab.name) +
+                    '</span></li>'
+                )
+                r.find('.prop-tab-items').append(item)
+                var options = $(
+                  '<div class="hiprint-option-items" data-title="' +
+                    i18n.__(tab.name) +
+                    '"></div>'
+                )
+                tab.list.forEach(function (t) {
+                  t.submit = function (t) {
+                    i.submitOption()
+                  }
+                  var n = t.createTarget(i, i.options, i.printElementType)
+                  ;(e.printElementOptionSettingPanel[t.name] = n),
+                    options.append(n)
+                  // 貌似只有这两个才需要多个参数
+                  if (['columns', 'dataType'].includes(t.name)) {
+                    t.setValue(i.options[t.name], i.options, i.printElementType)
+                  } else {
+                    // 传入所有参数
+                    if (['coordinate', 'widthHeight'].includes(t.name)) {
+                      t.setValue(i.options, i)
                     } else {
-                      // 传入所有参数
-                      if (['coordinate', 'widthHeight'].includes(t.name)) {
-                        t.setValue(i.options, i)
-                      } else {
-                        // options 没有就取 printElementType内的 (如 table 的 footerFormatter)
-                        t.setValue(
-                          i.options[t.name] || i.printElementType[t.name]
-                        )
+                      // options 没有就取 printElementType内的 (如 table 的 footerFormatter)
+                      t.setValue(
+                        i.options[t.name] || i.printElementType[t.name]
+                      )
+                    }
+                  }
+                  n.find('textarea').bind(
+                    'dblclick.textarea',
+                    function (event) {
+                      if (!$(this).val()) {
+                        var placeholder = event.target.placeholder || ''
+                        $(this).val(placeholder)
                       }
                     }
-                    n.find('textarea').bind(
-                      'dblclick.textarea',
-                      function (event) {
+                  )
+                })
+                if (tab.list.length == 0 && o && o.length) {
+                  o.forEach(function (t) {
+                    var n2 = t.callback
+                    t.callback = function (t) {
+                      n2 && n2(t)
+                    }
+                    var tableColumn = t.optionItems
+                    t.title &&
+                      options.append(
+                        '<div class="hiprint-option-item hiprint-option-item-row">\n            <div class="hiprint-option-item-label hiprint-option-title">\n              ' +
+                          t.title +
+                          '\n            </div>\n        </div>'
+                      )
+                    tableColumn.forEach(function (e) {
+                      ;(e.submit = function (e) {
+                        t.callback(n.getValueByOptionItems(tableColumn))
+                      }),
+                        options.append(
+                          e.createTarget(n.printTemplate, t.options, void 0)
+                        ),
+                        e.setValue(t.options[e.name], t.options, void 0)
+                    })
+                    options.find('.auto-submit').change(function () {
+                      t.callback(n.getValueByOptionItems(tableColumn))
+                    })
+                    options
+                      .find('.auto-submit:input')
+                      .bind('keydown.submitOption', function (e) {
+                        13 === e.keyCode &&
+                          t.callback(n.getValueByOptionItems(tableColumn))
+                      })
+                    options
+                      .find('textarea')
+                      .bind('dblclick.textarea', function (event) {
                         if (!$(this).val()) {
                           var placeholder = event.target.placeholder || ''
                           $(this).val(placeholder)
                         }
-                      }
-                    )
+                      })
                   })
-                  if (tab.list.length == 0 && o && o.length) {
-                    o.forEach(function (t) {
-                      var n2 = t.callback
-                      t.callback = function (t) {
-                        n2 && n2(t)
-                      }
-                      var tableColumn = t.optionItems
-                      t.title &&
-                        options.append(
-                          '<div class="hiprint-option-item hiprint-option-item-row">\n            <div class="hiprint-option-item-label hiprint-option-title">\n              ' +
-                            t.title +
-                            '\n            </div>\n        </div>'
-                        )
-                      tableColumn.forEach(function (e) {
-                        ;(e.submit = function (e) {
-                          t.callback(n.getValueByOptionItems(tableColumn))
-                        }),
-                          options.append(
-                            e.createTarget(n.printTemplate, t.options, void 0)
-                          ),
-                          e.setValue(t.options[e.name], t.options, void 0)
-                      })
-                      options.find('.auto-submit').change(function () {
-                        t.callback(n.getValueByOptionItems(tableColumn))
-                      })
-                      options
-                        .find('.auto-submit:input')
-                        .bind('keydown.submitOption', function (e) {
-                          13 === e.keyCode &&
-                            t.callback(n.getValueByOptionItems(tableColumn))
-                        })
-                      options
-                        .find('textarea')
-                        .bind('dblclick.textarea', function (event) {
-                          if (!$(this).val()) {
-                            var placeholder = event.target.placeholder || ''
-                            $(this).val(placeholder)
-                          }
-                        })
-                    })
-                  }
-                  r.append(options)
-                })
+                }
+                r.append(options)
+              })
             } else {
               r = $('<div class="hiprint-option-items"></div>')
               i.getPrintElementOptionItems().forEach(function (t) {

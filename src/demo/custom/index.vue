@@ -56,6 +56,7 @@
               直接打印
               <a-icon type="printer"/>
             </a-button>
+            <a-button type="primary" @click="selectAll">全选元素</a-button>
           </a-button-group>
           <!-- 保存/清空 -->
           <a-button-group>
@@ -193,6 +194,9 @@ export default {
       })
       this.changeMode()
     },
+    selectAll(){
+      this.template.selectAllElements()
+    },  
     changeMode() {
       let {mode} = this
       let provider = providers[mode]
@@ -273,7 +277,27 @@ export default {
         hiprintTemplate.print2(printData, {printer: '', title: 'hiprint测试打印'});
         return
       }
-      this.$message.error('客户端未连接,无法直接打印')
+      this.$error({
+        title: "客户端未连接",
+        content: (h) => (
+          <div>
+            连接【{hiwebSocket.host}】失败！
+            <br />
+            请确保目标服务器已
+            <a
+              href="https://gitee.com/CcSimple/electron-hiprint/releases"
+              target="_blank"
+            >
+              下载
+            </a>
+            并
+            <a href="hiprint://" target="_blank">
+              运行
+            </a>
+            打印服务！
+          </div>
+        ),
+      });
     },
     save() {
       let {mode} = this
